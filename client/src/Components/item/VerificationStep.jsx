@@ -17,14 +17,14 @@ function VerificationStep({ form, setForm, next, back }) {
       <h3 className="text-center fw-bold mb-3">Set a Security Layer</h3>
       <p className="text-center text-muted mb-4">Ask a question that only someone holding the item can answer.</p>
       <div className="row g-4">
-        <div className="col-md-6 d-flex align-items-center justify-content-center">
+        <div className="col-md-5 d-flex align-items-center justify-content-center">
           <div
             className="border rounded-3 bg-light d-flex align-items-center justify-content-center"
             style={{ height: "180px", width: "100%" }}>
             <img src={VerificationImage} alt="Verification Illustration" className="img-fluid" style={{maxheight:"160px"}}/>
           </div>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-7">
           <div className="form-check mb-3">
             <input type="checkbox" className="form-check-input"
               checked={form.verification.enabled}
@@ -65,6 +65,16 @@ function VerificationStep({ form, setForm, next, back }) {
          Review & Create
         </CustomButton>
       </div>
+      <div className="mb-3 mt-4">
+  <div className="progress rounded-pill" style={{ height: "10px" }}>
+    <div
+      className="progress-bar bg-primary"
+      role="progressbar"
+      style={{ width: "66%" }}
+    ></div>
+  </div>
+</div>
+
     </div>
   </div>
 );

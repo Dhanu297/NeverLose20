@@ -4,6 +4,16 @@ import "./ItemForm.css"
 import CustomButton from "../CustomButton/CustomButton";
 
 function ItemForm({ form, setForm, next }) {
+  const[error,setError]=useState("");
+  
+  const handleNext=()=>{
+            if(!form.nickname.trim()){
+              setError("Item Nickname is required");
+              return;
+            }
+            setError("");
+            next();
+          };
   return (
     <div className="container-fluid bg-light min-vh-100 d-flex align-items-center justify-content-center">
       <div className="card shadow-lg p-4 rounded-4" style={{ maxWidth: "900px", width: "100%" }}>
@@ -19,7 +29,7 @@ function ItemForm({ form, setForm, next }) {
             <div 
               className="border border-2 rounded-3 d-flex align-items-center justify-content-center text-muted"
               style={{ height: "180px", backgroundColor: "#f8f9fa", cursor: "pointer" }}>
-              Click to upload
+              Click to upload URL
             </div>
           </div>
           <div className="col-md-6">
@@ -28,9 +38,12 @@ function ItemForm({ form, setForm, next }) {
                 Item Nickname:
               </label>
               <input type="text" className="form-control" value={form.nickname}
-                onChange={(e) =>setForm({ ...form, nickname: e.target.value })
-                }placeholder="e.g., Grey Adventure Backpack" required
+                required onChange={(e) =>setForm({ ...form, nickname: e.target.value })
+                }placeholder="e.g., Grey Adventure Backpack" 
               />
+              {error&&(<p className="text-center" mt-2 small style={{color:'#3CAEA3'}}>
+                {error}
+              </p>)}
             </div>
             <div className="mb-3">
               <label className="form-label fw-semibold">
@@ -49,9 +62,18 @@ function ItemForm({ form, setForm, next }) {
           </div>
         </div>
         <div className="text-end mt-4">
-          <CustomButton variant="primary" onClick={next}>
+          <CustomButton variant="primary" onClick={handleNext}>
             Next
          </CustomButton>
+         <div className="mt-4 mb-3">
+  <div className="progress rounded-pill" style={{ height: "10px" }}>
+    <div
+      className="progress-bar bg-primary"
+      role="progressbar"
+      style={{ width: "33%" }}
+    ></div>
+  </div>
+</div>
         </div>
      </div>
     </div>

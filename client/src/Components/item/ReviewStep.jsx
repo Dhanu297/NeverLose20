@@ -63,7 +63,16 @@ function ReviewStep({form,back,create }) {
           <CustomButton variant="success" onClick={create}>
           Create Item
           </CustomButton>
-        </div>
+          </div>
+          <div className="mb-3 mt-4">
+  <div className="progress rounded-pill" style={{ height: "10px" }}>
+    <div
+      className="progress-bar bg-primary"
+      role="progressbar"
+      style={{ width: "100%" }}
+    ></div>
+  </div>
+</div>
       </div>
     </div>
     </div>
