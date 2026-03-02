@@ -1,6 +1,7 @@
 import React from "react";
 import VerificationImage from "../../assets/VerificationImage.svg";
 import CustomButton from "../CustomButton/CustomButton";
+import "./ItemForm.css"
 
 function VerificationStep({ form, setForm, next, back }) {
   const toggle = () =>
@@ -20,14 +21,13 @@ function VerificationStep({ form, setForm, next, back }) {
       <p className="text-center text-muted mb-4">Ask a question that only someone holding the item can answer.</p>
       <div className="row g-4 align-items-start">
         <div className="col-md-6">
-          <div className="border border-2 rounded-3 d-flex align-items-center justify-content-center"
-          style={{
-            height:"200px",backgroundColor:"#f8f9fa",overflow:"hidden"
-          }}>
-            {form.photoUrl?(<img src={form.photoUrl} alt="Uploaded" style={{width:"100%",height:"100%",objectFit:"contain"}}
-            />
-            ):(<span className="text-muted">No image Uploaded</span>
-            )}
+          <div className="wizard-image-box">
+            {form.photoUrl?(
+              <img src={form.photoUrl} alt="uploaded"/>
+            ):(
+              <span className="text-muted">No image Uploaded</span>
+            )
+          }
           </div>
         </div>
         <div className="col-md-6">

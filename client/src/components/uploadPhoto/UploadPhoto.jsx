@@ -1,6 +1,7 @@
 import { useState } from "react";
 import uploadApi from "../../api/uploadApi";
 import { useEffect } from "react";
+import "../item/ItemForm.css"
 
 function UploadPhoto({photoUrl ,onUploaded }) {
   const [preview, setPreview] = useState(photoUrl||null);
@@ -35,21 +36,14 @@ function UploadPhoto({photoUrl ,onUploaded }) {
         </label>
         <input type="file" accept="image/*" onChange={handleFileChange} />
       </div>
-      <div className="border border-2 rounded-3 d-flex align-items-center justify-content-center"
-      style={{height:"200px",
-        backgroundColor:"#f8f9fa",
-        overflow:"hidden"
-      }}>
-      {preview ? (
-        <img
-          src={preview}
-          alt="Preview"
-          style={{ width:"100%", height:"100%", objectFit:"contain", borderRadius: 8 }}
-        />
-      ):(
-        <span className="text-muted">No image selected</span>
-      )}
+      <div className="wizard-image-box">
+        {preview?(
+          <img src={preview} alt="preview"/>
+        ):(
+          <span className="text-muted">No image selected</span>
+        )}
       </div>
+      
          {uploading && <p className="mt-2 mb-0">Uploading...</p>}
     </div>
   );

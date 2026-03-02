@@ -1,5 +1,6 @@
 import React from "react";
 import CustomButton from "../CustomButton/CustomButton";
+import "./ItemForm.css"
 
 function ReviewStep({form,back,create }) {
   const totalSteps=3;
@@ -11,20 +12,13 @@ function ReviewStep({form,back,create }) {
         <div className="mb-4">
           <div className="row align-items-center">
   <div className="col-md-6 text-center mb-4 mb-md-0">
-    {form.photoUrl ? (
-      <img
-        src={form.photoUrl}
-        alt="Item"
-        className="img-fluid rounded-3 shadow-sm"
-        style={{ maxHeight: "300px" }}/>
-    ) : (
-      <div
-        className="border rounded-3 d-flex align-items-center justify-content-center bg-light"
-        style={{ height: "250px" }}
-      >
-        No Image Available
-      </div>
-    )}
+    <div className="wizard-image-box">
+      {form.photoUrl?(
+        <img src={form.photoUrl} alt="Item"/>
+      ):(
+        <span className="text-muted">No image available</span>
+      )}
+    </div>
   </div>
   <div className="col-md-6">
 

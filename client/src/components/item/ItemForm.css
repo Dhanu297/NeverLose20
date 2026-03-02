@@ -1,0 +1,16 @@
+.wizard-image-box{
+    height: 220px;
+    width: 100%;
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.wizard-image-box img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
