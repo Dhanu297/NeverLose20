@@ -2,7 +2,7 @@ import React, { useState } from "react";//Importing react and usestate hook from
 import itemApi from "../../api/itemApi";
 import "./ItemForm.css"
 import CustomButton from "../CustomButton/CustomButton";
-
+import UploadPhoto from "../uploadPhoto/UploadPhoto";
 function ItemForm({ form, setForm, next }) {
   const[error,setError]=useState("");
   
@@ -16,6 +16,8 @@ function ItemForm({ form, setForm, next }) {
           };
   const totalSteps=3;
   const currentStep=1;
+   const [photoUrl, setPhotoUrl] = useState("");
+
   return (
     <div className="container-fluid bg-light min-vh-100 d-flex align-items-center justify-content-center">
       <div className="card shadow-lg p-4 rounded-4" style={{ maxWidth: "900px", width: "100%" }}>
@@ -24,7 +26,7 @@ function ItemForm({ form, setForm, next }) {
           This info helps organize your inventory and helps the finder identify your item.
         </p>
         <div className="row g-4">
-          <div className="col-md-6">
+          {/*<div className="col-md-6">
             <label className="form-label fw-semibold">
                Upload a Photo :
             </label>
@@ -33,7 +35,9 @@ function ItemForm({ form, setForm, next }) {
               style={{ height: "180px", backgroundColor: "#f8f9fa", cursor: "pointer" }}>
               Click to upload Photo
             </div>
-          </div>
+          </div>*/}
+           <UploadPhoto  onUploaded={(url) => setForm({ ...form, photoUrl: url })} />
+
           <div className="col-md-6">
             <div className="mb-3">
               <label className="form-label fw-semibold">

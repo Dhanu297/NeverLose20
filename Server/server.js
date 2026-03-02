@@ -11,6 +11,7 @@ const publicRouter = require("./routes/public");
 const usersRouter = require("./routes/users");
 const reportRouter = require("./routes/reports");
 const labelRouter = require("./routes/labels");
+const uploadRouter = require("./routes/upload");
 
 const app = express();
 
@@ -37,6 +38,9 @@ app.use("/api/reports", reportRouter);
 
 // label APIs
 app.use("/api/labels", labelRouter);
+
+// Upload photo
+app.use("/api/upload", uploadRouter);
 
 // Simple health check
 app.get("/health", (req, res) => {
