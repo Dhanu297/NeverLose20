@@ -31,8 +31,23 @@ export const useDashboard = () => {
     fetchItems();
   }, []);
 
-  const handleCreate = () => navigate("/create-item");
-  const handleDetail = (id) => navigate(`/item/${id}`);
+  const itemsWithReports = items.map((item) => ({
+    ...item,
+    hasReports:
+      item.reportsCount > 0 || (item.reports && item.reports.length > 0),
+  }));
 
-  return { items, loading, error, handleCreate, handleDetail };
+  const handleCreate = () => navigate("/create-item");
+  const handleGoToDetail = (id) => navigate(`/item/${id}`);
+  const handleGoToReports = (id) => navigate(`/item/${id}/reports`);
+
+  return {
+    items,
+    loading,
+    error,
+    handleCreate,
+    handleGoToDetail,
+    handleGoToReports,
+    itemsWithReports,
+  };
 };

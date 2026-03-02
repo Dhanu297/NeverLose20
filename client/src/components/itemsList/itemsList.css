@@ -4,16 +4,13 @@
 }
 
 .custom-table th:nth-child(1) {
-  width: 40%;
+  width: 50%;
 } /* Nickname */
 .custom-table th:nth-child(2) {
-  width: 20%;
+  width: 25%;
 } /* Status */
 .custom-table th:nth-child(3) {
-  width: 20%;
-} /* Activity */
-.custom-table th:nth-child(4) {
-  width: 20%;
+  width: 25%;
 } /* Details */
 
 .custom-table thead th {
@@ -21,17 +18,30 @@
   color: var(--nl-deep-blue);
 }
 
-.custom-table tbody tr:hover td {
-  background-color: rgba(225, 253, 255, 0.2) !important;
+/* arrow styles */
+.btn-link i.bi-arrow-right {
+  display: inline-block;
+  transition:
+    transform 0.2s ease-in-out,
+    color 0.2s ease-in-out;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  -webkit-text-stroke: 1.5px currentColor;
 }
 
-.bi-arrow-right {
-  -webkit-text-stroke: 1px currentColor;
+/* Not dissable hover */
+.btn-link:not(:disabled):hover i.bi-arrow-right {
+  transform: scale(1.15);
+  color: #0056b3 !important;
 }
 
-/* Status Dot styling */
+/* dissable arrow */
+.btn-link:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* Status Dots */
 .status-dot {
   width: 10px;
   height: 10px;
@@ -50,7 +60,11 @@
 }
 
 .item-nickname {
-  color: var(--nl-deep-blue) !important;
-  /* text-decoration: underline; */
+  color: var(--nl-deep-blue);
+}
+
+.item-nickname:hover {
+  color: var(--nl-tech-blue);
+  text-decoration: underline;
   cursor: pointer;
 }
