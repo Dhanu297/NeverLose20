@@ -4,30 +4,20 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import { useSignup } from "../../hooks/useSignUp";
 import "./RegisterComponent.css";
 
-function RegisterComponent({ onSuccess }) {
-  const {
-    status,
-    fullname,
-    setFullname,
-    email,
-    setEmail,
-    password,
-    setPassword,
-    confirmpassword,
-    setConfirmpassword,
-    handleSubmit,
-  } = useSignup(onSuccess);
+function RegisterComponent() {
+  const { formData, status, loading, handleChange, handleSubmit } = useSignup();
 
   return (
     <form onSubmit={handleSubmit} className="d-grid gap-3" noValidate>
       <div className="form-group text-start">
-        <label className="form-label fw-bold">Fullname:</label>
+        <label className="form-label fw-bold">Full Name:</label>
         <input
           type="text"
+          name="name"
           className="form-control"
-          placeholder="Enter your full name"
-          value={fullname}
-          onChange={(e) => setFullname(e.target.value)}
+          placeholder="Enter your name"
+          value={formData.name}
+          onChange={handleChange}
         />
       </div>
 
@@ -35,10 +25,11 @@ function RegisterComponent({ onSuccess }) {
         <label className="form-label fw-bold">Email:</label>
         <input
           type="email"
+          name="email"
           className="form-control"
           placeholder="Enter your email address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={formData.email}
+          onChange={handleChange}
         />
       </div>
 
@@ -46,10 +37,12 @@ function RegisterComponent({ onSuccess }) {
         <label className="form-label fw-bold">Password</label>
         <input
           type="password"
+          name="password"
+          autoComplete="new-password"
           className="form-control"
-          placeholder="Minimum of 8 characters"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Minimum of 6 characters"
+          value={formData.password}
+          onChange={handleChange}
         />
       </div>
 
@@ -57,18 +50,19 @@ function RegisterComponent({ onSuccess }) {
         <label className="form-label fw-bold">Confirm Password</label>
         <input
           type="password"
+          name="confirmPassword"
           className="form-control"
           placeholder="Repeat the same password"
-          value={confirmpassword}
-          onChange={(e) => setConfirmpassword(e.target.value)}
+          value={formData.confirmPassword}
+          onChange={handleChange}
         />
       </div>
 
-      <CustomButton type="submit" variant="primary">
-        Sign Up
+      <CustomButton type="submit" variant="primary" disabled={loading}>
+        {loading ? "Signing Up..." : "Sign Up"}
       </CustomButton>
 
-      {status && <p className="text-center mt-2 small text-info">{status}</p>}
+      {status && <p className="text-danger small text-center mt-2">{status}</p>}
 
       <p className="text-center mt-1 small">
         Already have an account?{" "}

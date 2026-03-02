@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Table } from "react-bootstrap";
 import CustomButton from "../CustomButton/CustomButton";
 import "./itemsList.css";

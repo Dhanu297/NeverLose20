@@ -2,15 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authApi from "../api/userApi";
 
-export const useSignup = () => {
+export const useSignup = (onSuccess) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState(null);
+  const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Handle any input change
@@ -21,18 +21,39 @@ export const useSignup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
+    const cleanEmail = formData.email.trim();
 
-    if (formData.password !== formData.confirmPassword) {
-      return setError("Passwords do not match");
+    // client Validations
+    if (!formData.name.trim()) {
+      return setStatus("Username is required");
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(cleanEmail)) {
+      return setStatus("Please enter a valid email address");
+    }
+
+    if (formData.password.length < 6) {
+      return setStatus("Password must be at least 6 characters long");
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      return setStatus("Passwords do not match");
+    }
+
+    // Request to server
     setLoading(true);
     try {
-      await authApi.register(formData);
-      navigate("/login");
+      setStatus("");
+      await authApi.register({ ...formData, email: cleanEmail });
+
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        navigate("/login");
+      }
     } catch (err) {
-      setError(
+      setStatus(
         err.response?.data?.message || "Registration failed. Try again.",
       );
     } finally {
@@ -40,11 +61,5 @@ export const useSignup = () => {
     }
   };
 
-  return {
-    formData,
-    error,
-    loading,
-    handleChange,
-    handleSubmit,
-  };
+  return { formData, status, loading, handleChange, handleSubmit };
 };

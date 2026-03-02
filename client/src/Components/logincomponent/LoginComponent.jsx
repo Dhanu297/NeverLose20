@@ -5,19 +5,20 @@ import { useLogin } from "../../hooks/useLogin";
 import "./LoginComponent.css";
 
 function LoginComponent({ onSuccess }) {
-  const { email, setEmail, password, setPassword, status, handleLogin } =
+  const { formData, status, loading, handleChange, handleSubmit } =
     useLogin(onSuccess);
 
   return (
-    <form onSubmit={handleLogin} className="d-grid gap-3" noValidate>
+    <form onSubmit={handleSubmit} className="d-grid gap-3" noValidate>
       <div className="form-group text-start">
         <label className="form-label fw-bold">Email Address</label>
         <input
           type="email"
+          name="email"
           className="form-control"
-          placeholder="Enter your email address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter your email"
+          value={formData.email}
+          onChange={handleChange}
         />
       </div>
 
@@ -25,23 +26,19 @@ function LoginComponent({ onSuccess }) {
         <label className="form-label fw-bold">Password</label>
         <input
           type="password"
+          name="password"
           className="form-control"
           placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={handleChange}
         />
-        <div className="text-end mt-1">
-          <small className="text-muted" style={{ cursor: "pointer" }}>
-            Forgot your password?
-          </small>
-        </div>
       </div>
 
-      <CustomButton type="submit" variant="primary">
-        Login
+      <CustomButton type="submit" variant="primary" disabled={loading}>
+        {loading ? "Logging in..." : "Login"}
       </CustomButton>
 
-      {status && <p className="text-info small text-center">{status}</p>}
+      {status && <p className="text-danger small text-center mt-2">{status}</p>}
 
       <p className="text-center mt-1 small">
         Don't have an account?{" "}

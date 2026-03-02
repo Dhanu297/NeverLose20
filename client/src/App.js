@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Navigate } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./global.css";
 import "bootstrap-icons/font/bootstrap-icons.css";

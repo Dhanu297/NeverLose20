@@ -2,50 +2,47 @@ import { useState } from "react";
 import { login } from "../services/authService";
 
 export const useLogin = (onSuccess) => {
-  const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [status, setStatus] = useState("");
-  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e) => {
+  // Handle any input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const cleanEmail = formData.email.trim();
+    const cleanPassword = formData.password.trim();
 
-    const cleanEmail = email.trim();
-    const cleanPassword = password.trim();
-
+    // client Validations
     if (!cleanEmail || !cleanPassword) {
-      setStatus("All fields are required");
-      return;
+      return setStatus("All fields are required");
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(cleanEmail)) {
-      setStatus("Please enter a valid email address");
-      return;
+      return setStatus("Please enter a valid email address");
     }
 
     if (cleanPassword.length < 6) {
-      setStatus("Password must be at least 6 characters long");
-      return;
+      return setStatus("Password must be at least 6 characters long");
     }
+
+    // Request to server
+    setLoading(true);
     try {
       setStatus("");
-      await login({
-        email: cleanEmail,
-        password: cleanPassword,
-      });
-
-      onSuccess && onSuccess();
+      await login({ email: cleanEmail, password: cleanPassword });
+      if (onSuccess) onSuccess();
     } catch (err) {
       setStatus(err.response?.data?.error || err.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
-  return {
-    email,
-    setEmail,
-    password,
-    setPassword,
-    status,
-    handleLogin,
-  };
+  return { formData, status, loading, handleChange, handleSubmit };
 };
