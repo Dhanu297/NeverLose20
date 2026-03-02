@@ -4,6 +4,18 @@ import "./ItemForm.css";
 import CustomButton from "../CustomButton/CustomButton";
 import UploadPhoto from "../uploadPhoto/UploadPhoto";
 function ItemForm({ form, setForm, next }) {
+  const [error, setError] = useState("");
+
+  const handleNext = () => {
+    if (!form.nickname.trim()) {
+      setError("Item Nickname is required");
+      return;
+    }
+    setError("");
+    next();
+  };
+  const totalSteps = 3;
+  const currentStep = 1;
   const [photoUrl, setPhotoUrl] = useState("");
 
   return (
@@ -20,12 +32,12 @@ function ItemForm({ form, setForm, next }) {
         <div className="row g-4">
           {/*<div className="col-md-6">
             <label className="form-label fw-semibold">
-              Photo URL:
+               Upload a Photo :
             </label>
             <div 
               className="border border-2 rounded-3 d-flex align-items-center justify-content-center text-muted"
               style={{ height: "180px", backgroundColor: "#f8f9fa", cursor: "pointer" }}>
-              Click to upload URL
+              Click to upload Photo
             </div>
           </div>*/}
           <UploadPhoto
@@ -34,7 +46,10 @@ function ItemForm({ form, setForm, next }) {
 
           <div className="col-md-6">
             <div className="mb-3">
-              <label className="form-label fw-semibold">Item Nickname:</label>
+              <label className="form-label fw-semibold">
+                <span style={{ color: "#dc3545", fontSize: "14px" }}>*</span>
+                Item Nickname :
+              </label>
               <input
                 type="text"
                 className="form-control"
@@ -44,12 +59,7 @@ function ItemForm({ form, setForm, next }) {
                 placeholder="e.g., Grey Adventure Backpack"
               />
               {error && (
-                <p
-                  className="text-center"
-                  mt-2
-                  small
-                  style={{ color: "#3CAEA3" }}
-                >
+                <p className="text-center" mt-2 small style={{ color: "red" }}>
                   {error}
                 </p>
               )}
@@ -77,10 +87,16 @@ function ItemForm({ form, setForm, next }) {
               <div
                 className="progress-bar bg-primary"
                 role="progressbar"
-                style={{ width: "33%" }}
+                style={{ width: "33%", padding: "20px" }}
               ></div>
             </div>
           </div>
+          <p
+            className="mt-2 text-center fw-semibold"
+            style={{ fontSize: "13px", color: "#6c757d" }}
+          >
+            Step {currentStep} of {totalSteps}
+          </p>
         </div>
       </div>
     </div>

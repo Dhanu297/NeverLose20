@@ -2,6 +2,8 @@ import React from "react";
 import CustomButton from "../CustomButton/CustomButton";
 
 function ReviewStep({form,back,create }) {
+  const totalSteps=3;
+  const currentStep=3;
   return (
     <div className="container-fluid bg-light min-vh-100 d-flex align-items-center justify-content-center">
       <div className="card shadow-lg p-4 rounded-4" style={{ maxWidth: "900px", width: "100%" }}>
@@ -64,7 +66,7 @@ function ReviewStep({form,back,create }) {
           Create Item
           </CustomButton>
           </div>
-          <div className="mb-3 mt-4">
+  <div className="mb-3 mt-4">
   <div className="progress rounded-pill" style={{ height: "10px" }}>
     <div
       className="progress-bar bg-primary"
@@ -73,6 +75,10 @@ function ReviewStep({form,back,create }) {
     ></div>
   </div>
 </div>
+<p className="mt-2 text-center fw-semibold"
+ style={{fontSize:"13px",color:"#6c757d"}}>
+  Step {currentStep} of {totalSteps}
+ </p>
       </div>
     </div>
     </div>

@@ -5,6 +5,7 @@ import WelcomeState from "../components/welcomeState/WelcomeState";
 import ItemsList from "../components/itemsList/ItemsList";
 import { useDashboard } from "../hooks/useDashboard";
 import DashBoard from "../components/dashboard/Dashboard";
+import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 const DashboardPage = () => {
   // Destructure everything we need from our custom logic hooks
   const { user, loading: authLoading } = useContext(AuthContext);
