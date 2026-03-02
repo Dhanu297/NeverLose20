@@ -11,6 +11,8 @@ function VerificationStep({ form, setForm, next, back }) {
         enabled: !form.verification.enabled
       }
     });
+  const totalSteps=3;
+  const currentStep=2;
     return (
   <div className="container-fluid bg-light min-vh-100 d-flex align-items-center justify-content-center">
     <div className="card shadow-lg p-4 rounded-4" style={{ maxWidth: "900px", width: "100%" }}>
@@ -21,7 +23,7 @@ function VerificationStep({ form, setForm, next, back }) {
           <div
             className="border rounded-3 bg-light d-flex align-items-center justify-content-center"
             style={{ height: "180px", width: "100%" }}>
-            <img src={VerificationImage} alt="Verification Illustration" className="img-fluid" style={{maxheight:"160px"}}/>
+            <img src={VerificationImage} alt="Verification Illustration" className="img-fluid" style={{height:"180px"}}/>
           </div>
         </div>
         <div className="col-md-7">
@@ -65,7 +67,7 @@ function VerificationStep({ form, setForm, next, back }) {
          Review & Create
         </CustomButton>
       </div>
-      <div className="mb-3 mt-4">
+  <div className="mb-3 mt-4">
   <div className="progress rounded-pill" style={{ height: "10px" }}>
     <div
       className="progress-bar bg-primary"
@@ -74,6 +76,10 @@ function VerificationStep({ form, setForm, next, back }) {
     ></div>
   </div>
 </div>
+<p className="mt-2 text-center fw-semibold"
+ style={{fontSize:"13px",color:"#6c757d"}}>
+  Step {currentStep} of {totalSteps}
+ </p>
 
     </div>
   </div>
