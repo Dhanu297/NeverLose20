@@ -21,8 +21,6 @@ export default function CreateItemPage() {
 
   const navigate = useNavigate();
 
-  if (authLoading) return <LoadingSpinner message="Identifying user..." />;
-
   async function handleCreate() {
     const res = await itemApi.create(form);
     navigate(`/label/${res.data.id}`, { state: res.data });
