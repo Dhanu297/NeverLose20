@@ -17,6 +17,14 @@ const WelcomeState = ({ onCreateClick }) => {
         <h2 className="fw-light text-nl-dark mb-5">Let’s secure your world</h2>
 
         <div className="d-flex justify-content-center gap-1 mb-5 flex-wrap">
+          <div className="text-center py-5 bg-white bg-opacity-10 rounded-4 border border-white border-opacity-25">
+            <p className="mb-0 text-white">
+              You haven't created any items yet.
+            </p>
+            <small className="text-white-50">
+              Click the button above to start protecting your things.
+            </small>
+          </div>
           <div className="text-center p-2" style={{ flex: "1 1 150px" }}>
             <h5 className="fw-bold">Step 1</h5>
             {/* <img

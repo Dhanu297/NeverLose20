@@ -31,7 +31,7 @@ const MainLayout = ({ children, username = "{UserName}" }) => {
   const handleHome = () => navigate("/dashboard");
 
   return (
-    <Container className="mt-4">
+    <Container fluid className="mt-4 px-4 ">
       <div className="bg-white rounded-4 shadow-sm p-4">
         <Row className="align-items-center mb-4">
           <Col xs={6}>

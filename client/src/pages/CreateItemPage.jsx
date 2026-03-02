@@ -20,7 +20,7 @@ export default function CreateItemPage() {
   });
 
   const navigate = useNavigate();
-  
+
   async function handleCreate() {
     const res = await itemApi.create(form);
     navigate(`/label/${res.data.id}`, { state: res.data });

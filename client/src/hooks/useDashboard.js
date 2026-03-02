@@ -17,10 +17,7 @@ export const useDashboard = () => {
         const res = await itemApi.list();
 
         //Data normalization ensures we always work with an array even if the API structure changes
-        const rawData = res|| [];
-        const normalized = Array.isArray(res)
-          ? res
-          : res.items || [];
+        const normalized = Array.isArray(res) ? res : res.items || [];
 
         setItems(normalized);
       } catch (err) {

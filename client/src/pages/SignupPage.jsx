@@ -1,6 +1,6 @@
 import React from "react";
 import RegisterComponent from "../components/registercomponent/RegisterComponent";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AuthLayout from "../layouts/AuthLayout/AuthLayout";
 
 function SignupPage() {
