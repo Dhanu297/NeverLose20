@@ -23,7 +23,7 @@ export default function CreateItemPage() {
 
   async function handleCreate() {
     const res = await itemApi.create(form);
-    navigate(`/label/${res.data.id}`, { state: res.data });
+    navigate(`/label/${res.data.itemId}`, { state: res.data });
   }
 
   return (

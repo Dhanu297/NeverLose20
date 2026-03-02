@@ -1,7 +1,7 @@
 // controllers/userController.js
 // Handles signup, login, and profile retrieval.
 
-const userService = require("../services/userService");
+const {userService} = require("../services/userService");
 
 /**
  * POST /api/users/signup
@@ -30,7 +30,13 @@ async function login(req, res) {
     const { email, password } = req.body;
 
     const data = await userService.loginUser({ email, password });
-    res.json(data);
+    const profile = await userService.getUserProfile(data.uid);
+
+    res.json({
+      ...data,
+      profile,
+    });
+
   } catch (err) {
     console.error("Login error:", err);
     res.status(401).json({ error: err.message || "LOGIN_FAILED" });

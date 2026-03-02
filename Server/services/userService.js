@@ -1,88 +1,83 @@
 // services/userService.js
-// Handles user creation, login verification, and profile retrieval.
+// Handles all Firebase Auth + Firestore operations for users.
+// This layer contains business logic and validation, keeping controllers thin.
 
-const {admin} = require("../config/firebaseConfig");
-const fetch = require("node-fetch");
-const db = require("../DB/database");
+const { admin, db } = require("../config/firebaseConfig");
 
-/**
- * Creates a Firebase user + SQLite profile.
- */
-async function createUser({ email, password, name }) {
-  // Create Firebase Auth user
-  const userRecord = await admin.auth().createUser({
-    email,
-    password,
-    displayName: name,
-  });
+const COLLECTION = "users";
 
-  const uid = userRecord.uid;
-  const createdAt = new Date().toISOString();
-
-  return new Promise((resolve, reject) => {
-    db.run(
-      `INSERT INTO users (firebase_uid, email, name, created_at)
-       VALUES (?, ?, ?, ?)`,
-      [uid, email, name, createdAt],
-      function (err) {
-        if (err) return reject(err);
-
-        resolve({
-          id: this.lastID,
-          uid,
-          email,
-          name,
-        });
-      }
-    );
-  });
-}
-
-/**
- * Logs in a user using Firebase REST API.
- */
-async function loginUser({ email, password }) {
-  const response = await fetch(
-    `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.FIREBASE_API_KEY}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        password,
-        returnSecureToken: true,
-      }),
+exports.userService = {
+  async createUser({ email, password, name }) {
+    if (!email || !email.trim()) {
+      throw new Error("Email is required");
     }
-  );
 
-  const data = await response.json();
-  if (data.error) throw new Error(data.error.message);
+    if (!password || password.length < 6) {
+      throw new Error("Password must be at least 6 characters");
+    }
 
-  return {
-    idToken: data.idToken,
-    refreshToken: data.refreshToken,
-    uid: data.localId,
-  };
-}
+    if (!name || !name.trim()) {
+      throw new Error("Name is required");
+    }
 
-/**
- * Fetches user profile from SQLite.
- */
-function getUserProfile(uid) {
-  return new Promise((resolve, reject) => {
-    db.get(
-      `SELECT * FROM users WHERE firebase_uid = ?`,
-      [uid],
-      (err, user) => {
-        if (err) return reject(err);
-        resolve(user || null);
+    // Create Firebase Auth user
+    const userRecord = await admin.auth().createUser({
+      email,
+      password,
+      displayName: name.trim(),
+    });
+
+    const uid = userRecord.uid;
+    const createdAt = new Date().toISOString();
+
+    const profile = {
+      uid,
+      email,
+      name: name.trim(),
+      createdAt,
+    };
+
+    // Store profile in Firestore
+    await db.collection(COLLECTION).doc(uid).set(profile);
+
+    return profile;
+  },
+
+  async loginUser({ email, password }) {
+    if (!email || !password) {
+      throw new Error("Email and password are required");
+    }
+
+    // Firebase REST login
+    const response = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.FIREBASE_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+          returnSecureToken: true,
+        }),
       }
     );
-  });
-}
 
-module.exports = {
-  createUser,
-  loginUser,
-  getUserProfile,
+    const data = await response.json();
+    if (data.error) {
+      throw new Error(data.error.message);
+    }
+
+    return {
+      idToken: data.idToken,
+      refreshToken: data.refreshToken,
+      uid: data.localId,
+    };
+  },
+
+  async getUserProfile(uid) {
+    if (!uid) throw new Error("UID is required");
+
+    const doc = await db.collection(COLLECTION).doc(uid).get();
+    return doc.exists ? doc.data() : null;
+  },
 };

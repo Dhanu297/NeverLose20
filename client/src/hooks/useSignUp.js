@@ -45,7 +45,7 @@ export const useSignup = (onSuccess) => {
     setLoading(true);
     try {
       setStatus("");
-      await authApi.register({ ...formData, email: cleanEmail });
+      await authApi.signup({ ...formData, email: cleanEmail });
 
       if (onSuccess) {
         onSuccess();
