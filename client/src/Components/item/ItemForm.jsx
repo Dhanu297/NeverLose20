@@ -26,17 +26,9 @@ function ItemForm({ form, setForm, next }) {
           This info helps organize your inventory and helps the finder identify your item.
         </p>
         <div className="row g-4">
-          {/*<div className="col-md-6">
-            <label className="form-label fw-semibold">
-               Upload a Photo :
-            </label>
-            <div 
-              className="border border-2 rounded-3 d-flex align-items-center justify-content-center text-muted"
-              style={{ height: "180px", backgroundColor: "#f8f9fa", cursor: "pointer" }}>
-              Click to upload Photo
-            </div>
-          </div>*/}
-           <UploadPhoto  onUploaded={(url) => setForm({ ...form, photoUrl: url })} />
+        <div className="col-md-6">
+           <UploadPhoto photoUrl={form.photoUrl} onUploaded={(url) => setForm({ ...form, photoUrl: url })} />
+          </div>
 
           <div className="col-md-6">
             <div className="mb-3">
@@ -46,7 +38,7 @@ function ItemForm({ form, setForm, next }) {
               </label>
               <input type="text" className="form-control" value={form.nickname}
                 required onChange={(e) =>setForm({ ...form, nickname: e.target.value })
-                }placeholder="e.g., Grey Adventure Backpack" 
+                }placeholder="e.g.,Grey Adventure Backpack" 
               />
               {error&&(<p className="text-center" mt-2 small style={{color:'red'}}>
                 {error}
