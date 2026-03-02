@@ -24,7 +24,7 @@ const ItemList = ({ items, onCreateClick, onDetailClick, onReportClick }) => {
           </thead>
           <tbody>
             {items.map((item) => {
-              // reports Count for defining View report enable or disable
+              // reports Count for defining View report enable or disable..
               const hasReports =
                 item.reportsCount > 0 ||
                 (item.reports && item.reports.length > 0);
@@ -49,7 +49,6 @@ const ItemList = ({ items, onCreateClick, onDetailClick, onReportClick }) => {
                     <button
                       className="btn btn-link p-0 border-0"
                       onClick={() => onReportClick(item.id)}
-                      // 2. AQUÍ YA PODEMOS USARLA SIN ERRORES
                       disabled={!hasReports}
                       title={hasReports ? "View reports" : "No scans yet"}
                     >
