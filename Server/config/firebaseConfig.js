@@ -22,11 +22,14 @@ const serviceAccount = decryptCredentials();
 
 //initialized app 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount) 
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: process.env.STORAGE_BUCKET
 });
 
 
 const db = admin.firestore();
 const auth = admin.auth();
+const bucket = admin.storage().bucket();
 
-module.exports = { admin, db, auth };
+
+module.exports = { admin, db, auth,bucket };

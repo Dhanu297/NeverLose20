@@ -4,7 +4,8 @@
 // validation, keeping controllers thin and focused on HTTP concerns.
 
 const { db } = require("../config/firebaseConfig");
-const { TokenService } = require("./tokenService");
+const { TokenService } = require("../services/tokenService");
+
 
 const COLLECTION = "items";
 
@@ -21,7 +22,7 @@ exports.ItemService = {
       throw new Error("Verification question is required when enabled");
     }
 
-    const token = TokenService.generateToken(128);
+    const token = TokenService.generateSecureToken(128);
     const createdAt = new Date().toISOString();
 
     const docRef = db.collection(COLLECTION).doc();
@@ -47,7 +48,7 @@ exports.ItemService = {
     const snap = await db
       .collection(COLLECTION)
       .where("ownerId", "==", ownerId)
-      .orderBy("createdAt", "desc")
+      
       .get();
 
     return snap.docs.map((doc) => doc.data());

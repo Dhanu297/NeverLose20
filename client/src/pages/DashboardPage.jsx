@@ -3,13 +3,13 @@ import MainLayout from "../layouts/MainLayout/MainLayout";
 import WelcomeState from "../components/welcomeState/WelcomeState";
 import ItemsList from "../components/itemsList/ItemsList";
 import { useDashboard } from "../hooks/useDashboard";
-
+import DashBoard from   "../components/dashboard/Dashboard"
 const DashboardPage = () => {
   // Destructure everything we need from our custom logic hooks
   const { items, loading, handleCreate, handleDetail } = useDashboard();
 
   return (
-    <MainLayout username="Sarah">
+    /*<MainLayout username="Sarah">
       {loading ? (
         <div className="text-white text-center">Loading...</div>
       ) : items.length === 0 ? (
@@ -21,7 +21,8 @@ const DashboardPage = () => {
           onDetailClick={handleDetail}
         />
       )}
-    </MainLayout>
+    </MainLayout>*/
+    <DashBoard/>
   );
 };
 

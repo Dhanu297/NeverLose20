@@ -5,7 +5,7 @@ import axiosClient from "./axiosClient";
 
 const uploadApi = {
   uploadPhoto: async (file) => {
-    if (!file) throw new Error("No file provided");
+    
 
     const formData = new FormData();
     formData.append("photo", file);

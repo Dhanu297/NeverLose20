@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import ItemList from "../itemlist/ItemList";
+import ItemList from "../itemsList/ItemsList";
 import { useNavigate } from "react-router-dom";
+import MainLayout from "../../layouts/MainLayout/MainLayout";
 import CustomButton from "../CustomButton/CustomButton";
 import itemApi from "../../api/itemApi";
+import { useDashboard } from "../../hooks/useDashboard";
 import { Row, Col, Container } from "react-bootstrap";
 
 function Dashboard() {
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
+  
+ const { items, loading, handleCreate, handleDetail } = useDashboard();
+  /*useEffect(() => {
   const fetchItems = async () => {
     try {
       const res = await itemApi.list();
@@ -20,7 +22,7 @@ function Dashboard() {
   };
 
   fetchItems();
-}, []);
+}, []);*/
 
 
   const { user, logout } = useContext(AuthContext);
@@ -32,6 +34,19 @@ function Dashboard() {
   }
 
   return (
+    /*<MainLayout username="Sarah">
+      {loading ? (
+        <div className="text-white text-center">Loading...</div>
+      ) : items.length === 0 ? (
+        <WelcomeState username="Sarah" onCreateClick={handleCreate} />
+      ) : (
+        <ItemsList
+          items={items}
+          onCreateClick={handleCreate}
+          onDetailClick={handleDetail}
+        />
+      )}
+    </MainLayout>*/
     <Container fluid className="px-0">
       {/* header pn dashboard */}
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -43,7 +58,7 @@ function Dashboard() {
         </div>
 
         <CustomButton
-          onClick={() => navigate("/create")}
+          onClick={() => navigate("/create-item")}
           variant="primary"
           className="btn-red"
         >
@@ -60,13 +75,16 @@ function Dashboard() {
           </small>
         </div>
       ) : (
-        <Row className="g-4">
-          {items.map((item) => (
-            <Col key={item.id} xs={12} md={6} lg={4}>
-              <ItemList item={item} />
-            </Col>
-          ))}
-        </Row>
+        <MainLayout username="Sarah">
+      {loading ? (
+        <div className="text-white text-center">Loading...</div>
+      ) : (
+        <ItemList
+          items={items}
+          onCreateClick={handleCreate}
+          onDetailClick={handleDetail}
+        />)}
+        </MainLayout>
       )}
     </Container>
   );

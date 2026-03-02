@@ -1,7 +1,4 @@
-// controllers/uploadController.js
-// Handles uploading a file to Firebase Storage and returning a public URL.
-
-const { uploadFileToStorage } = require("../lib/storage");
+const { uploadImage } = require("../services/uploadService");
 
 exports.uploadPhoto = async (req, res) => {
   try {
@@ -9,14 +6,11 @@ exports.uploadPhoto = async (req, res) => {
       return res.status(400).json({ error: "No file uploaded" });
     }
 
-    const url = await uploadFileToStorage(
-      req.file.buffer,
-      req.file.originalname,
-      req.file.mimetype
-    );
+    const url = await uploadImage(req.file.buffer, "items");
 
-    res.status(200).json({ photoUrl: url });
+    res.json({ photoUrl: url });
   } catch (err) {
-    res.status(500).json({ error: "Failed to upload file" });
+    console.error("Upload error:", err);
+    res.status(500).json({ error: "Failed to upload image" });
   }
 };
