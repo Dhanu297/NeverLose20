@@ -31,3 +31,56 @@ exports.listItems = async (req, res) => {
     res.status(500).json({ error: "Failed to list items" });
   }
 };
+
+exports.getItemById = async (req, res) => {
+  try {
+    const { itemId } = req.params;
+
+    const item = await ItemService.getItemById(itemId);
+    if (!item) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+
+    res.json(item);
+  } catch (err) {
+    console.error("Get item error:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+
+exports.updateItem = async (req, res) => {
+  try {
+    const { itemId } = req.params;
+    const ownerId = req.user.uid;
+    const updates = req.body;
+
+    const updated = await ItemService.updateItem(itemId, ownerId, updates);
+
+    if (!updated) {
+      return res.status(403).json({ error: "Item not found or access denied" });
+    }
+
+    res.json(updated);
+  } catch (err) {
+    console.error("Update item error:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+exports.getItemByIdForOwner = async (req, res, next) => {
+  try {
+    const { itemId } = req.params;
+
+    const item = await ItemService.getItemByIdForOwner(itemId);
+    if (!item) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+
+    req.item = item; // pass to middleware
+    next();          // go to owner check
+  } catch (err) {
+    console.error("Get item error:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+

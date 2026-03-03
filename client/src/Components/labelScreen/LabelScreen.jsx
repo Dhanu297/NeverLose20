@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { labelApi } from "../../api/labelApi";
+import itemApi from "../../api/itemApi";
 
 export default function LabelScreen() {
   const { itemId } = useParams();
@@ -19,10 +20,10 @@ export default function LabelScreen() {
   // If user refreshes the page, state is lost → fetch minimal item info
   useEffect(() => {
     const loadItem = async () => {
-      if (!item) {
+      
         try {
-          const res = await fetch(`/api/items/${itemId}`);
-          const data = await res.json();
+          const res = await itemApi.getItemById(itemId);
+          const data =res;
 
           // Default presets
           const labelPresets = [
@@ -41,7 +42,7 @@ export default function LabelScreen() {
           console.error(err);
           setError("Unable to load item details.");
         }
-      }
+      
     };
 
     loadItem();
@@ -112,7 +113,7 @@ export default function LabelScreen() {
       <div className="mb-4">
         <p className="font-semibold">Public Scan URL:</p>
         <code className="block bg-gray-100 p-2 rounded text-sm mt-1">
-          {item.publicScanUrl}
+          {item.publicUrl}
         </code>
       </div>
 

@@ -10,7 +10,7 @@ exports.getPresetSize = (preset, custom) =>{
       return { width: mmToPt(85.6), height: mmToPt(54) };
     case 'airtag':
       return { width: mmToPt(32), height: mmToPt(32), circle: true };
-    case 'smalltag':
+    case 'small-tag':
       return { width: mmToPt(40), height: mmToPt(20) };
     case 'custom':
       if (custom?.diameterMm) {
@@ -27,7 +27,7 @@ exports.getPresetSize = (preset, custom) =>{
 }
 
 exports.streamLabelPdf = async(res, opts)=> {
-  const size = getPresetSize(opts.preset, opts.custom);
+  const size = this.getPresetSize(opts.preset, opts.custom);
   const doc = new PDFDocument({
     size: [size.width, size.height],
     margin: 0,
@@ -40,10 +40,28 @@ exports.streamLabelPdf = async(res, opts)=> {
 
   const qrSize = Math.min(size.width * 0.8, size.height * 0.8);
 
-  doc.image(opts.qrDataUrl, (size.width - qrSize) / 2, (size.height - qrSize) / 2 - 5, {
-    width: qrSize,
-    height: qrSize,
-  });
+  const qrX = (size.width - qrSize) / 2;
+  const qrY = (size.height - qrSize) / 2 - 5;
+
+  // If Airtag or custom circle → clip QR into a circle
+  if (size.circle) {
+    const radius = qrSize / 2;
+
+    doc.save();
+    doc.circle(size.width / 2, size.height / 2 - 5, radius).clip();
+    doc.image(opts.qrDataUrl, qrX, qrY, {
+      width: qrSize,
+      height: qrSize,
+    });
+    doc.restore();
+  } else {
+    // Normal rectangular QR
+    doc.image(opts.qrDataUrl, qrX, qrY, {
+      width: qrSize,
+      height: qrSize,
+    });
+  }
+
 
   doc.fontSize(8).text(opts.scanUrl, 5, size.height - 12, {
     width: size.width - 10,

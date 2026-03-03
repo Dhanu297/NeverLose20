@@ -3,11 +3,20 @@ const router = express.Router();
 
 const {
   getPublicItem,
-  submitFoundReport
+  submitFoundReport  
 } = require("../controllers/publicController");
+const {foundReport} = require("../middleware/foundReport");
+
 
 // No auth: public endpoints
+// GET /api/public/items/{token}
 router.get("/items/:token", getPublicItem);
-router.post("/items/:token/found", submitFoundReport);
+
+// POST /api/public/items/{token}/found
+router.post(
+  "/items/:token/found",
+  foundReport,
+  submitFoundReport
+);
 
 module.exports = router;

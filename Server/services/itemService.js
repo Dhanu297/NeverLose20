@@ -53,14 +53,56 @@ exports.ItemService = {
 
     return snap.docs.map((doc) => doc.data());
   },
+async updateItem(itemId, ownerId, updates) {
+  const docRef = db.collection(COLLECTION).doc(itemId);
+  const snap = await docRef.get();
 
+  if (!snap.exists) return null;
+
+  const item = snap.data();
+  if (item.ownerId !== ownerId) return null;
+
+  const allowed = {};
+
+  if (updates.nickname?.trim()) {
+    allowed.nickname = updates.nickname.trim();
+  }
+
+  if (typeof updates.description === "string") {
+    allowed.description = updates.description;
+  }
+
+  if (typeof updates.photoUrl === "string") {
+    allowed.photoUrl = updates.photoUrl;
+  }
+
+  if (updates.verification) {
+    allowed.verification = updates.verification;
+  }
+ if (updates.status) {
+    allowed.status = updates.status;
+  }
+  allowed.lastActivityAt = new Date().toISOString();
+
+  await docRef.update(allowed);
+
+  return { ...item, ...allowed };
+},
   async getItemByIdForOwner(itemId, ownerId) {
     const doc = await db.collection(COLLECTION).doc(itemId).get();
     if (!doc.exists) return null;
 
     const item = doc.data();
     if (item.ownerId !== ownerId) return null;
-
+    item.publicUrl = process.env.HOST_URL + "/f/"+ item.token;
     return item;
   },
+  async getItemById(itemId) {
+    const doc = await db.collection(COLLECTION).doc(itemId).get();
+     const item = doc.data();
+    if (!item) return null;
+    item.publicUrl = process.env.HOST_URL + "/f/"+ item.token;
+    return item;
+  },
+
 };

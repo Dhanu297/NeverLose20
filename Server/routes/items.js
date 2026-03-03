@@ -1,21 +1,22 @@
-// routes/itemRoutes.js
-// Routes for owner item management. These endpoints allow authenticated owners
-// to create items and list their existing items. All routes are protected by
-// Firebase authentication middleware.
-
 const express = require("express");
 const router = express.Router();
 
-// Middleware that verifies Firebase ID tokens and attaches req.user.uid
 const requireFirebaseAuth = require("../middleware/firebaseAuth");
-
-// Controller containing item creation and listing logic
 const itemsController = require("../controllers/itemsController");
 
-// Create a new item for the authenticated owner
+// Create item
 router.post("/", requireFirebaseAuth, itemsController.createItem);
 
-// List all items belonging to the authenticated owner
+// update item
+router.put("/:itemId", requireFirebaseAuth, itemsController.updateItem);
+
+// List items
 router.get("/", requireFirebaseAuth, itemsController.listItems);
+
+// Owner-only item fetch (must be BEFORE :itemId)
+router.get("/owner/:itemId", requireFirebaseAuth, itemsController.getItemByIdForOwner);
+
+// Public/owner fetch by ID
+router.get("/:itemId", requireFirebaseAuth, itemsController.getItemById);
 
 module.exports = router;

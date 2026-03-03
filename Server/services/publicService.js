@@ -1,98 +1,59 @@
-const db = require("../DB/database");
-const {auth} = require("../config/firebaseConfig"); // Firebase Admin SDK
 
-function getPublicItemByToken(token) {
-  return new Promise((resolve, reject) => {
-    db.get(
-      `SELECT id, nickname, status, verification_enabled, verification_question
-       FROM items
-       WHERE token = ?`,
-      [token],
-      (err, row) => {
-        if (err) return reject(err);
-        if (!row) return resolve(null);
+const {auth,db} = require("../config/firebaseConfig"); // Firebase Admin SDK
+const COLLECTION = "items";
+const FOUND_COLLECTION = "foundReports";
 
-        resolve({
-          itemId: row.id,
-          token,
-          nickname: row.nickname,
-          status: row.status,
-          verificationQuestion:
-            row.verification_enabled ? row.verification_question : null
-        });
-      }
-    );
-  });
-}
+exports.PublicService = {
 
-function createFoundReport({ itemId, finder, message, foundLocationText, photoUrl, verificationAnswer }) {
-  return new Promise((resolve, reject) => {
+ async getItemByToken(token) {
+    const snap = await db
+      .collection(COLLECTION)
+      .where("token", "==", token)
+      .limit(1)
+      .get();
+
+    if (snap.empty) return null;
+    return snap.docs[0].data();
+  },
+
+  toPublicView(item) {
+    return {
+      token: item.token,
+      nickname: item.nickname,
+      status: item.status,
+      verificationQuestion: item.verification?.enabled
+        ? item.verification.question
+        : null,
+      instructions: item.instructions || null, // optional field if you add it
+    };
+  },
+async createFoundReport({ item, token, payload }) {
     const createdAt = new Date().toISOString();
+    const docRef = db.collection(FOUND_COLLECTION).doc();
 
-    db.run(
-      `INSERT INTO reports (
-        item_id,
-        finder_email,
-        finder_phone,
-        finder_name,
-        message,
-        found_location_text,
-        photo_url,
-        verification_answer,
-        status,
-        created_at,
-        updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'NEW', ?, NULL)`,
-      [
-        itemId,
-        finder.email,
-        finder.phone || null,
-        finder.name || null,
-        message,
-        foundLocationText || null,
-        photoUrl || null,
-        verificationAnswer || null,
-        createdAt
-      ],
-      function (err) {
-        if (err) return reject(err);
-        resolve({ reportId: this.lastID });
-      }
-    );
-  });
-}
+    const report = {
+      id: docRef.id,
+      itemId: item.id,
+      itemToken: token,
+      ownerId: item.ownerId,
+      finder: {
+        name: payload.finder?.name || "",
+        email: payload.finder.email,
+        phone: payload.finder?.phone || "",
+      },
+      message: payload.message,
+      foundLocationText: payload.foundLocationText || "",
+      photoUrl: payload.photoUrl || "",
+      verificationAnswer: payload.verificationAnswer || "",
+      createdAt,
+    };
 
-function getItemOwner(itemId) {
-  return new Promise((resolve, reject) => {
-    db.get(
-      `SELECT owner_uid, nickname
-       FROM items
-       WHERE id = ?`,
-      [itemId],
-      async (err, row) => {
-        if (err) return reject(err);
-        if (!row) return resolve(null);
+    await docRef.set(report);
 
-        try {
-          // Fetch Firebase user by UID
-          const userRecord = await auth.getUser(row.owner_uid);
-
-          resolve({
-            ownerUid: row.owner_uid,
-            email: userRecord.email,
-            nickname: row.nickname
-          });
-        } catch (firebaseErr) {
-          reject(firebaseErr);
-        }
-      }
-    );
-  });
-}
-
-
-module.exports = {
-  getPublicItemByToken,
-  createFoundReport,
-  getItemOwner
+    // Return only non-sensitive data to public client
+    return {
+      reportId: report.id,
+      ok: true,
+    };
+  },
 };
