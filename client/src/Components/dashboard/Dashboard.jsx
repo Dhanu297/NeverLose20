@@ -7,7 +7,7 @@ import { useDashboard } from "../../hooks/useDashboard";
 import WelcomeState from "../welcomeState/WelcomeState";
 
 function Dashboard() {
-  const { items, loading, handleCreate, handleDetail } = useDashboard();
+  const { items, loading, handleCreate, handleGoToDetail } = useDashboard();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ function Dashboard() {
           <ItemsList
             items={items}
             onCreateClick={handleCreate}
-            onDetailClick={handleDetail}
+            onDetailClick={handleGoToDetail}
           />
         )}
       </div>

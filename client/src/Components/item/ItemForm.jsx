@@ -54,7 +54,7 @@ function ItemForm({ form, setForm, next }) {
               <label className="form-label fw-semibold">Description:</label>
               <textarea
                 className="form-control"
-                rows="3"
+                rows="4"
                 value={form.description}
                 onChange={(e) =>
                   setForm({ ...form, description: e.target.value })

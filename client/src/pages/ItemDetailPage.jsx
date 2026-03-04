@@ -1,14 +1,22 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import ReviewStep from "../components/item/ReviewStep";
+import { useItemDetails } from "../hooks/useItemDetails";
 
-export default function ItemDetailsPage({ item }) {
+
+export default function ItemDetailsPage() {
+  const { id }=useParams();
   const navigate = useNavigate();
-
+  const {item,loading,error}=useItemDetails(id);
+  if(loading) return <div>Loading...</div>
+  if(error)return <div>{error}</div>
+  
   return (
     <div className="border rounded-lg p-4 shadow-sm bg-white hover:shadow-md transition">
       <div className="flex justify-between items-start">
         <h3 className="text-lg font-semibold">{item.nickname}</h3>
-
+        <ReviewStep form={item} showButtons={false}/>
         <span
           className={`px-2 py-1 text-xs rounded ${
             item.status === "ACTIVE"

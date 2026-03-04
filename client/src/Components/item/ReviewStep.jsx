@@ -2,7 +2,7 @@ import React from "react";
 import CustomButton from "../CustomButton/CustomButton";
 import "./ItemForm.css"
 
-function ReviewStep({form,back,create }) {
+function ReviewStep({form,back,create ,showButtons=true}) {
   const totalSteps=3;
   const currentStep=3;
   return (
@@ -37,21 +37,23 @@ function ReviewStep({form,back,create }) {
     <div className="mb-3">
       <strong>Verification Enabled:</strong>
       <div className="text-muted">
-        {form.verification.enabled ? "Yes" : "No"}
+        {form.verification?.enabled ? "Yes" : "No"}
       </div>
     </div>
-    {form.verification.enabled && (
+    {form.verification?.enabled && (
       <div className="mb-3">
         <strong>Security Question:</strong>
         <div className="text-muted">
-          {form.verification.question}
+          {form.verification?.question||"-"}
         </div>
       </div>
     )}
 
   </div>
 
-</div>              
+</div>  
+{showButtons && ( 
+  <>    
     <div className="d-flex justify-content-between mt-4">
           <CustomButton variant="outline-secondary" onClick={back}>
             Back
@@ -73,10 +75,14 @@ function ReviewStep({form,back,create }) {
  style={{fontSize:"13px",color:"#6c757d"}}>
   Step {currentStep} of {totalSteps}
  </p>
+ </>   
+ )}    
       </div>
+      
     </div>
     </div>
   );
 }
+  
 
 export default ReviewStep;
