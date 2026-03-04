@@ -2,6 +2,8 @@
 const {auth,db} = require("../config/firebaseConfig"); // Firebase Admin SDK
 const COLLECTION = "items";
 const FOUND_COLLECTION = "foundReports";
+const USER_COLLECTION="users";
+
 
 exports.PublicService = {
 
@@ -27,6 +29,14 @@ exports.PublicService = {
       instructions: item.instructions || null, // optional field if you add it
     };
   },
+  async getItemOwner(ownerId)
+  {
+    if (!ownerId) throw new Error("UID is required");
+    
+    const doc = await db.collection(USER_COLLECTION).doc(ownerId).get();
+    return doc.exists ? doc.data() : null;
+  },
+  
 async createFoundReport({ item, token, payload }) {
     const createdAt = new Date().toISOString();
     const docRef = db.collection(FOUND_COLLECTION).doc();

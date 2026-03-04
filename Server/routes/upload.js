@@ -11,7 +11,7 @@ const uploadController = require("../controllers/uploadController");
 // Upload a single file and return its public URL
 router.post(
   "/photo",
-  requireFirebaseAuth,
+  
   upload.single("photo"),
   uploadController.uploadPhoto
 );

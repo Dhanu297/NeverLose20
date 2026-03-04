@@ -28,6 +28,7 @@ async function submitFoundReport(req, res) {
     const payload = req._validatedFoundReport;
 
     const item = await PublicService.getItemByToken(token);
+    const ownerid = item.ownerId;
     if (!item) {
       return res.status(404).json({ error: "Tag not found" });
     }
@@ -50,28 +51,22 @@ async function submitFoundReport(req, res) {
       token,
       payload,
     });
-
-    res.status(201).json(result); // { ok: true, reportId }
-  } catch (err) {
-    console.error("Found report submit error:", err);
-    res.status(500).json({ error: "Server error" });
-  }
-}
-
-     // Fetch owner email
-  /*const owner = await getItemOwner(item.itemId);
+const reportId = result.reportId;
+   // res.status(201).json(result); // { ok: true, reportId }
+      // Fetch owner email
+ const owner = await PublicService.getItemOwner(ownerid);
 
   const emailBody = `
 Your item "${item.nickname}" was reported found.
 
-Finder Email: ${finder.email}
-Finder Phone: ${finder.phone || "N/A"}
-Message: ${message}
-Location: ${foundLocationText || "N/A"}
-Verification Answer: ${verificationAnswer || "N/A"}
-Photo: ${photoUrl || "N/A"}
+Finder Email: ${payload.finder.email}
+Finder Phone: ${payload.finder.phone || "N/A"}
+Finder Name: ${payload.finder.Name || "N/A"}
+Message: ${payload.message}
+Location: ${payload.foundLocationText || "N/A"}
+Verification Answer: ${payload.verificationAnswer || "N/A"}
+Photo: ${payload.photoUrl || "N/A"}
 
-Report ID: ${reportId}
   `;
 
   await sendFoundReportEmail({
@@ -80,13 +75,17 @@ Report ID: ${reportId}
     body: emailBody
   });
 
-  return res.status(201).json({ ok: true, reportId });
-
+  return res.status(201).json({ ok: true, reportId});
   } catch (err) {
-    console.error("Found report error:", err);
-    res.status(500).json({ error: "INTERNAL_ERROR" });
+    console.error("Found report submit error:", err);
+    res.status(500).json({ error: "Server error" });
   }
-}*/
+
+
+   
+
+  
+}
 
 module.exports = {
   getPublicItem,

@@ -6,6 +6,7 @@ export function useFoundFlow(token) {
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [photoUrl, seturl] = useState("");
 
   const [verificationAnswer, setVerificationAnswer] = useState("");
   const [reportData, setReportData] = useState({
@@ -41,6 +42,8 @@ export function useFoundFlow(token) {
     error,
     verificationAnswer,
     setVerificationAnswer,
+    photoUrl,
+    seturl,
     reportData,
     setReportData,
   };

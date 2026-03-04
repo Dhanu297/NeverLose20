@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { publicApi } from "../api/publicApi";
 import { useParams, useNavigate } from "react-router-dom";
-
+import Founder from "../layouts/Founder/Founder"; 
+import CustomButton from "../components/CustomButton/CustomButton";
 export default function PublicScan() {
   const { token } = useParams();
   const [item, setItem] = useState(null);
@@ -14,8 +15,12 @@ export default function PublicScan() {
   if (!item) return <p>Loading…</p>;
 
   return (
+     <Founder
+      title="Lost Item Report"
+      subtitle="Be someone's hero!!"
+    >
     <div className="p-6">
-      <h1 className="text-xl font-bold">Found: {item.nickname}</h1>
+      <h1 className="text-xl font-bold"> {item.nickname}</h1>
 
       {item.verificationQuestion && (
         <p className="mt-2 text-gray-700">
@@ -23,12 +28,12 @@ export default function PublicScan() {
         </p>
       )}
 
-      <button
-        className="mt-4 px-4 py-2 bg-green-600 text-white rounded"
+      <CustomButton     
         onClick={() => navigate(`/found/${token}`)}
       >
         I Found This Item
-      </button>
+      </CustomButton>
     </div>
+    </Founder>
   );
 }
