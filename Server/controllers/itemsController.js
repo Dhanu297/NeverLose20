@@ -70,14 +70,12 @@ exports.updateItem = async (req, res) => {
 exports.getItemByIdForOwner = async (req, res, next) => {
   try {
     const { itemId } = req.params;
-
-    const item = await ItemService.getItemByIdForOwner(itemId);
+const ownerId = req.user.uid;
+    const item = await ItemService.getItemByIdForOwner(itemId,ownerId);
     if (!item) {
       return res.status(404).json({ error: "Item not found" });
-    }
-
-    req.item = item; // pass to middleware
-    next();          // go to owner check
+    }   
+   res.json(item);
   } catch (err) {
     console.error("Get item error:", err);
     res.status(500).json({ error: "Server error" });

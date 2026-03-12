@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import ReviewStep from "../components/item/ReviewStep";
 import { useItemDetails } from "../hooks/useItemDetails";
-
+import { AuthContext } from "../context/AuthContext";
 
 export default function ItemDetailsPage() {
+   const { loading: authLoading } = useContext(AuthContext);
   const { id }=useParams();
   const navigate = useNavigate();
   const {item,loading,error}=useItemDetails(id);

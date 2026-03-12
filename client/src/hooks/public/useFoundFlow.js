@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { publicApi } from "../../api/publicApi";
+import { publicApi } from "../../api/publicApi"
 
 export function useFoundFlow(token) {
   const [step, setStep] = useState(1);
@@ -17,6 +17,8 @@ export function useFoundFlow(token) {
   });
 
   useEffect(() => {
+
+    //todo: token naver change
     async function load() {
       try {
         const res = await publicApi.getItem(token);

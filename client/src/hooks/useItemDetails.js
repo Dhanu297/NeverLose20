@@ -10,9 +10,9 @@ export function useItemDetails(id) {
     async function load() {
       try {
         const res = await itemApi.getItemById(id)
-        setItem(res.data);
+        setItem(res);
       } catch (err) {
-        setError("Invalid or expired tag.");
+        setError("Item not found.");
       } finally {
         setLoading(false);
       }

@@ -9,7 +9,7 @@ const itemApi = {
   return res.data; 
 },
 getItemById: async (itemId) => {
-  const res = await axiosClient.get(`api/items/${itemId}`);
+  const res = await axiosClient.get(`api/items/owner/${itemId}`);
   return res.data; 
 },
 

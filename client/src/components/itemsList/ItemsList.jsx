@@ -34,7 +34,7 @@ const ItemList = ({ items, onCreateClick, onDetailClick, onReportClick }) => {
                   <td
                     className="p-3 fw-bold item-nickname"
                     onClick={() => {console.log(item);
-                      onDetailClick(item.token)}}
+                      onDetailClick(item.id)}}
                   >
                     {item.nickname}
                   </td>
