@@ -88,7 +88,7 @@ async updateItem(itemId, ownerId, updates) {
 
   return { ...item, ...allowed };
 },
-  async getItemByIdForOwner(itemId, ownerId) {
+async getItemByIdForOwner(itemId, ownerId) {
     const doc = await db.collection(COLLECTION).doc(itemId).get();
     if (!doc.exists) return null;
 
@@ -97,7 +97,7 @@ async updateItem(itemId, ownerId, updates) {
     item.publicUrl = process.env.HOST_URL + "/f/"+ item.token;
     return item;
   },
-  async getItemById(itemId) {
+async getItemById(itemId) {
     const doc = await db.collection(COLLECTION).doc(itemId).get();
      const item = doc.data();
     if (!item) return null;
@@ -105,4 +105,21 @@ async updateItem(itemId, ownerId, updates) {
     return item;
   },
 
+async  deleteItem(itemId) {
+  // Delete all reports for this item
+  const reportsRef = db.collection("reports").where("itemId", "==", itemId);
+  const reportsSnap = await reportsRef.get();
+
+  const batch = db.batch();
+
+  reportsSnap.forEach((doc) => batch.delete(doc.ref));
+
+  // Delete the item itself
+  const itemRef = db.collection(COLLECTION).doc(itemId);
+  batch.delete(itemRef);
+
+  await batch.commit();
+
+  return { deleted: true };
+}
 };
