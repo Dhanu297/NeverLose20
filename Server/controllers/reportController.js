@@ -1,49 +1,70 @@
-const {
-  listReportsForItem,
-  getReport,
-  updateReportStatus
-} = require("../services/reportService");
+// controllers/reportController.js
+// Handles listing, viewing, and updating reports for an item.
+// Firestore logic lives in ReportService.
 
-async function getReports(req, res) {
-  const { itemId } = req.params;
-  const ownerUid = req.user.uid;
+const { ReportService } = require("../services/reportService");
 
-  const reports = await listReportsForItem(itemId, ownerUid);
-  return res.json(reports);
-}
+exports.getReports = async (req, res) => {
+  try {
+    const { itemId } = req.params;
+    const ownerId = req.user.uid;
 
-async function getReportDetail(req, res) {
-  const { reportId } = req.params;
-  const ownerUid = req.user.uid;
-
-  const report = await getReport(reportId, ownerUid);
-
-  if (report === null) return res.status(404).json({ error: "NOT_FOUND" });
-  if (report === "FORBIDDEN") return res.status(403).json({ error: "FORBIDDEN" });
-
-  return res.json(report);
-}
-
-async function changeStatus(req, res) {
-  const { reportId } = req.params;
-  const { status } = req.body;
-  const ownerUid = req.user.uid;
-
-  const report = await getReport(reportId, ownerUid);
-  if (report === null) return res.status(404).json({ error: "NOT_FOUND" });
-  if (report === "FORBIDDEN") return res.status(403).json({ error: "FORBIDDEN" });
-
-  const valid = ["NEW", "OWNER_CONTACTED", "RESOLVED", "SPAM"];
-  if (!valid.includes(status)) {
-    return res.status(400).json({ error: "INVALID_STATUS" });
+    const reports = await ReportService.listReports(itemId, ownerId);
+    return res.json(reports);
+  } catch (err) {
+    console.error("List reports error:", err);
+    return res.status(500).json({ error: "Failed to list reports" });
   }
+};
 
-  await updateReportStatus(reportId, status);
-  return res.json({ ok: true });
-}
+exports.getReportDetail = async (req, res) => {
+  try {
+    const { itemId, reportId } = req.params;
+    const ownerId = req.user.uid;
 
-module.exports = {
-  getReports,
-  getReportDetail,
-  changeStatus
+    const report = await ReportService.getReport(itemId, reportId, ownerId);
+
+    if (report === "FORBIDDEN") {
+      return res.status(403).json({ error: "FORBIDDEN" });
+    }
+
+    if (!report) {
+      return res.status(404).json({ error: "NOT_FOUND" });
+    }
+
+    return res.json(report);
+  } catch (err) {
+    console.error("Get report error:", err);
+    return res.status(500).json({ error: "Server error" });
+  }
+};
+
+exports.changeStatus = async (req, res) => {
+  try {
+    const { itemId, reportId } = req.params;
+    const { status } = req.body;
+    const ownerId = req.user.uid;
+
+    const report = await ReportService.getReport(itemId, reportId, ownerId);
+
+    if (report === "FORBIDDEN") {
+      return res.status(403).json({ error: "FORBIDDEN" });
+    }
+
+    if (!report) {
+      return res.status(404).json({ error: "NOT_FOUND" });
+    }
+
+    const valid = ["NEW", "OWNER_CONTACTED", "RESOLVED", "SPAM"];
+    if (!valid.includes(status)) {
+      return res.status(400).json({ error: "INVALID_STATUS" });
+    }
+
+    await ReportService.updateReportStatus(itemId, reportId, status);
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error("Update report status error:", err);
+    return res.status(500).json({ error: "Server error" });
+  }
 };
