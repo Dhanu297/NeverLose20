@@ -8,6 +8,7 @@ import PublicScan from "../pages/PublicScan";
 import DashboardPage from "../pages/DashboardPage";
 import CreateItemPage from "../pages/CreateItemPage";
 import QRCodePage from "../pages/QRCodePage";
+import ReportListPage from "../pages/ReportListPage";
 
 // PrivateRoute Component: If the user is not authenticated, it redirects them to the login page using the Navigate component
 function PrivateRoute({ children }) {
@@ -31,6 +32,7 @@ const AppRoutes = () => {
       <Route path="/" element={<DashboardPage />} />
       <Route path="/create-item" element={<CreateItemPage />} />
       <Route path="/label/:itemId" element={<QRCodePage />} />
+      <Route path="/item/:id/reports" element={<ReportListPage />} />
 
       {/* Default redirection - if the path does not exist */}
       <Route path="*" element={<Navigate to="/" replace />} />
