@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import CustomButton from "../CustomButton/CustomButton";
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 function Dashboard() {
-  const { items, loading: itemsLoading, handleCreate, handleGoToDetail } = useDashboard();
+  const { items, loading: itemsLoading, handleCreate, handleItemDetails,handleReportsList} = useDashboard();
   const { user, loading: authLoading } = useContext(AuthContext); // Get authLoading
 
 
@@ -60,7 +60,7 @@ function Dashboard() {
             </div>
 
             <ItemsList
-              items={itemsWithReports}
+              items={items}
               onCreateClick={handleCreate}
               onItemDetails={handleItemDetails}
               onReportsList={handleReportsList}

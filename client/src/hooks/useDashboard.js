@@ -44,21 +44,20 @@ export const useDashboard = () => {
   }, [user, authLoading]); 
 
   const handleCreate = () => navigate("/create-item");
-  const handleItemDetails = (id) => navigate(`/item/${id}`);
+  const handleItemDetails = (id) => navigate(`/item-details/${id}`);
   const handleReportsList = (id) => navigate(`/item/${id}/reports`);
 
   return {
     items,
     loading: loading || authLoading, // Combine loading states for UI
     error,
-    handleCreate,
-    handleGoToDetail,
+    handleCreate,    
      handleItemDetails,
     handleReportsList,
     // handleGoToReports,
     itemsWithReports: items.map((item) => ({
       ...item,
-      hasReports: item.reportsCount > 0 || (item.reports && item.reports.length > 0),
+      hasReports: true//item.reportsCount > 0 || (item.reports && item.reports.length > 0),
     }))  
     
   };

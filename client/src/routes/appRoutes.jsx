@@ -9,7 +9,8 @@ import DashboardPage from "../pages/DashboardPage";
 import CreateItemPage from "../pages/CreateItemPage";
 import QRCodePage from "../pages/QRCodePage";
 import ReportListPage from "../pages/ReportListPage";
-
+import FoundReport from "../pages/FoundReport";
+import ItemDetailsPage from "../pages/ItemDetailsPage";
 // PrivateRoute Component: If the user is not authenticated, it redirects them to the login page using the Navigate component
 function PrivateRoute({ children }) {
   const { user, loading } = useContext(AuthContext);
@@ -33,6 +34,7 @@ const AppRoutes = () => {
       <Route path="/" element={<DashboardPage />} />
       <Route path="/create-item" element={<CreateItemPage />} />
       <Route path="/label/:itemId" element={<QRCodePage />} />
+      <Route path="/item-details/:id" element={<ItemDetailsPage/>}/>
       <Route path="/item/:id/reports" element={<ReportListPage />} />
 
       {/* Default redirection - if the path does not exist */}
