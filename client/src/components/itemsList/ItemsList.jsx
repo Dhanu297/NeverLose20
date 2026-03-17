@@ -3,8 +3,9 @@ import { Table } from "react-bootstrap";
 import CustomButton from "../CustomButton/CustomButton";
 import "./itemsList.css";
 
-const ItemList = ({ items, onCreateClick, onDetailClick, onReportClick }) => {
+const ItemList = ({ items, onCreateClick, onDetailClick, onReportClick }) => {  
   return (
+    
     <div className="w-100">
       <div className="d-flex justify-content-between align-items-center mb-4 px-2">
         <h2 className="text-white fw-bold mb-0">My Secure Tags</h2>
