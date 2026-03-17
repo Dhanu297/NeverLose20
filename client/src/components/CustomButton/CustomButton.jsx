@@ -11,11 +11,17 @@ const CustomButton = ({
   className = "",
   ...props
 }) => {
+  const getVariantClass = () => {
+    if (variant === "primary") return "btn-blue";
+    if (variant === "secondary") return "btn-red";
+    if (variant === "outline") return "btn-outline-nl";
+    return "btn-blue";
+  };
+
   return (
     <Button
       type={type}
-      variant={variant}
-      className={`custom-btn ${variant === "primary" ? "btn-blue" : "btn-red"} ${className}`}
+      className={`custom-btn ${getVariantClass()} ${className}`}
       disabled={isLoading}
       onClick={onClick}
       {...props}

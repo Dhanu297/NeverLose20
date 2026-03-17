@@ -34,6 +34,26 @@
   box-shadow: 0 6px 15px rgba(220, 53, 69, 0.3);
 }
 
+.btn-outline-nl {
+  background-color: transparent !important;
+  border: 3px solid var(--nl-tech-blue) !important;
+  color: var(--nl-tech-blue) !important;
+  border-radius: 16px !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding: 10px 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-outline-nl:hover {
+  background-color: rgba(0, 123, 255, 0.05) !important;
+  transform: scale(1.02);
+  border-color: var(--nl-deep-blue) !important;
+  color: var(--nl-deep-blue) !important;
+}
+
 /*  RESPONSIVE BREAKPOINT */
 @media (max-width: 575.98px) {
   .btn-blue,
@@ -41,5 +61,14 @@
     padding: 6px 16px !important;
     font-size: 0.85rem !important;
     border-radius: 12px !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .btn-outline-nl {
+    padding: 6px 16px !important;
+    font-size: 0.85rem !important;
+    border-radius: 12px !important;
+    border-width: 1px !important;
   }
 }

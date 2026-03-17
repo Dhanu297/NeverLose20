@@ -1,12 +1,12 @@
-.headerImage{
-          width: "100%";
-          height: "260px";
-          background-image: "url('../../assets/founder.jpg')";
-          background-size: "cover";
-          background-position: "center";
-          position: "relative"
-        }
-body
+.headerImage {
+  width: "100%";
+  height: "260px";
+  background-image: "url('../../assets/founder.jpg')";
+  background-size: "cover";
+  background-position: "center";
+  position: "relative";
+}
+/* body
 {
     background-image: url("../../assets/background.jpg");
   background-size: cover;
@@ -15,14 +15,12 @@ body
   background-repeat: no-repeat;
   background-color: var(--nl-light-bg) !important;
      
+} */
+.Card {
+  min-height: 400px;
 }
-.Card
-{
-    min-height: 400px;
-}
-.MyContainer
-{
-    min-height: 60vh;
+.MyContainer {
+  min-height: 60vh;
 }
 
 .no-gap-card {
@@ -30,7 +28,6 @@ body
   border-radius: 0;
 }
 .founder-card {
-  
   width: 100%;
   border-radius: 28px !important;
   background: rgba(255, 255, 255, 0.9);

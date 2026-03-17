@@ -1,7 +1,7 @@
 import React from "react";
 import VerificationImage from "../../assets/VerificationImage.svg";
 import CustomButton from "../CustomButton/CustomButton";
-import "./ItemForm.css"
+import "./ItemForm.css";
 
 function VerificationStep({ form, setForm, next, back }) {
   const toggle = () =>
@@ -9,84 +9,117 @@ function VerificationStep({ form, setForm, next, back }) {
       ...form,
       verification: {
         ...form.verification,
-        enabled: !form.verification.enabled
-      }
+        enabled: !form.verification.enabled,
+      },
     });
-  const totalSteps=3;
-  const currentStep=2;
-    return (
-  <div className="container-fluid bg-light min-vh-100 d-flex align-items-center justify-content-center">
-    <div className="card shadow-lg p-4 rounded-4" style={{ maxWidth: "900px", width: "100%" }}>
-      <h3 className="text-center fw-bold mb-3">Set a Security Layer</h3>
-      <p className="text-center text-muted mb-4">Ask a question that only someone holding the item can answer.</p>
-      <div className="row g-4 align-items-start">
-        <div className="col-md-6">
-          <div className="wizard-image-box">
-            {form.photoUrl?(
-              <img src={form.photoUrl} alt="uploaded"/>
-            ):(
-              <span className="text-muted">No image Uploaded</span>
-            )
-          }
-          </div>
-        </div>
-        <div className="col-md-6">
-          <div className="form-check mb-3">
-            <input type="checkbox" className="form-check-input"
-              checked={form.verification.enabled}
-              onChange={toggle}
-              id="enableVerification"
-            />
-            <label className="form-check-label" htmlFor="enableVerification">
-              Enable Verification Question
-            </label>
-          </div>
-          {form.verification.enabled && (
-            <div className="mb-3">
-              <label className="form-label fw-semibold">
-                Your Security Question
-              </label>
-              <input type="text" className="form-control"
-                value={form.verification.question}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    verification: {
-                      ...form.verification,
-                      question: e.target.value
-                    }
-                  })
-                }
-                placeholder="e.g., What color is the inside pocket?"
-              />
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="d-flex justify-content-between mt-4">
-        <CustomButton variant="outline-secondary" onClick={back}>
-          Back
-        </CustomButton>
-        <CustomButton variant="primary" onClick={next}>
-         Review & Create
-        </CustomButton>
-      </div>
-  <div className="mb-3 mt-4">
-  <div className="progress rounded-pill" style={{ height: "10px" }}>
-    <div
-      className="progress-bar bg-primary"
-      role="progressbar"
-      style={{ width: "66%" }}
-    ></div>
-  </div>
-</div>
-<p className="mt-2 text-center fw-semibold"
- style={{fontSize:"13px",color:"#6c757d"}}>
-  Step {currentStep} of {totalSteps}
- </p>
+  const totalSteps = 3;
+  const currentStep = 2;
 
+  return (
+    <div className="item-form-content">
+      <h3 className="text-white text-center fw-bold mb-4 display-6">
+        Set a Security Layer
+      </h3>
+
+      <div className="d-flex align-items-center justify-content-center px-5 bg-white rounded-4 shadow-sm w-100">
+        <div style={{ maxWidth: "900px" }} className="w-100">
+          <p className="text-center text-muted m-5 mx-auto">
+            Ask a question that only someone holding the item can answer.
+          </p>
+
+          <div className="pb-5">
+            <div className="row g-5 g-lg-5">
+              <div className="col-md-6 order-2 order-md-1 text-center">
+                <label className="form-label fw-semibold mb-2 d-block text-start">
+                  Item Preview:
+                </label>
+                <div
+                  className="wizard-image-box rounded-3 border overflow-hidden"
+                  style={{ height: "157px" }}
+                >
+                  {form.photoUrl ? (
+                    <img src={form.photoUrl} alt="uploaded" />
+                  ) : (
+                    <div className="h-100 d-flex align-items-center justify-content-center">
+                      <span className="text-muted small italic">
+                        No image uploaded
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="col-md-6 order-1 order-md-2">
+                <div className="form-check form-switch mb-4">
+                  <input
+                    type="checkbox"
+                    className="form-check-input shadow-none"
+                    checked={form.verification.enabled}
+                    onChange={toggle}
+                    id="enableVerification"
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="enableVerification"
+                  >
+                    Enable Verification Question
+                  </label>
+                </div>
+                {form.verification.enabled && (
+                  <div className="mb-3">
+                    <label className="form-label fw-semibold">
+                      Your Security Question:
+                    </label>
+                    <textarea
+                      type="text"
+                      className="form-control"
+                      rows="4"
+                      value={form.verification.question}
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          verification: {
+                            ...form.verification,
+                            question: e.target.value,
+                          },
+                        })
+                      }
+                      placeholder="e.g., What color is the inside pocket or is there any specific brand on the zipper?"
+                    />
+                    <p className="extra-small text-muted mt-2">
+                      The finder will see this question to prove they have the
+                      item.
+                    </p>
+                  </div>
+                )}
+              </div>
+              <div className="d-flex justify-content-between mt-4 order-3">
+                <CustomButton variant="outline" onClick={back}>
+                  Back
+                </CustomButton>
+                <CustomButton variant="primary" onClick={next}>
+                  Review & Create
+                </CustomButton>
+              </div>
+            </div>
+          </div>
+
+          <div className="pb-2 my-3 mx-auto" style={{ maxWidth: "450px" }}>
+            <div className="progress rounded-pill" style={{ height: "10px" }}>
+              <div
+                className="progress-bar bg-primary"
+                role="progressbar"
+                style={{ width: "66%" }}
+              ></div>
+            </div>
+
+            <p className="mt-2 text-center small text-muted fw-medium">
+              Step {currentStep} of {totalSteps}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
 }
 export default VerificationStep;
