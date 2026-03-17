@@ -2,7 +2,7 @@
   max-width: 950px;
   width: 100%;
   border-radius: 28px !important;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255) !important;
   backdrop-filter: blur(10px);
 }
 

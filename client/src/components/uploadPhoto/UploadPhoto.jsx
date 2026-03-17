@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import uploadApi from "../../api/uploadApi";
-import { useEffect } from "react";
-import "../item/ItemForm.css"
+import imageCompression from "browser-image-compression"; // npm install browser-image-compression
+import "../item/ItemForm.css";
 
-function UploadPhoto({photoUrl ,onUploaded }) {
-  const [preview, setPreview] = useState(photoUrl||null);
+function UploadPhoto({ photoUrl, onUploaded }) {
+  const [preview, setPreview] = useState(photoUrl || null);
   const [uploading, setUploading] = useState(false);
-  useEffect(()=>{
-    if(photoUrl){
-      setPreview(photoUrl);
-    }
-  },[photoUrl]);
+
+  useEffect(() => {
+    if (photoUrl) setPreview(photoUrl);
+  }, [photoUrl]);
+
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -19,33 +19,80 @@ function UploadPhoto({photoUrl ,onUploaded }) {
 
     try {
       setUploading(true);
-      const url = await uploadApi.uploadPhoto(file);
+
+      // This protects against uploading photos larger than 10MB
+      // by compressing them before uploading.
+      const options = {
+        maxSizeMB: 1, // Max 1MB
+        maxWidthOrHeight: 1200, // Max width 1200px
+        useWebWorker: true,
+      };
+
+      console.log("Compriendo archivo...");
+      const compressedFile = await imageCompression(file, options);
+      console.log(
+        `Original: ${file.size / 1024 / 1024}MB | Comprimido: ${compressedFile.size / 1024 / 1024}MB`,
+      );
+
+      // Upload the comppresed file to the API
+      const url = await uploadApi.uploadPhoto(compressedFile);
       onUploaded(url);
     } catch (err) {
-      alert("Failed to upload photo");
+      console.error(err);
+      alert("Failed to compress or upload photo. Please try a smaller image.");
     } finally {
       setUploading(false);
     }
   };
 
   return (
-    <div>
-      <div className="d-flex align-items-center gap-3 mb-2">
-        <label className="form-label fw-semibold mb-0" style={{whiteSpace:"nowrap"}}>
-          Upload a Photo:
-        </label>
-        <input type="file" accept="image/*" onChange={handleFileChange} />
-      </div>
-      <div className="wizard-image-box">
-        {preview?(
-          <img src={preview} alt="preview"/>
-        ):(
-          <span className="text-muted">No image selected</span>
-        )}
-      </div>
-      
-         {uploading && <p className="mt-2 mb-0">Uploading...</p>}
+    <div className="upload-photo-container">
+      // input hide
+      <input
+        type="file"
+        id="photo-upload"
+        accept="image/*"
+        onChange={handleFileChange}
+        style={{ display: "none" }}
+      />
+      // Wizard-image-box clickable
+      <label htmlFor="photo-upload" className="w-100 cursor-pointer">
+        <div
+          className={`wizard-image-box rounded-4 border overflow-hidden shadow-sm d-flex align-items-center justify-content-center bg-light ${uploading ? "opacity-50" : ""}`}
+          style={{ minHeight: "180px", cursor: "pointer" }}
+        >
+          {preview ? (
+            <img
+              src={preview}
+              alt="preview"
+              className="img-fluid w-100 h-auto"
+            />
+          ) : (
+            <div className="text-center p-4">
+              <i className="bi bi-camera fs-1 text-muted"></i>
+              <p className="text-muted small mb-0">Click to upload photo</p>
+            </div>
+          )}
+
+          {/* Overlay de carga */}
+          {uploading && (
+            <div className="position-absolute d-flex flex-column align-items-center">
+              <div
+                className="spinner-border text-primary mb-2"
+                role="status"
+              ></div>
+              <span className="fw-bold text-dark bg-white px-2 rounded">
+                Processing...
+              </span>
+            </div>
+          )}
+        </div>
+      </label>
+      <p className="extra-small text-muted mt-2 text-center">
+        Max size 15MB. We'll automatically optimize it for you.
+      </p>
     </div>
   );
 }
-  export default UploadPhoto;
+
+export default UploadPhoto;

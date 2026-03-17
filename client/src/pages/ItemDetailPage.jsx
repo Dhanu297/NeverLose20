@@ -4,11 +4,29 @@ import { useParams } from "react-router-dom";
 import ReviewStep from "../components/item/ReviewStep";
 import { useItemDetails } from "../hooks/useItemDetails";
 import { AuthContext } from "../context/AuthContext";
+import { useDeleteItem } from "../hooks/useDeleteItem";
+import { useConfirmDialog } from "../hooks/useConfirmDialog";
+import ConfirmDialog from "../components/ItemDetails/ConfirmDialog";
+
 
 export default function ItemDetailsPage() {
    const { loading: authLoading } = useContext(AuthContext);
   const { id }=useParams();
   const navigate = useNavigate();
+   const { deleteItem, loadingDel, errorDel } = useDeleteItem();
+  const confirm = useConfirmDialog();
+
+  const handleDelete = () => {
+    confirm.ask(
+      "This will permanently delete the item and all associated reports.",
+      async () => {
+        const result = await deleteItem(id);
+        if (result.ok) navigate("/dashboard");
+        confirm.close();
+      }
+    );
+  };
+
   const {item,loading,error}=useItemDetails(id);
   if(loading) return <div>Loading...</div>
   if(error)return <div>{error}</div>
@@ -17,6 +35,23 @@ export default function ItemDetailsPage() {
     <div className="border rounded-lg p-4 shadow-sm bg-white hover:shadow-md transition">
       <div className="flex justify-between items-start">
         <h3 className="text-lg font-semibold">{item.nickname}</h3>
+        <button
+        onClick={handleDelete}
+        disabled={loading}
+        className="bg-red-600 text-white px-4 py-2 rounded disabled:opacity-50"
+      >
+        {loadingDel ? "Deleting..." : "Delete Item"}
+      </button>
+
+      {errorDel && <p className="text-red-600 mt-2">{errorDel}</p>}
+
+      <ConfirmDialog
+        open={confirm.open}
+        message={confirm.message}
+        onConfirm={confirm.onConfirm}
+        onCancel={confirm.close}
+      />
+
         <ReviewStep form={item} showButtons={false}/>
         <span
           className={`px-2 py-1 text-xs rounded ${

@@ -34,7 +34,7 @@ body {
   color: var(--nl-dark-navy);
 
   /* MAIN GLOBAL BACKGROUND */
-  background-image: url("./assets/bg-white-neverlose-svg.svg");
+  background-image: url("./assets/bg-neverlose-svg.svg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
