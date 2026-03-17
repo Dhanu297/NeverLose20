@@ -1,56 +1,54 @@
-const db = require("../DB/database");
+// services/reportService.js
+// Firestore operations for reports stored in a top-level "reports" collection.
 
-function listReportsForItem(itemId, ownerUid) {
-  return new Promise((resolve, reject) => {
-    db.all(
-      `SELECT r.*
-       FROM reports r
-       JOIN items i ON r.item_id = i.id
-       WHERE r.item_id = ? AND i.owner_uid = ?
-       ORDER BY r.created_at DESC`,
-      [itemId, ownerUid],
-      (err, rows) => {
-        if (err) return reject(err);
-        resolve(rows);
-      }
-    );
-  });
-}
+const { db } = require("../config/firebaseConfig");
 
-function getReport(reportId, ownerUid) {
-  return new Promise((resolve, reject) => {
-    db.get(
-      `SELECT r.*, i.owner_uid
-       FROM reports r
-       JOIN items i ON r.item_id = i.id
-       WHERE r.id = ?`,
-      [reportId],
-      (err, row) => {
-        if (err) return reject(err);
-        if (!row) return resolve(null);
-        if (row.owner_uid !== ownerUid) return resolve("FORBIDDEN");
-        resolve(row);
-      }
-    );
-  });
-}
+const REPORTS = "foundReports";
+const ITEMS = "items";
 
-function updateReportStatus(reportId, status) {
-  return new Promise((resolve, reject) => {
+exports.ReportService = {
+  async listReportsForItem(itemId, ownerId) {
+    // Verify item belongs to owner
+    const itemSnap = await db.collection(ITEMS).doc(itemId).get();
+    if (!itemSnap.exists) return [];
+
+    const item = itemSnap.data();
+    if (item.ownerId !== ownerId) return [];
+
+    // Fetch reports for this item
+    const snap = await db
+      .collection(REPORTS)
+      .where("itemId", "==", itemId)
+      .orderBy("createdAt", "desc")
+      .get();
+
+    return snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  },
+
+  async getReport(reportId, ownerId) {
+    const reportSnap = await db.collection(REPORTS).doc(reportId).get();
+    if (!reportSnap.exists) return null;
+
+    const report = reportSnap.data();
+
+    // Fetch related item to verify ownership
+    const itemSnap = await db.collection(ITEMS).doc(report.itemId).get();
+    if (!itemSnap.exists) return null;
+
+    const item = itemSnap.data();
+    if (item.ownerId !== ownerId) return "FORBIDDEN";
+
+    return { id: reportSnap.id, ...report };
+  },
+
+  async updateReportStatus(reportId, status) {
     const updatedAt = new Date().toISOString();
-    db.run(
-      `UPDATE reports SET status = ?, updated_at = ? WHERE id = ?`,
-      [status, updatedAt, reportId],
-      function (err) {
-        if (err) return reject(err);
-        resolve({ ok: true });
-      }
-    );
-  });
-}
 
-module.exports = {
-  listReportsForItem,
-  getReport,
-  updateReportStatus
+    await db.collection(REPORTS).doc(reportId).update({
+      status,
+      updatedAt,
+    });
+
+    return { ok: true };
+  },
 };

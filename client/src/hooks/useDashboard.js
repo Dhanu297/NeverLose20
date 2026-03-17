@@ -1,24 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react"; // Added useContext
 import itemApi from "../api/itemApi";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext"; // Import your context
 
 export const useDashboard = () => {
   const navigate = useNavigate();
+  const { user, loading: authLoading } = useContext(AuthContext); // Get Auth state
+  
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // GUARD 1: If Auth is still loading, do nothing yet
+    if (authLoading) return;
+
+    // GUARD 2: If Auth finished and there is no user, don't fetch data
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+
     const fetchItems = async () => {
+      console.log("FETCHING DATA - User is authenticated:", user.uid);
       try {
         setLoading(true);
         setError(null);
 
         const res = await itemApi.list();
-
-        //Data normalization ensures we always work with an array even if the API structure changes
         const normalized = Array.isArray(res) ? res : res.items || [];
-
         setItems(normalized);
       } catch (err) {
         console.error("Failed to load items:", err);
@@ -29,25 +39,26 @@ export const useDashboard = () => {
     };
 
     fetchItems();
-  }, []);
-
-  const itemsWithReports = items.map((item) => ({
-    ...item,
-    hasReports:
-      item.reportsCount > 0 || (item.reports && item.reports.length > 0),
-  }));
+    
+    // dependency array now includes user and authLoading
+  }, [user, authLoading]); 
 
   const handleCreate = () => navigate("/create-item");
-  const handleItemDetails = (id) => navigate(`/item/${id}`);
+  const handleItemDetails = (id) => navigate(`/item-details/${id}`);
   const handleReportsList = (id) => navigate(`/item/${id}/reports`);
 
   return {
     items,
-    loading,
+    loading: loading || authLoading, // Combine loading states for UI
     error,
-    handleCreate,
-    handleItemDetails,
+    handleCreate,    
+     handleItemDetails,
     handleReportsList,
-    itemsWithReports,
+    // handleGoToReports,
+    itemsWithReports: items.map((item) => ({
+      ...item,
+      hasReports: true//item.reportsCount > 0 || (item.reports && item.reports.length > 0),
+    }))  
+    
   };
 };

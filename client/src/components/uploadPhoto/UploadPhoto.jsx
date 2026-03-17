@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import uploadApi from "../../api/uploadApi";
-import imageCompression from "browser-image-compression"; // npm install browser-image-compression
+import imageCompression from "browser-image-compression"; // 
 import "../item/ItemForm.css";
 
 function UploadPhoto({ photoUrl, onUploaded }) {

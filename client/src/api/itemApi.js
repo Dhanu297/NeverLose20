@@ -8,6 +8,10 @@ const itemApi = {
   const res = await axiosClient.get("api/items");
   return res.data; 
 },
+deleteItem: async(itemId)=>
+{
+  axiosClient.delete(`/items/${itemId}`);
+},
 getItemById: async (itemId) => {
   const res = await axiosClient.get(`api/items/owner/${itemId}`);
   return res.data; 

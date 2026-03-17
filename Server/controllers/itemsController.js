@@ -67,6 +67,21 @@ exports.updateItem = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+exports.deleteItem =async (req, res)=> {
+  try {
+    const { itemId } = req.params;
+     const ownerId = req.user.uid;
+
+    await ItemService.deleteItem(itemId);
+
+    return res.json({ ok: true, message: "Item deleted successfully" });
+  } catch (err) {
+    console.error("Delete item error:", err);
+    return res.status(500).json({ error: "INTERNAL_ERROR" });
+  }
+};
+
 exports.getItemByIdForOwner = async (req, res, next) => {
   try {
     const { itemId } = req.params;

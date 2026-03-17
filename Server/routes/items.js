@@ -16,6 +16,9 @@ router.get("/", requireFirebaseAuth, itemsController.listItems);
 // Owner-only item fetch (must be BEFORE :itemId)
 router.get("/owner/:itemId", requireFirebaseAuth, itemsController.getItemByIdForOwner);
 
+//Delete Item
+router.delete("/:itemId", requireFirebaseAuth, itemsController.deleteItem);
+
 // Public/owner fetch by ID
 router.get("/:itemId", requireFirebaseAuth, itemsController.getItemById);
 
