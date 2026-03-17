@@ -28,28 +28,33 @@ function VerificationStep({ form, setForm, next, back }) {
           </p>
 
           <div className="pb-5">
-            <div className="row g-5 g-lg-5">
-              <div className="col-md-6 order-2 order-md-1 text-center">
-                <label className="form-label fw-semibold mb-2 d-block text-start">
-                  Item Preview:
-                </label>
-                <div
-                  className="wizard-image-box rounded-3 border overflow-hidden"
-                  style={{ height: "157px" }}
-                >
-                  {form.photoUrl ? (
-                    <img src={form.photoUrl} alt="uploaded" />
-                  ) : (
-                    <div className="h-100 d-flex align-items-center justify-content-center">
-                      <span className="text-muted small italic">
-                        No image uploaded
-                      </span>
-                    </div>
-                  )}
+            <div className="row g-5 g-lg-5 justify-content-center align-items-center">
+              {/* left side */}
+              <div className="col-md-6 order-1 order-md-1 d-flex flex-column align-items-center">
+                <div className="review-image-wrapper mx-auto mx-md-0">
+                  <div className="wizard-image-box rounded-4 border overflow-hidden shadow-sm">
+                    {form.photoUrl ? (
+                      <img
+                        src={form.photoUrl}
+                        alt="Item"
+                        className="img-fluid w-100"
+                      />
+                    ) : (
+                      <div
+                        className="d-flex align-items-center justify-content-center bg-light"
+                        style={{ minHeight: "150px" }}
+                      >
+                        <span className="text-muted small italic">
+                          No image uploaded
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className="col-md-6 order-1 order-md-2">
+              {/* right side */}
+              <div className="col-md-6 order-2 order-md-2">
                 <div className="form-check form-switch mb-4">
                   <input
                     type="checkbox"
@@ -86,13 +91,15 @@ function VerificationStep({ form, setForm, next, back }) {
                       }
                       placeholder="e.g., What color is the inside pocket or is there any specific brand on the zipper?"
                     />
-                    <p className="extra-small text-muted mt-2">
+                    <p className="small text-muted mt-2">
                       The finder will see this question to prove they have the
                       item.
                     </p>
                   </div>
                 )}
               </div>
+
+              {/* Buttons Bar */}
               <div className="d-flex justify-content-between mt-4 order-3">
                 <CustomButton variant="outline" onClick={back}>
                   Back
@@ -104,6 +111,7 @@ function VerificationStep({ form, setForm, next, back }) {
             </div>
           </div>
 
+          {/* Progress Bar */}
           <div className="pb-2 my-3 mx-auto" style={{ maxWidth: "450px" }}>
             <div className="progress rounded-pill" style={{ height: "10px" }}>
               <div

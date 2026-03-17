@@ -1,8 +1,13 @@
+.review-image-wrapper {
+  max-width: 300px;
+  width: 100%;
+  margin: 0 auto;
+}
+
 .wizard-image-box {
   width: 100%;
   height: auto;
   background-color: #fff;
-  transition: all 0.3s ease;
 }
 
 .wizard-image-box img {

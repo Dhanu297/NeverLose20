@@ -9,6 +9,7 @@ import DashboardPage from "../pages/DashboardPage";
 import CreateItemPage from "../pages/CreateItemPage";
 import QRCodePage from "../pages/QRCodePage";
 import ReportListPage from "../pages/ReportListPage";
+import FoundReport from "../pages/FoundReport";
 
 // PrivateRoute Component: If the user is not authenticated, it redirects them to the login page using the Navigate component
 function PrivateRoute({ children }) {

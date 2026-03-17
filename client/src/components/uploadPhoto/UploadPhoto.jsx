@@ -47,7 +47,7 @@ function UploadPhoto({ photoUrl, onUploaded }) {
 
   return (
     <div className="upload-photo-container">
-      // input hide
+      {/* input hide */}
       <input
         type="file"
         id="photo-upload"
@@ -55,11 +55,11 @@ function UploadPhoto({ photoUrl, onUploaded }) {
         onChange={handleFileChange}
         style={{ display: "none" }}
       />
-      // Wizard-image-box clickable
+      {/* Wizard-image-box clickable */}
       <label htmlFor="photo-upload" className="w-100 cursor-pointer">
         <div
           className={`wizard-image-box rounded-4 border overflow-hidden shadow-sm d-flex align-items-center justify-content-center bg-light ${uploading ? "opacity-50" : ""}`}
-          style={{ minHeight: "180px", cursor: "pointer" }}
+          style={{ minHeight: "160px", maxHeight: "40px", cursor: "pointer" }}
         >
           {preview ? (
             <img
@@ -74,7 +74,6 @@ function UploadPhoto({ photoUrl, onUploaded }) {
             </div>
           )}
 
-          {/* Overlay de carga */}
           {uploading && (
             <div className="position-absolute d-flex flex-column align-items-center">
               <div
@@ -88,9 +87,6 @@ function UploadPhoto({ photoUrl, onUploaded }) {
           )}
         </div>
       </label>
-      <p className="extra-small text-muted mt-2 text-center">
-        Max size 15MB. We'll automatically optimize it for you.
-      </p>
     </div>
   );
 }

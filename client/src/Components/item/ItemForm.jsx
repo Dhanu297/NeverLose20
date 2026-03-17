@@ -33,11 +33,12 @@ function ItemForm({ form, setForm, next }) {
           </p>
           <div>
             <div className="row g-5 g-lg-5">
+              {/* left side */}
               <div className="col-md-6 order-2 order-md-1">
                 <label className="form-label fw-semibold mb-1">
                   Upload a photo:
                 </label>
-                <p className="small">
+                <p className="small text-muted mt-2">
                   A photo makes it 10x easier for the finder to confirm they
                   have the right item.
                 </p>
@@ -47,6 +48,7 @@ function ItemForm({ form, setForm, next }) {
                 />
               </div>
 
+              {/* right side */}
               <div className="col-md-6 order-1 order-md-2">
                 <div className="mb-4">
                   <label className="form-label fw-semibold">
@@ -83,6 +85,7 @@ function ItemForm({ form, setForm, next }) {
                 </div>
               </div>
 
+              {/* Buttons Bar */}
               <div className="order-3 text-end pb-2">
                 <CustomButton variant="primary" onClick={handleNext}>
                   Next
@@ -91,6 +94,7 @@ function ItemForm({ form, setForm, next }) {
             </div>
           </div>
 
+          {/* Progress Bar */}
           <div className=" p-2 mt-3 mx-auto" style={{ maxWidth: "450px" }}>
             <div className="progress rounded-pill" style={{ height: "10px" }}>
               <div
