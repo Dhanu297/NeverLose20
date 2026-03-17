@@ -38,16 +38,16 @@ export const useDashboard = () => {
   }));
 
   const handleCreate = () => navigate("/create-item");
-  const handleGoToDetail = (id) => navigate(`/item-details/${id}`);
-  const handleGoToReports = (id) => navigate(`/item/${id}/reports`);
+  const handleItemDetails = (id) => navigate(`/item/${id}`);
+  const handleReportsList = (id) => navigate(`/item/${id}/reports`);
 
   return {
     items,
     loading,
     error,
     handleCreate,
-    handleGoToDetail,
-    handleGoToReports,
+    handleItemDetails,
+    handleReportsList,
     itemsWithReports,
   };
 };

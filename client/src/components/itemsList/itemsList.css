@@ -26,12 +26,12 @@
     color 0.2s ease-in-out;
   cursor: pointer;
   -webkit-text-stroke: 1.5px currentColor;
+  color: var(--nl-tech-blue) !important;
 }
 
 /* Not dissable hover */
 .btn-link:not(:disabled):hover i.bi-arrow-right {
   transform: scale(1.15);
-  color: #0056b3 !important;
 }
 
 /* dissable arrow */
