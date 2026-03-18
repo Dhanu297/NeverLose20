@@ -1,62 +1,46 @@
 import React from "react";
 import "./Founder.css";
-import { Navbar, Container, Row, Col, Card } from "react-bootstrap";
-import logo from "../../assets/Neverlose-Wide.svg";
-import heroImage from "../../assets/Founder.jpg";
+import { Container, Row, Col } from "react-bootstrap";
+import FinderFormImage from "../../assets/Neverlose-Wide.svg";
+import NavBar from "../../components/navbar/NavBar";
 
-export default function Founder({left,right}) {
+export default function Founder({ right }) {
   return (
-    <div style={{ minHeight: "100vh" }}>
-      
-      {/* Brand Bar */}
-      <Navbar bg="white" expand="lg" className="py-3 shadow-sm">
-        <Container>
-          <Navbar.Brand className="d-flex align-items-center">
-            <img src={logo} alt="Brand Logo" height="40" className="me-2" />
-            <span className="fw-semibold fs-5">Be someone's hero!!</span>
-          </Navbar.Brand>
-        </Container>
-      </Navbar>
+    <div className="min-vh-100 bg-light">
+      <NavBar />
 
-      {/* Header Image */}
-      <div
-        style={{
-          width: "100%",
-          height: "200px",
-          overflow: "hidden",
-          position: "relative"
-        }}
-      >
-        <img
-          src={heroImage}
-          alt="hero"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "fill"
-          }}
-        />
-      </div>
+      <Container className="py-5">
+        <div className="bg-white rounded-4 shadow-sm overflow-hidden border">
+          <Row className="g-4">
+            {" "}
+            {/* Left side */}
+            <Col md={5} className="d-none d-md-block">
+              <div
+                className="h-100 position-relative"
+                style={{ minHeight: "600px" }}
+              >
+                <div className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-5">
+                  <img
+                    src={FinderFormImage}
+                    alt=""
+                    className="img-fluid"
+                    style={{ maxWidth: "80%", opacity: "0.9" }}
+                  />
 
-      {/* Left + Right Only */}
-      <Container className="MyContainer py-4 d-flex justify-content-center">
-        <Card className="founder-card border-0 shadow-lg overflow-hidden align-items-center"
-        style={{ maxWidth: "900px" }}>
-        {/* Remove gutters using g-0 */}
-        <Row className="g-0" style={{ width: "100%" }}>
-          
-          {/* LEFT PLACEHOLDER */}
-          <Col   lg={4} md={4} sm={12}>
-            <div  className="py-4 placeholder-box no-gap">{left}</div>
-          </Col>
-
-          {/* RIGHT PLACEHOLDER */}
-          <Col  lg={8} md={8} sm={12}>
-            <div className="py-4 placeholder-box no-gap">{right}</div>
-          </Col>
-
-        </Row>
-        </Card>
+                  <div className="position-absolute bottom-0 start-0 w-100 p-5 text-white text-center">
+                    <p className="fs-4 fw-light italic">
+                      "Helping things find their way home."
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            {/* Right side */}
+            <Col md={7} className="p-4 p-lg-5 d-flex align-items-center">
+              <div className="w-100">{right}</div>
+            </Col>
+          </Row>
+        </div>
       </Container>
     </div>
   );

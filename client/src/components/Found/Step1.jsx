@@ -1,3 +1,4 @@
+import React from "react";
 import CustomButton from "../CustomButton/CustomButton";
 import UploadPhoto from "../uploadPhoto/UploadPhoto";
 
@@ -7,91 +8,80 @@ export default function Step1ItemPreview({
   answer,
   photoUrl,
   seturl,
-  setAnswer
+  setAnswer,
 }) {
   return (
-    <div className="container p-4  px-4 bg-white shadow rounded">
-
-      <h4 className="mb-4 fw-bold text-center">The Security Question</h4>
-
-      {/* Row 1 — Security Question */}
-      <div className="row mb-4 align-items-center">
-        <div className="col-3">
-          <label className="fw-semibold">Question</label>
-        </div>
-
-        <div className="col-1" style={{ width: "100px" }}></div>
-
-        <div className="col">
-          <p className="text-muted mb-0">{item.verificationQuestion}</p>
-        </div>
+    <div
+      className="container py-5 px-4 bg-white rounded-4 shadow-sm"
+      style={{ maxWidth: "800px" }}
+    >
+      {/* Header Section */}
+      <div className="text-center mb-5">
+        <h1 className="fw-bold display-4 mb-2 text-dark">
+          You found a lost item!
+        </h1>
+        <p className="text-muted fs-5">
+          Help us verify it by answering this quick question from the owner.
+        </p>
       </div>
 
-      {/* Row 2 — Answer Input */}
-      <div className="row mb-2 align-items-center">
-        <div className="col-3">
-          <label className="fw-semibold">Your Answer</label>
+      <div className="row g-4 g-md-5 align-items-center">
+        {/* Left Side: Question & Input */}
+        <div className="col-md-7">
+          <div className="mb-4">
+            <label className="d-block text-danger-emphasis fw-bold small text-uppercase mb-2">
+              Owner's Question
+            </label>
+            <h5 className="fw-bold text-dark mb-3">
+              <span className="text-danger me-1">*</span>
+              {item.verificationQuestion || "What color is the keychain?"}
+            </h5>
+
+            <textarea
+              className="form-control bg-light border-0 p-3 fs-6 rounded-3 shadow-sm"
+              rows="4"
+              placeholder="Your Answer"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+            />
+          </div>
         </div>
 
-        <div className="col-1" style={{ width: "100px" }}></div>
+        {/* Right Side: Photo Upload */}
+        <div className="col-md-5 text-center">
+          <div className="mb-3">
+            <span className="badge rounded-pill bg-light text-dark border px-3 py-2 fw-medium">
+              Reporting: {item.nickname || "Item"}
+            </span>
+          </div>
 
-        <div className="col">
-          <input
-            className="form-control p-3"
-            placeholder="Enter your answer"
-            value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
-          />
-        </div>
-      </div>
-
-      {/* Row 3 — Upload Photo */}
-      <div className="row  align-items-center">
-        <div className="col-3">
-          <label className="fw-semibold"></label>
-        </div>
-
-        <div className="col-1" style={{ width: "100px" }}></div>
-
-        <div className="col">
-          <UploadPhoto
-            photoUrl={photoUrl}
-            onUploaded={(url) => seturl({ url })}
-          />
-        </div>
-      </div>
-
-      {/* Row 4 — Nickname */}
-      <div className="row  align-items-center">
-        <div className="col-3">
-          <label className="fw-semibold">Item</label>
-        </div>
-
-        <div className="col-1" style={{ width: "100px" }}></div>
-
-        <div className="col">
-          <p className="text-secondary mb-0">
-            You found <strong>{item.nickname}</strong>.
+          <div className="w-100 rounded-4 overflow-hidden shadow-sm">
+            <UploadPhoto
+              photoUrl={photoUrl}
+              onUploaded={(url) => seturl({ url })}
+            />
+          </div>
+          <p className="text-muted small mt-2">
+            Click to upload a photo (optional)
           </p>
         </div>
-      </div>
 
-      {/* Row 5 — Continue Button */}
-      <div className="row mt-4">
-        <div className="col-3"></div>
-        <div className="col-1" style={{ width: "100px" }}></div>
-
-        <div className="col">
+        {/* CTA */}
+        <div className="col-12 mt-4">
           {item.status === "CLOSED" ? (
-            <p className="text-danger fw-semibold">This tag is inactive.</p>
+            <div className="alert alert-danger rounded-pill text-center fw-bold">
+              This tag is inactive.
+            </div>
           ) : (
-            <CustomButton className="btn btn-primary w-100" onClick={onNext}>
-              Continue
+            <CustomButton
+              className="w-100 py-3 rounded-pill fs-5 shadow-sm btn-primary"
+              onClick={onNext}
+            >
+              Next: Contact Info
             </CustomButton>
           )}
         </div>
       </div>
-
     </div>
   );
 }
