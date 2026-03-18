@@ -1,11 +1,7 @@
 import { useState } from "react";
 import CustomButton from "../CustomButton/CustomButton";
 
-function Step2Verification({
-  reportData,
-  setReportData,
-  onSubmit, onBack
-}) {
+function Step2Verification({ reportData, setReportData, onSubmit, onBack }) {
   const [errors, setErrors] = useState({});
   const update = (field, value) =>
     setReportData((prev) => ({ ...prev, [field]: value }));
@@ -15,150 +11,155 @@ function Step2Verification({
       ...prev,
       finder: { ...prev.finder, [field]: value },
     }));
-  const validate=()=>{
-    let newErrors={};
-      if(!reportData.finder.email){
-        newErrors.email="Email is required"
-      }
-      if(!reportData.message){
-        newErrors.message="Message is required"
-      }
-      setErrors(newErrors);
-      return Object.keys(newErrors).length===0;
-    };
-  const handleSubmit=()=>{
-    if(!validate())return;
+  const validate = () => {
+    let newErrors = {};
+    if (!reportData.finder.email) {
+      newErrors.email = "Email is required";
+    }
+    if (!reportData.message) {
+      newErrors.message = "Message is required";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  const handleSubmit = () => {
+    if (!validate()) return;
     onSubmit();
-  }
+  };
 
   return (
-  <div className="container p-4 px-4 bg-white shadow rounded-lg">
-
-  <h4 className="mb-4 fw-bold">Submit Found Report</h4>
-  <div className="row mb-3 align-items-center">
-    <div className="col-3">
-      <label className="fw-semibold">Your Email <span style={{color:"red"}}>*</span></label>
-    </div>
-
-    <div className="col-1" style={{ width: "100px" }}></div>
-
-    <div className="col">
-      <input
-        type="email"
-        className="form-control"
-        placeholder="Enter your email"
-        value={reportData.finder.email}
-        onChange={(e) => updateFinder("email", e.target.value)}
-        required
-      />
-      {errors.email&&(
-        <div className="text-danger">
-          {errors.email}
-          </div>
-      )}
-    </div>
-  </div>
-  <div className="row mb-3">
-    <div className="col-3">
-      <label className="fw-semibold">Message <span style={{color:"red"}}>*</span></label>
-    </div>
-
-    <div className="col-1" style={{ width: "100px" }}></div>
-
-    <div className="col">
-      <textarea
-        className="form-control"
-        placeholder="Describe the found item"
-        rows={3}
-        value={reportData.message}
-        onChange={(e) => update("message", e.target.value)}
-        required minLength={10}
-      ></textarea>
-      {errors.message&& (
-        <div className="text-danger">
-          {errors.message}
-          </div>
-      )}
-    </div>
-  </div>
-
-
-  {/* Row 1 */}
-  <div className="row mb-3 align-items-center">
-    <div className="col-3">
-      <label className="fw-semibold">Your Name (optional)</label>
-    </div>
-
-    <div className="col-1" style={{ width: "100px" }}></div>
-
-    <div className="col">
-      <input
-        type="text"
-        className="form-control"
-        placeholder="Enter your name"
-        value={reportData.finder.name || ""}
-        onChange={(e) => updateFinder("name", e.target.value)}
-      />
-    </div>
-  </div>
-
-  {/* Row 2 */}
-  <div className="row mb-3 align-items-center">
-    <div className="col-3">
-      <label className="fw-semibold">Phone Number (optional)</label>
-    </div>
-
-    <div className="col-1" style={{ width: "100px" }}></div>
-
-    <div className="col">
-      <input
-        type="text"
-        className="form-control"
-        placeholder="Enter phone number"
-        value={reportData.finder.phone || ""}
-        onChange={(e) => updateFinder("phone", e.target.value)}
-      />
-    </div>
-  </div>
-
-  {/* Row 5 */}
-  <div className="row mb-3 align-items-center">
-    <div className="col-3">
-      <label className="fw-semibold">Location (optional)</label>
-    </div>
-
-    <div className="col-1" style={{ width: "100px" }}></div>
-
-    <div className="col">
-      <input
-        type="text"
-        className="form-control"
-        placeholder="Where did you find it?"
-        value={reportData.foundLocationText}
-        onChange={(e) => update("foundLocationText", e.target.value)}
-      />
-    </div>
-  </div>
-
-  <div className="row mt-4 align-items-center">
-    <div className="col-3"></div>
-    <div className="col-1" style={{ width: "100px" }}></div>
-    <div className="col d-flex justify-content-between">
-       <CustomButton
-      className="btn btn-outline-secondary w-40"
-      onClick={onBack}
+    <div
+      className="container py-5 px-4 bg-white rounded-4 shadow-sm"
+      style={{ maxWidth: "700px" }}
     >
-      Back
-    </CustomButton>
-    <CustomButton
-        onClick={handleSubmit}
-        className="btn btn-primary w-55">
-        Submit Report
-    </CustomButton>
-    </div>
-  </div>
+      {/* Header Section */}
+      <div className="text-center mb-5">
+        <h1 className="fw-bold display-4 mb-2 text-dark">
+          Reach out to the owner
+        </h1>
+        <p className="text-muted fs-5">
+          Share where the item is or how they can get it back.
+        </p>
+      </div>
 
-</div>
+      <div className="px-md-4">
+        <label
+          className="d-block fw-bold small text-uppercase mb-4"
+          style={{ color: "#ff8a75", letterSpacing: "1px" }}
+        >
+          Contact Information
+        </label>
+
+        <div className="vstack gap-4">
+          {/* Email Row */}
+          <div className="row align-items-center">
+            <div className="col-md-4">
+              <label className="fw-bold text-dark">
+                <span className="text-danger me-1">*</span>Your Email:
+              </label>
+            </div>
+            <div className="col-md-8">
+              <input
+                type="email"
+                className="form-control bg-light border-0 p-3 rounded-3 shadow-sm"
+                placeholder="Enter your email"
+                value={reportData.finder.email}
+                onChange={(e) => updateFinder("email", e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Message */}
+          <div className="row align-items-start">
+            <div className="col-md-4 pt-2">
+              <label className="fw-bold text-dark">
+                <span className="text-danger me-1">*</span>Message:
+              </label>
+            </div>
+            <div className="col-md-8">
+              <textarea
+                className="form-control bg-light border-0 p-3 rounded-3 shadow-sm"
+                placeholder="Ex: I left it with the security guard at..."
+                rows={4}
+                value={reportData.message}
+                onChange={(e) => update("message", e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Location */}
+          <div className="row align-items-center">
+            <div className="col-md-4">
+              <label className="fw-bold text-dark">
+                <span className="text-danger me-1">*</span>Found at (Location):
+              </label>
+            </div>
+            <div className="col-md-8">
+              <input
+                type="text"
+                className="form-control bg-light border-0 p-3 rounded-3 shadow-sm"
+                placeholder="Central Park, near the fountain"
+                value={reportData.foundLocationText}
+                onChange={(e) => update("foundLocationText", e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Optional Info */}
+          <div className="row align-items-center">
+            <div className="col-md-4">
+              <label className="fw-bold text-secondary small">
+                Name and phone (Optional)
+              </label>
+            </div>
+            <div className="col-md-8">
+              <div className="row g-2">
+                <div className="col-6">
+                  <input
+                    type="text"
+                    className="form-control bg-light border-0 p-3 rounded-3 shadow-sm"
+                    placeholder="Name"
+                    value={reportData.finder.name || ""}
+                    onChange={(e) => updateFinder("name", e.target.value)}
+                  />
+                </div>
+                <div className="col-6">
+                  <input
+                    type="text"
+                    className="form-control bg-light border-0 p-3 rounded-3 shadow-sm"
+                    placeholder="Phone"
+                    value={reportData.finder.phone || ""}
+                    onChange={(e) => updateFinder("phone", e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="mt-5">
+          <CustomButton
+            onClick={onSubmit}
+            className="w-100 py-3 fs-5 shadow-sm btn-primary mb-3"
+          >
+            Send Notification to Owner
+          </CustomButton>
+
+          <button
+            onClick={onBack}
+            className="btn btn-link w-100 text-muted text-decoration-none small"
+          >
+            Go back to verification
+          </button>
+        </div>
+
+        {/* Privacy Note */}
+        <p className="text-center text-muted small mt-4 px-4">
+          We'll keep your data secure. The owner will be notified immediately.
+        </p>
+      </div>
+    </div>
   );
 }
 export default Step2Verification;
