@@ -27,10 +27,10 @@ export default function LabelScreen() {
 
           // Default presets
           const labelPresets = [
-            { id: "wallet", name: "Wallet", shape: "rect", widthMm: 85.6, heightMm: 54.0 },
-            { id: "airtag", name: "AirTag", shape: "circle", diameterMm: 32.0 },
-            { id: "small-tag", name: "Small Tag", shape: "rect", widthMm: 30.0, heightMm: 20.0 },
-            { id: "custom", name: "Custom" }
+            { id: "wallet", name: "Wallet", shape: "rect",description:"Perfect for IDs or wallets",size:'2"*2.7" (5*7cm)', widthMm: 85.6, heightMm: 54.0 },
+            { id: "airtag", name: "AirTag", shape: "circle",description:"Circular sticker",size:'1.2"*1.2" (3*3cm)', diameterMm: 32.0 },
+            { id: "small-tag", name: "Small Tag", shape: "rect",description:"Ideal for keychains",size:'1.5"*1.6" (4*4cm)', widthMm: 30.0, heightMm: 20.0 },
+            { id: "custom", name: "Custom Size" ,description:"choose your own dimensions"}
           ];
 
           setItem({
@@ -46,18 +46,18 @@ export default function LabelScreen() {
     };
 
     loadItem();
-  }, [item, itemId]);
+  }, [ itemId]);
 
   if (error) {
     return (
-      <div className="p-6 max-w-xl mx-auto">
+      <div className="container mt-5">
         <h1 className="text-xl font-bold mb-2">Error</h1>
         <p className="text-gray-700">{error}</p>
       </div>
     );
   }
 
-  if (!item) {
+  if (!item || !item.labelPresets) {
     return <p className="p-6">Loading…</p>;
   }
 
@@ -66,18 +66,24 @@ export default function LabelScreen() {
       let payload = { preset }; // DO NOT CHANGE API CALL STRUCTURE
 
       // Custom requires width + height
-      if (preset === "custom") {
+      if (preset.id === "custom") {
         if (!customWidth || !customHeight) {
           alert("Please enter both width and height.");
           return;
         }
 
-        const w = Number(customWidth);
-        const h = Number(customHeight);
+        const wInches = Number(customWidth);
+        const hInches = Number(customHeight);
+        const w=Math.round(wInches*25.4);
+        const h=Math.round(hInches*25.4);
 
-        if (w <= 0 || w > 100 || h <= 0 || h > 100) {
-          alert("Width and height must be between 1 and 100 mm.");
+        if (w <= 0 ||  h <= 0 ) {
+          alert("Width and height must be greater than 0 inches.");
           return;
+        }
+        if(wInches>7.5||hInches>7.5){
+          alert("Label size cannot exceed this size(7.5*7.5 inches).")
+        return;
         }
 
         payload.widthMm = w;
@@ -100,61 +106,90 @@ export default function LabelScreen() {
       alert("Failed to download label.");
     }
   };
+  console.log(item);
+return (
+  <div className="container mt-5">
+    <div className=" shadow-lg p-4 rounded-4">
 
-  return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-2">Label for {item.nickname}</h1>
+      <div
+        className="p-4 rounded-4 text-white"
+        style={{ background: "linear-gradient(135deg,var(--n1-tech-blue),var(--n1-deep-blue);)" }}
+      >
 
-      <p className="text-gray-700 mb-4">
-        Use these printable labels to attach to your item. Scanning the QR code
-        will take finders to your public page.
-      </p>
+        <h2 className="text-center text-white fw-bold mb-2">Label for {item.nickname}</h2>
 
-      <div className="mb-4">
-        <p className="font-semibold">Public Scan URL:</p>
-        <code className="block bg-gray-100 p-2 rounded text-sm mt-1">
-          {item.publicUrl}
-        </code>
-      </div>
+        <p className="text-center text-light mb-3">
+          Use these printable labels to attach to your item.
+          Scanning the QR code will take finders to your public page.
+        </p>
+        <div className="mb-4">
+          <p className="fw-semibold text-white mb-1">Public Scan URL:</p>
 
-      <h2 className="text-lg font-semibold mt-6 mb-2">Download Label</h2>
+          <code className="text-dark p-2 rounded d-block">
+            {item.publicUrl}
+          </code>
+        </div>
+        <h4 className="mt-4">Download Label</h4>
 
-      <div className="flex flex-col gap-4">
-        {item.labelPresets?.map((preset) => (
-          <div key={preset.id} className="flex flex-col gap-2">
-            <button
-              onClick={() => downloadPreset(preset.id)}
-              className="px-4 py-2 bg-blue-600 text-white rounded"
-            >
-              {preset.name}
-            </button>
+        <div className="row mt-3">
 
-            {preset.id === "custom" && (
-              <div className="flex gap-3 items-center">
-                <input
-                  type="number"
-                  min="1"
-                  max="100"
-                  placeholder="Width (mm)"
-                  className="border rounded px-2 py-1 w-28"
-                  value={customWidth}
-                  onChange={(e) => setCustomWidth(e.target.value)}
-                />
+          {item.labelPresets && item.labelPresets.length > 0 ? (
+            item.labelPresets.map((preset) => (
+              <div key={preset.id} className="col-md-3 mb-3">
 
-                <input
-                  type="number"
-                  min="1"
-                  max="100"
-                  placeholder="Height (mm)"
-                  className="border rounded px-2 py-1 w-28"
-                  value={customHeight}
-                  onChange={(e) => setCustomHeight(e.target.value)}
-                />
+                <button
+                  onClick={() => downloadPreset(preset)}
+                  className="btn btn-light w-100 text-start p-3"
+                >
+                  <div className="fw-bold">
+                  {preset.name}</div>
+                  {preset.description&&(<div className="small text-muted">{preset.description}</div>)}
+                  {preset.size &&(<div className="small text-muted">{preset.size}</div>)}
+                </button>
+
+              
+                {preset.id === "custom" && (
+                  <div className="row g-2 mt-2">
+                    <div className="col-6">
+
+                    <input
+                      type="number"
+                      min="1"
+                      max="100"
+                      placeholder="Width (in)"
+                      className="form-control mb-2"
+                      value={customWidth}
+                      onChange={(e) => setCustomWidth(e.target.value)}
+                    />
+                    </div>
+                    <div className="col-6">
+
+                    <input
+                      type="number"
+                      min="1"
+                      max="100"
+                      placeholder="Height (in)"
+                      className="form-control"
+                      value={customHeight}
+                      onChange={(e) => setCustomHeight(e.target.value)}
+                    />
+                    </div>
+
+                  </div>
+                )}
+
               </div>
-            )}
-          </div>
-        ))}
+            ))
+          ) : (
+            <p className="text-warning mt-3">
+              No label presets available.
+            </p>
+          )}
+
+        </div>
+
       </div>
     </div>
-  );
-}
+  </div>
+
+)};
