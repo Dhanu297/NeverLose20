@@ -2,7 +2,7 @@ import React from "react";
 
 const ItemCard = ({ data }) => {
   return (
-    <div className="row g-4 g-lg-5 justify-content-center align-items-center">
+    <div className="row g-5 g-lg-5 justify-content-center align-items-center">
       {/* Left Side */}
       <div className="col-md-6 d-flex flex-column align-items-center">
         <div className="review-image-wrapper mx-auto mx-md-0">

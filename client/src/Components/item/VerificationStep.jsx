@@ -42,7 +42,7 @@ function VerificationStep({ form, setForm, next, back }) {
                     ) : (
                       <div
                         className="d-flex align-items-center justify-content-center bg-light"
-                        style={{ minHeight: "150px" }}
+                        style={{ minHeight: "180px" }}
                       >
                         <span className="text-muted small italic">
                           No image uploaded

@@ -36,7 +36,7 @@ function ReviewStep({ form, back, create, showButtons = true }) {
           </div>
 
           {/* Progress Bar */}
-          <div className="pb-3 my-4 mx-auto" style={{ maxWidth: "450px" }}>
+          <div className="pb- my-4 mx-auto" style={{ maxWidth: "450px" }}>
             <div className="progress rounded-pill" style={{ height: "10px" }}>
               <div
                 className="progress-bar bg-primary"
