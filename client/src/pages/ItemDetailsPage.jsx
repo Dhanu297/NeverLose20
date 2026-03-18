@@ -8,9 +8,11 @@ import { useDeleteItem } from "../hooks/useDeleteItem";
 import { useConfirmDialog } from "../hooks/useConfirmDialog";
 import ConfirmDialog from "../components/ItemDetails/ConfirmDialog";
 import ItemDetails from "../components/ItemDetails/ItemDetails";
+import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
+import MainLayout from "../layouts/MainLayout/MainLayout";
 
 export default function ItemDetailsPage() {
-  const { loading: authLoading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
   const navigate = useNavigate();
   const { deleteItem, loadingDel, errorDel } = useDeleteItem();
@@ -48,7 +50,7 @@ export default function ItemDetailsPage() {
       {loading ? (
         <LoadingSpinner message="Fetching data..." />
       ) : (
-        <itemDetails />
+        <ItemDetails />
       )}
     </MainLayout>
   );
