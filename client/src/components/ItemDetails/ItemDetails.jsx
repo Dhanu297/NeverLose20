@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import MainLayout from "../../layouts/MainLayout/MainLayout";
+import React from "react";
+import ItemCard from "../itemCard/ItemCard";
+import LabelScreen from "../labelScreen/LabelScreen";
+import EditDeleteComponet from "../EditDeleteComponent/EditDeleteComponent";
 
 function ItemDetailPage() {
-    return(
-    <MainLayout>
-        <div style={{padding:"0px"}}>
-            <h2>Item Details page</h2>
-            <p>This is working</p>
-        </div>
-
-  
-    </MainLayout>
-    );
+  return (
+    <div className="bg-white rounded-4 overflow-hidden shadow p-a mt-3">
+      <EditDeleteComponet />
+      <ItemCard />
+      <LabelScreen />
+    </div>
+  );
 }
 
 export default ItemDetailPage;
