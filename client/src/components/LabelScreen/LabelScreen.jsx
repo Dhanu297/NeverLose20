@@ -147,12 +147,6 @@ export default function LabelScreen() {
 
   return (
     <div className="container py-5">
-      <div className="mb-4">
-        <p className="font-semibold">Public Scan URL:</p>
-        <code className="block bg-gray-100 p-2 rounded text-sm mt-1">
-          {item.publicUrl}
-        </code>
-      </div>
       <div
         className="rounded-5 p-4 p-md-5 shadow-lg border-0"
         style={{ backgroundColor: "var(--nl-deep-blue)", color: "white" }}
@@ -164,6 +158,13 @@ export default function LabelScreen() {
             </h1>
             <p className="fs-4" style={{ color: "white" }}>
               {item.nickname}
+            </p>
+
+            <p className="font-semibold">
+              Public Scan URL:
+              <code className="block bg-gray-100 p-2 rounded text-sm mt-1">
+                {item.publicUrl}
+              </code>
             </p>
           </div>
           <div className="d-none d-md-flex align-items-center gap-3 p-3 rounded-4">

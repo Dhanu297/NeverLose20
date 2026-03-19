@@ -1,5 +1,4 @@
 import React, { useState } from "react"; //Importing react and usestate hook from
-import itemApi from "../../api/itemApi";
 import "./ItemForm.css";
 import CustomButton from "../CustomButton/CustomButton";
 import UploadPhoto from "../uploadPhoto/UploadPhoto";
@@ -17,7 +16,6 @@ function ItemForm({ form, setForm, next }) {
   };
   const totalSteps = 3;
   const currentStep = 1;
-  const [photoUrl, setPhotoUrl] = useState("");
 
   return (
     <div className="item-form-content">
