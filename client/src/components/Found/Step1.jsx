@@ -74,7 +74,8 @@ export default function Step1ItemPreview({
             </div>
           ) : (
             <CustomButton
-              className="w-100 py-3 rounded-pill fs-5 shadow-sm btn-primary"
+              className="text-end pb-2"
+              variant="primary"
               onClick={onNext}
             >
               Next: Contact Info

@@ -43,7 +43,7 @@ const Navbar = () => {
             Log In
           </CustomButton>
           <CustomButton variant="primary" className="btn-sm px-3">
-            Sign Up
+            Register
           </CustomButton>
         </div>
       </div>

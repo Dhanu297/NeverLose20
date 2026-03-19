@@ -138,20 +138,13 @@ function Step2Verification({ reportData, setReportData, onSubmit, onBack }) {
         </div>
 
         {/* Action Buttons */}
-        <div className="mt-5">
-          <CustomButton
-            onClick={onSubmit}
-            className="w-100 py-3 fs-5 shadow-sm btn-primary mb-3"
-          >
+        <div className="d-flex justify-content-between mt-4">
+          <CustomButton variant="outline" onClick={onBack}>
+            Back
+          </CustomButton>
+          <CustomButton onClick={onSubmit} variant="primary">
             Send Notification to Owner
           </CustomButton>
-
-          <button
-            onClick={onBack}
-            className="btn btn-link w-100 text-muted text-decoration-none small"
-          >
-            Go back to verification
-          </button>
         </div>
 
         {/* Privacy Note */}

@@ -1,10 +1,23 @@
 .btn-blue,
 .btn-red {
-  border: none !important;
-  border-radius: 16px !important;
+  border: 3px solid var(--nl-tech-blue);
+  border-radius: 12px !important;
   font-weight: 600;
   transition: all 0.3s ease;
-  padding: 10px 24px;
+  /* padding: 10px 24px; */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-outline-nl {
+  background-color: transparent !important;
+  border: 3px solid var(--nl-tech-blue) !important;
+  color: var(--nl-tech-blue) !important;
+  border-radius: 12px !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  /* padding: 10px 24px; */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -32,19 +45,6 @@
   background-color: #d37466 !important;
   transform: scale(1.02);
   box-shadow: 0 6px 15px rgba(220, 53, 69, 0.3);
-}
-
-.btn-outline-nl {
-  background-color: transparent !important;
-  border: 3px solid var(--nl-tech-blue) !important;
-  color: var(--nl-tech-blue) !important;
-  border-radius: 16px !important;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  padding: 10px 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .btn-outline-nl:hover {
