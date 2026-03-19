@@ -14,7 +14,7 @@ const CustomButton = ({
   const getVariantClass = () => {
     if (variant === "primary") return "btn-blue";
     if (variant === "secondary") return "btn-red";
-    if (variant === "outline") return "btn-outline-nl";
+    if (variant === "outline") return "btn-outline-blue";
     return "btn-blue";
   };
 

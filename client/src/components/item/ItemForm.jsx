@@ -38,10 +38,7 @@ function ItemForm({ form, setForm, next }) {
                 <label className="form-label fw-semibold mb-1">
                   Upload a photo:
                 </label>
-                <p className="small text-muted mt-2">
-                  A photo makes it 10x easier for the finder to confirm they
-                  have the right item.
-                </p>
+
                 <UploadPhoto
                   photoUrl={form.photoUrl}
                   onUploaded={(url) => setForm({ ...form, photoUrl: url })}

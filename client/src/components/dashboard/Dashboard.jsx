@@ -9,11 +9,16 @@ import { useEffect } from "react";
 import CustomButton from "../CustomButton/CustomButton";
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 function Dashboard() {
-  const { items, loading: itemsLoading, handleCreate, handleItemDetails,handleReportsList} = useDashboard();
+  const {
+    items,
+    loading: itemsLoading,
+    handleCreate,
+    handleItemDetails,
+    handleReportsList,
+  } = useDashboard();
   const { user, loading: authLoading } = useContext(AuthContext); // Get authLoading
 
-
-/*function Dashboard() {
+  /*function Dashboard() {
   const {
     itemsWithReports,
     loading,
@@ -45,7 +50,6 @@ function Dashboard() {
         {itemsLoading ? (
           <LoadingSpinner />
         ) : !items || items.length === 0 ? (
-       
           <WelcomeState onCreateClick={handleCreate} />
         ) : (
           <>
@@ -53,7 +57,8 @@ function Dashboard() {
               <h2 className="text-white fw-bold mb-0">My Secure Tags</h2>
               <CustomButton
                 onClick={handleCreate}
-                className="btn-red btn-sm px-4"
+                variant="secondary"
+                className=" px-4"
               >
                 Add New Item
               </CustomButton>

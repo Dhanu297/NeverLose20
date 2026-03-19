@@ -14,7 +14,7 @@ export default function ConfirmDialog({
       className="fixed-top w-100 h-100 d-flex align-items-center justify-content-center px-3"
       style={{
         backgroundColor: "rgba(9, 32, 121, 0.6)",
-        backdropFilter: "blur(12px)",
+        backdropFilter: "blur(9px)",
         zIndex: 9999,
         position: "fixed",
         top: 0,

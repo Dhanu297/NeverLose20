@@ -1,16 +1,19 @@
 import React from "react";
 
 const ItemCard = ({ data }) => {
+  if (!data) return <div className="p-3 text-muted">Loading item data...</div>;
+  const { nickname, description, photoUrl, verification } = data;
+
   return (
     <div className="row g-5 g-lg-5 justify-content-center align-items-center">
       {/* Left Side */}
       <div className="col-md-6 d-flex flex-column align-items-center">
         <div className="review-image-wrapper mx-auto mx-md-0">
           <div className="wizard-image-box rounded-4 border overflow-hidden shadow-sm">
-            {data.photoUrl ? (
+            {photoUrl ? (
               <img
-                src={data.photoUrl}
-                alt={data.nickname || "Item"}
+                src={photoUrl}
+                alt={nickname || "Item"}
                 className="img-fluid w-100"
               />
             ) : (
@@ -30,23 +33,23 @@ const ItemCard = ({ data }) => {
       {/* Right side */}
       <div className="col-md-6 text-start">
         <h2 className="fw-bold mb-3 text-dark" style={{ fontSize: "1.8rem" }}>
-          {data.nickname || "Unnamed Item"}
+          {nickname || "Unnamed Item"}
         </h2>
         <p
           className="text-muted mb-4"
           style={{ lineHeight: "1.6", fontSize: "1.05rem" }}
         >
-          {data.description || "No description provided."}
+          {description || "No description provided."}
         </p>
 
         {/* Security Question */}
-        {(data.verification?.enabled || data.securityQuestion) && (
+        {(verification?.enabled || data.securityQuestion) && (
           <div className="security-review-box pt-2 border-top">
             <label className="small text-muted my-1 text-uppercase fw-bold">
               Security Question:
             </label>
             <p className="fw-bold mb-1 text-dark">
-              {data.verification?.question || data.securityQuestion}
+              {verification?.question || data.securityQuestion}
             </p>
           </div>
         )}

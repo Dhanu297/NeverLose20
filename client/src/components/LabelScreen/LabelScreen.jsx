@@ -80,11 +80,7 @@ export default function LabelScreen() {
     };
 
     loadItem();
-  }, [itemId]);
-
-  if (!item) {
-    return <p className="p-6">Loading…</p>;
-  }
+  }, [initialItem, itemId]);
 
   const downloadPreset = async (preset) => {
     try {
@@ -145,6 +141,9 @@ export default function LabelScreen() {
   };
 
   if (error) return <div className="alert alert-danger m-5">{error}</div>;
+  if (!item) {
+    return <p className="p-6">Loading…</p>;
+  }
 
   return (
     <div className="container py-5">
@@ -230,14 +229,14 @@ export default function LabelScreen() {
                     <div className="d-flex gap-2 mb-3">
                       <input
                         type="number"
-                        placeholder="W"
+                        placeholder="Width"
                         className="form-control form-control-sm border-0 text-center bg-white shadow-sm py-2"
                         value={customWidth}
                         onChange={(e) => setCustomWidth(e.target.value)}
                       />
                       <input
                         type="number"
-                        placeholder="H"
+                        placeholder="Height"
                         className="form-control form-control-sm border-0 text-center bg-white shadow-sm py-2"
                         value={customHeight}
                         onChange={(e) => setCustomHeight(e.target.value)}

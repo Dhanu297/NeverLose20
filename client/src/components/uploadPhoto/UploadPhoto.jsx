@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import uploadApi from "../../api/uploadApi";
-import imageCompression from "browser-image-compression"; // 
+import imageCompression from "browser-image-compression"; //
 import "../item/ItemForm.css";
 
 function UploadPhoto({ photoUrl, onUploaded }) {
@@ -28,10 +28,10 @@ function UploadPhoto({ photoUrl, onUploaded }) {
         useWebWorker: true,
       };
 
-      console.log("Compriendo archivo...");
+      console.log("Compressing...");
       const compressedFile = await imageCompression(file, options);
       console.log(
-        `Original: ${file.size / 1024 / 1024}MB | Comprimido: ${compressedFile.size / 1024 / 1024}MB`,
+        `Original: ${file.size / 1024 / 1024}MB | Compresed: ${compressedFile.size / 1024 / 1024}MB`,
       );
 
       // Upload the comppresed file to the API
@@ -59,7 +59,7 @@ function UploadPhoto({ photoUrl, onUploaded }) {
       <label htmlFor="photo-upload" className="w-100 cursor-pointer">
         <div
           className={`wizard-image-box rounded-4 border overflow-hidden shadow-sm d-flex align-items-center justify-content-center bg-light ${uploading ? "opacity-50" : ""}`}
-          style={{ minHeight: "160px", maxHeight: "40px", cursor: "pointer" }}
+          style={{ minHeight: "230px", maxHeight: "40px", cursor: "pointer" }}
         >
           {preview ? (
             <img
