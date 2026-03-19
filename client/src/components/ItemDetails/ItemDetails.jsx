@@ -1,6 +1,6 @@
 import React from "react";
 import ItemCard from "../itemCard/ItemCard";
-import LabelScreen from "../labelScreen/LabelScreen";
+import LabelScreen from "../LabelScreen/LabelScreen";
 import EditDeleteComponet from "../EditDeleteComponent/EditDeleteComponent";
 
 function ItemDetailPage() {

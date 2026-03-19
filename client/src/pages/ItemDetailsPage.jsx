@@ -6,7 +6,7 @@ import { useItemDetails } from "../hooks/useItemDetails";
 import { AuthContext } from "../context/AuthContext";
 import { useDeleteItem } from "../hooks/useDeleteItem";
 import { useConfirmDialog } from "../hooks/useConfirmDialog";
-import ConfirmDialog from "../components/ItemDetails/ConfirmDialog";
+import ConfirmDialog from "../components/confirmDialog/ConfirmDialog";
 import ItemDetails from "../components/ItemDetails/ItemDetails";
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 import MainLayout from "../layouts/MainLayout/MainLayout";
