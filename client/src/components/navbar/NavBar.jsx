@@ -32,26 +32,20 @@ const Navbar = () => {
         {/* Navigation links */}
         <div className="collapse navbar-collapse justify-content-center">
           <div className="navbar-nav gap-4">
-            <button
-              onClick={() => handleNavClick("how-it-works")}
-              className="nav-link btn btn-link text-muted fw-medium small border-0"
+            <CustomButton
+              variant="primary"
+              className="nav-link btn btn-link  fw-medium small border-0"
+              onClick={() => navigate("/how-it-works")}              
             >
               How it Works
-            </button>
+            </CustomButton>
             <button
-              onClick={() => handleNavClick("features")}
-              className="nav-link btn btn-link text-muted fw-medium small border-0"
+              onClick={() => navigate("/features")}
+              className="nav-link btn btn-link  fw-medium small border-0"
             >
               Features
             </button>
-            {!isFinderPage && (
-              <button
-                onClick={() => handleNavClick("found-an-item")}
-                className="nav-link btn btn-link text-muted fw-medium small border-0"
-              >
-                Found an Item?
-              </button>
-            )}
+           
           </div>
         </div>
 

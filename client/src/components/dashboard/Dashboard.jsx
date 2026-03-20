@@ -9,24 +9,9 @@ import { useEffect } from "react";
 import CustomButton from "../CustomButton/CustomButton";
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 function Dashboard() {
-  const {
-    items,
-    loading: itemsLoading,
-    handleCreate,
-    handleItemDetails,
-    handleReportsList,
-  } = useDashboard();
+  const { items, loading: itemsLoading, handleCreate, handleItemDetails,handleReportsList} = useDashboard();
   const { user, loading: authLoading } = useContext(AuthContext); // Get authLoading
 
-  /*function Dashboard() {
-  const {
-    itemsWithReports,
-    loading,
-    handleCreate,
-    handleItemDetails,
-    handleReportsList,
-  } = useDashboard();
-  const { user } = useContext(AuthContext);*/
   const navigate = useNavigate();
 
   // 1. Wait for Auth to finish initialization
@@ -49,7 +34,7 @@ function Dashboard() {
       <div fluid className="px-0">
         {itemsLoading ? (
           <LoadingSpinner />
-        ) : !items || items.length === 0 ? (
+        ) : !items || items.length === 0 ? (       
           <WelcomeState onCreateClick={handleCreate} />
         ) : (
           <>
@@ -57,8 +42,7 @@ function Dashboard() {
               <h2 className="text-white fw-bold mb-0">My Secure Tags</h2>
               <CustomButton
                 onClick={handleCreate}
-                variant="secondary"
-                className=" px-4"
+                className="btn-red btn-sm px-4"
               >
                 Add New Item
               </CustomButton>
