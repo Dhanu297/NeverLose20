@@ -7,15 +7,6 @@ export const useItemReports = (itemId) => {
   const [loading, setLoading] = useState(true); // UI indicator for asynchronous operations
   const [authReady, setAuthReady] = useState(false); // Gatekeeper: ensures Firebase is initialized before API calls
 
-  // --- AUTHENTICATION LISTENER ---
-  useEffect(() => {
-    // Listens to Firebase auth state changes to avoid anonymous API requests
-    const unsub = auth.onAuthStateChanged(() => {
-      setAuthReady(true);
-    });
-    // Cleanup function to prevent memory leaks when the component unmounts
-    return unsub;
-  }, []);
 
   // ---DATA FETCHING LOGIC---
   useEffect(() => {

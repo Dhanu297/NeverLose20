@@ -9,7 +9,7 @@ import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 export default function ReportListPage() {
   const { itemId } = useParams();
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+   const { user, loading: authLoading } = useContext(AuthContext);
   const { reports, loading, updateStatus } = useItemReports(itemId);
 
   // if there are reports we take the nickname of the first one

@@ -16,9 +16,8 @@ const ItemList = ({ items, onItemDetails, onReportsList }) => {
         <tbody>
           {items.map((item) => {
             // reports Count for defining View report enable or disable..
-            const hasReports =
-              item.reportsCount > 0 ||
-              (item.reports && item.reports.length > 0);
+            const hasReports = item.hasReports;
+             
 
             return (
               <tr key={item.id} className="align-middle border-bottom">
