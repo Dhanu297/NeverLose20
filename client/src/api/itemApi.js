@@ -10,9 +10,10 @@ const itemApi = {
 },
 deleteItem: async(itemId)=>
 {
-  axiosClient.delete(`/items/${itemId}`);
+  axiosClient.delete(`api/items/${itemId}`);
 },
 getItemById: async (itemId) => {
+    console.log (`itemId in ${itemId}`);
   const res = await axiosClient.get(`api/items/owner/${itemId}`);
   return res.data; 
 },

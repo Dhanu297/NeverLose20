@@ -12,7 +12,7 @@ export function useDeleteItem(id) {
       setError("");
 
       
-     await itemApi.getItemById(id)
+     await itemApi.deleteItem(itemId)
       return { ok: true };
     } catch (err) {
       console.error("Delete item error:", err);

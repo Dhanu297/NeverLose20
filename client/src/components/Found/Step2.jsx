@@ -34,9 +34,9 @@ function Step2Verification({ reportData, setReportData, onSubmit, onBack }) {
     >
       {/* Header Section */}
       <div className="text-center mb-5">
-        <h1 className="fw-bold display-4 mb-2 text-dark">
+        <h3 className="fw-bold display-4 mb-2 text-dark">
           Reach out to the owner
-        </h1>
+        </h3>
         <p className="text-muted fs-5">
           Share where the item is or how they can get it back.
         </p>

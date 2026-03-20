@@ -17,9 +17,9 @@ export default function Step1ItemPreview({
     >
       {/* Header Section */}
       <div className="text-center mb-5">
-        <h1 className="fw-bold display-4 mb-2 text-dark">
+         <h3 className="fw-bold display-4 mb-2 text-dark">
           You found a lost item!
-        </h1>
+        </h3>
         <p className="text-muted fs-5">
           Help us verify it by answering this quick question from the owner.
         </p>

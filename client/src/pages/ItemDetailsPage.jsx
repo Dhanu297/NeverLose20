@@ -1,21 +1,22 @@
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import ReviewStep from "../components/item/ReviewStep";
-import { useItemDetails } from "../hooks/useItemDetails";
+import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { useItemDetails } from "../hooks/useItemDetails";
 import { useDeleteItem } from "../hooks/useDeleteItem";
 import { useConfirmDialog } from "../hooks/useConfirmDialog";
+
+import MainLayout from "../layouts/MainLayout/MainLayout";
+import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 import ConfirmDialog from "../components/confirmDialog/ConfirmDialog";
 import ItemDetails from "../components/ItemDetails/ItemDetails";
-import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
-import MainLayout from "../layouts/MainLayout/MainLayout";
 
 export default function ItemDetailsPage() {
-  const { user } = useContext(AuthContext);
   const { id } = useParams();
   const navigate = useNavigate();
-  const { deleteItem, loadingDel, errorDel } = useDeleteItem();
+  const { user, loading: authLoading } = useContext(AuthContext);
+  
+  const { item, loading, error } = useItemDetails(id);
+  const { deleteItem, loadingDel } = useDeleteItem();
   const confirm = useConfirmDialog();
 
   const handleDelete = () => {
@@ -25,37 +26,37 @@ export default function ItemDetailsPage() {
         const result = await deleteItem(id);
         if (result.ok) navigate("/dashboard");
         confirm.close();
-      },
+      }
     );
   };
 
-  const { item, loading, error } = useItemDetails(id);
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (authLoading || loading) return <LoadingSpinner message="Loading..." />;
 
   return (
     <MainLayout username={user?.displayName || "User"}>
-      <div className="w-100">
-        <div className="mb-4 px-2">
-          <h2 className="text-white fw-bold mb-1">Item Details</h2>
-          <button
-            className="btn btn-link text-white p-0 text-decoration-none d-flex align-items-center"
-            onClick={() => navigate(-1)}
-          >
-            <i className="bi bi-chevron-left me-2"></i>
-            Back
+      <div className="container mt-4">
+        <div className="d-flex justify-content-between align-items-center mb-3 px-2">
+          <button className="btn btn-link text-white text-decoration-none" onClick={() => navigate(-1)}>
+            <i className="bi bi-chevron-left"></i> Back
           </button>
         </div>
+
+        {error ? (
+          <div className="alert alert-danger">{error}</div>
+        ) : (
+          <ItemDetails item={item} onDelete={handleDelete} loadingDel={loadingDel} />
+        )}
       </div>
-      {loading ? (
-        <LoadingSpinner message="Fetching data..." />
-      ) : (
-        <ItemDetails />
-      )}
+
+      <ConfirmDialog
+        open={confirm.open}
+        message={confirm.message}
+        onConfirm={confirm.onConfirm}
+        onCancel={confirm.close}
+      />
     </MainLayout>
   );
 }
-
 //     <div className="border rounded-lg p-4 shadow-sm bg-white hover:shadow-md transition">
 //       <div className="flex justify-between items-start">
 //         <h3 className="text-lg font-semibold">{item.nickname}</h3>

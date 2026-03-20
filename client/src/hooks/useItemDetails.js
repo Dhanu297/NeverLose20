@@ -7,22 +7,27 @@ export function useItemDetails(id) {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    let isMounted = true;
+    if (!id) return;
+
     async function load() {
+      setLoading(true);
       try {
-        const res = await itemApi.getItemById(id)
-        setItem(res);
+        const res = await itemApi.getItemById(id);
+        if (isMounted) {
+          setItem(res); // Ensure res is the item object
+          setError("");
+        }
       } catch (err) {
-        setError("Item not found.");
+        if (isMounted) setError("Item not found.");
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     }
-    load();
-  }, [id]);
 
-  return {
-    item,
-    loading,
-    error
-  };
+    load();
+    return () => { isMounted = false; };
+  }, [id]); // Re-runs if ID changes
+
+  return { item, loading, error };
 }

@@ -2,11 +2,11 @@ import { useParams } from "react-router-dom";
 import { useFoundFlow } from "../hooks/public/useFoundFlow";
 import Step1ItemPreview from "../components/Found/Step1";
 import Step2Verification from "../components/Found/Step2";
-import Step3Success from "../components/Found/Step3";
+import Step3FoundForm from "../components/Found/Step3";
 import Founder from "../layouts/Founder/Founder";
 import ProgressBar from "../components/progressBar/ProgressBar";
 import { publicApi } from "../api/publicApi";
-import NavBar from "../components/navbar/NavBar";
+
 
 export default function FoundReport() {
   const { token } = useParams();
@@ -32,7 +32,7 @@ export default function FoundReport() {
 
   return (
     <>
-      <NavBar />
+     
       <Founder
         right={
           <div className="p-2 p-md-4">
@@ -49,7 +49,7 @@ export default function FoundReport() {
               />
             )}
 
-            {flow.step === 2 && flow.item.verificationQuestion && (
+            {flow.step === 2 &&  (
               <Step2Verification
                 reportData={flow.reportData}
                 setReportData={flow.setReportData}
@@ -58,7 +58,9 @@ export default function FoundReport() {
               />
             )}
 
-            {flow.step === 3 && <Step3Success />}
+            {flow.step === 3 && <Step3FoundForm  reportData={flow.reportData}
+                setReportData={flow.setReportData}
+                onSubmit={submit}/>}
           </div>
         }
       />

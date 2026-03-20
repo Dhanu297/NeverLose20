@@ -15,11 +15,10 @@ export default function PublicScan() {
   if (!item) return <p>Loading…</p>;
 
   return (
-     <Founder
-      title="Lost Item Report"
-      subtitle="Be someone's hero!!"
-    >
-    <div className="p-6">
+     <Founder 
+      right={
+          <div className="p-2 p-md-4">
+    
       <h1 className="text-xl font-bold"> {item.nickname}</h1>
 
       {item.verificationQuestion && (
@@ -34,6 +33,7 @@ export default function PublicScan() {
         I Found This Item
       </CustomButton>
     </div>
-    </Founder>
+      }
+    />
   );
 }
