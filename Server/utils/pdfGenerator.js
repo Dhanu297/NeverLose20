@@ -40,27 +40,26 @@ exports.streamLabelPdf = async(res, opts)=> {
 
   const qrSize = Math.min(size.width * 0.8, size.height * 0.8);
 
-  const qrX = (size.width - qrSize) / 2;
-  const qrY = (size.height - qrSize) / 2 - 5;
+const qrX = (size.width - qrSize) / 2;
+const qrY = (size.height - qrSize) / 2 - 5;
 
-  // If Airtag or custom circle → clip QR into a circle
-  if (size.circle) {
-    const radius = qrSize / 2;
+const qrCenterX = qrX + qrSize / 2;
+const qrCenterY = qrY + qrSize / 2;
 
-    doc.save();
-    doc.circle(size.width / 2, size.height / 2 - 5, radius).clip();
-    doc.image(opts.qrDataUrl, qrX, qrY, {
-      width: qrSize,
-      height: qrSize,
-    });
-    doc.restore();
-  } else {
-    // Normal rectangular QR
-    doc.image(opts.qrDataUrl, qrX, qrY, {
-      width: qrSize,
-      height: qrSize,
-    });
-  }
+if (size.circle) {
+  doc.save();
+  doc.circle(qrCenterX, qrCenterY, qrSize / 2);
+  doc.image(opts.qrDataUrl, qrX, qrY, {
+    width: qrSize,
+    height: qrSize,
+  });
+  doc.restore();
+} else {
+  doc.image(opts.qrDataUrl, qrX, qrY, {
+    width: qrSize,
+    height: qrSize,
+  });
+}
 
 
   doc.fontSize(8).text(opts.scanUrl, 5, size.height - 12, {
