@@ -1,8 +1,32 @@
 import { useState } from "react";
 import CustomButton from "../CustomButton/CustomButton";
 
-function Step2Verification({ reportData, setReportData, onSubmit, onBack }) {
+function Step2Verification({
+  reportData,
+  setReportData,
+  onSubmit,
+  onBack,
+  isLoading,
+}) {
   const [errors, setErrors] = useState({});
+
+  const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  // characters counter for message validation
+  const isMessageDirty = reportData.message.length > 0;
+  const isMessageTooShort =
+    isMessageDirty && reportData.message.trim().length < 10;
+  const isMessageTooLong = reportData.message.length > 500;
+
+  const isEmailValid =
+    reportData.finder.email && isValidEmail(reportData.finder.email);
+  const isMessageValid =
+    reportData.message.trim().length >= 10 && reportData.message.length <= 500;
+
+  const isFormValid = isEmailValid && isMessageValid;
+
   const update = (field, value) =>
     setReportData((prev) => ({ ...prev, [field]: value }));
 
@@ -11,32 +35,42 @@ function Step2Verification({ reportData, setReportData, onSubmit, onBack }) {
       ...prev,
       finder: { ...prev.finder, [field]: value },
     }));
+
   const validate = () => {
     let newErrors = {};
+
     if (!reportData.finder.email) {
       newErrors.email = "Email is required";
+    } else if (!isValidEmail(reportData.finder.email)) {
+      newErrors.email = "Invalid email format";
     }
+
     if (!reportData.message) {
       newErrors.message = "Message is required";
+    } else if (reportData.message.length < 10) {
+      newErrors.message = "Message is too short (min 10 chars)";
     }
+
+    if (!reportData.foundLocationText) {
+      newErrors.location = "Location is required";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  const handleSubmit = () => {
-    if (!validate()) return;
-    onSubmit();
+
+  const handleSubmit = (e) => {
+    if (e) e.preventDefault();
+    if (validate()) {
+      onSubmit();
+    }
   };
 
   return (
-    <div
-      className="container py-5 px-4 bg-white rounded-4 shadow-sm"
-      style={{ maxWidth: "700px" }}
-    >
+    <div className="container py-4 px-4" style={{ maxWidth: "700px" }}>
       {/* Header Section */}
       <div className="text-center mb-5">
-        <h3 className="fw-bold display-4 mb-2 text-dark">
-          Reach out to the owner
-        </h3>
+        <h1 className="fw-bold mb-2 text-dark">Reach out to the owner</h1>
         <p className="text-muted fs-5">
           Share where the item is or how they can get it back.
         </p>
@@ -45,7 +79,7 @@ function Step2Verification({ reportData, setReportData, onSubmit, onBack }) {
       <div className="px-md-4">
         <label
           className="d-block fw-bold small text-uppercase mb-4"
-          style={{ color: "#ff8a75", letterSpacing: "1px" }}
+          style={{ color: "var(--nl-danger)", letterSpacing: "1px" }}
         >
           Contact Information
         </label>
@@ -61,11 +95,21 @@ function Step2Verification({ reportData, setReportData, onSubmit, onBack }) {
             <div className="col-md-8">
               <input
                 type="email"
-                className="form-control bg-light border-0 p-3 rounded-3 shadow-sm"
+                className={
+                  "form-control bg-light border-0 p-3 fs-6 rounded-4 shadow-sm"
+                }
                 placeholder="Enter your email"
                 value={reportData.finder.email}
                 onChange={(e) => updateFinder("email", e.target.value)}
               />
+              {reportData.finder.email &&
+                !isValidEmail(reportData.finder.email) && (
+                  <div className="fade-in">
+                    <small className="text-danger mt-2 d-block ms-2 fw-medium">
+                      Please enter a valid email address
+                    </small>
+                  </div>
+                )}
             </div>
           </div>
 
@@ -78,27 +122,45 @@ function Step2Verification({ reportData, setReportData, onSubmit, onBack }) {
             </div>
             <div className="col-md-8">
               <textarea
-                className="form-control bg-light border-0 p-3 rounded-3 shadow-sm"
+                className="form-control bg-light border-0 p-3 fs-6 rounded-4 shadow-sm"
                 placeholder="Ex: I left it with the security guard at..."
                 rows={4}
                 value={reportData.message}
                 onChange={(e) => update("message", e.target.value)}
+                style={{ resize: "none" }}
               />
+              <div className="text-end mt-1 me-2">
+                <small
+                  className={`fw-medium ${isMessageTooLong ? "text-danger" : "text-muted"}`}
+                  style={{ fontSize: "0.75rem" }}
+                >
+                  {reportData.message.length} / 500
+                </small>
+              </div>
+
+              {isMessageTooShort && (
+                <div className="fade-in">
+                  <small className="text-danger mt-1 d-block ms-2 fw-medium">
+                    Please write a bit more to help the owner (min. 10
+                    characters)
+                  </small>
+                </div>
+              )}
             </div>
           </div>
 
           {/* Location */}
           <div className="row align-items-center">
             <div className="col-md-4">
-              <label className="fw-bold text-dark">
-                <span className="text-danger me-1">*</span>Found at (Location):
+              <label className="fw-medium text-secondary small">
+                Found at (Optional):
               </label>
             </div>
             <div className="col-md-8">
               <input
                 type="text"
-                className="form-control bg-light border-0 p-3 rounded-3 shadow-sm"
-                placeholder="Central Park, near the fountain"
+                className="form-control bg-light border-0 p-3 fs-6 rounded-4 shadow-sm"
+                placeholder="Central Park, near the fountain..."
                 value={reportData.foundLocationText}
                 onChange={(e) => update("foundLocationText", e.target.value)}
               />
@@ -108,7 +170,7 @@ function Step2Verification({ reportData, setReportData, onSubmit, onBack }) {
           {/* Optional Info */}
           <div className="row align-items-center">
             <div className="col-md-4">
-              <label className="fw-bold text-secondary small">
+              <label className="fw-medium text-secondary small">
                 Name and phone (Optional)
               </label>
             </div>
@@ -117,7 +179,7 @@ function Step2Verification({ reportData, setReportData, onSubmit, onBack }) {
                 <div className="col-6">
                   <input
                     type="text"
-                    className="form-control bg-light border-0 p-3 rounded-3 shadow-sm"
+                    className="form-control bg-light border-0 p-3 fs-6 rounded-4 shadow-sm"
                     placeholder="Name"
                     value={reportData.finder.name || ""}
                     onChange={(e) => updateFinder("name", e.target.value)}
@@ -126,8 +188,8 @@ function Step2Verification({ reportData, setReportData, onSubmit, onBack }) {
                 <div className="col-6">
                   <input
                     type="text"
-                    className="form-control bg-light border-0 p-3 rounded-3 shadow-sm"
-                    placeholder="Phone"
+                    className="form-control bg-light border-0 p-3 fs-6 rounded-4 shadow-sm"
+                    placeholder="Phone number"
                     value={reportData.finder.phone || ""}
                     onChange={(e) => updateFinder("phone", e.target.value)}
                   />
@@ -138,11 +200,16 @@ function Step2Verification({ reportData, setReportData, onSubmit, onBack }) {
         </div>
 
         {/* Action Buttons */}
-        <div className="d-flex justify-content-between mt-4">
+        <div className="d-flex justify-content-between my-5">
           <CustomButton variant="outline" onClick={onBack}>
             Back
           </CustomButton>
-          <CustomButton onClick={onSubmit} variant="primary">
+          <CustomButton
+            onClick={handleSubmit}
+            variant="primary"
+            disabled={!isFormValid || isLoading}
+            isLoading={isLoading}
+          >
             Send Notification to Owner
           </CustomButton>
         </div>

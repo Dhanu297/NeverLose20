@@ -7,6 +7,7 @@ const CustomButton = ({
   type = "button",
   variant = "primary",
   isLoading = false,
+  disabled = false,
   onClick,
   className = "",
   ...props
@@ -22,11 +23,22 @@ const CustomButton = ({
     <Button
       type={type}
       className={`custom-btn ${getVariantClass()} ${className}`}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
       onClick={onClick}
       {...props}
     >
-      {children}
+      {isLoading ? (
+        <div className="d-flex align-items-center">
+          <span
+            className="spinner-border spinner-border-sm me-2"
+            style={{ width: "1rem", height: "1rem" }}
+            role="status"
+          ></span>
+          <span>Sending...</span>
+        </div>
+      ) : (
+        children
+      )}
     </Button>
   );
 };

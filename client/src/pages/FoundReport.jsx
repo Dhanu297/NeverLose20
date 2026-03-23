@@ -2,20 +2,35 @@ import { useParams } from "react-router-dom";
 import { useFoundFlow } from "../hooks/public/useFoundFlow";
 import Step1ItemPreview from "../components/Found/Step1";
 import Step2Verification from "../components/Found/Step2";
-import Step3FoundForm from "../components/Found/Step3";
+import Step3Success from "../components/Found/Step3";
 import Founder from "../layouts/Founder/Founder";
 import ProgressBar from "../components/progressBar/ProgressBar";
 import { publicApi } from "../api/publicApi";
 
+import Step1Img from "../assets/Finder-Step1.webp";
+import Step2Img from "../assets/Finder-Step2.webp";
+import Step3Img from "../assets/Finder-Step3.webp";
+import NotFound from "../components/Found/NotFound";
 
 export default function FoundReport() {
   const { token } = useParams();
   const flow = useFoundFlow(token);
 
   if (flow.loading) return <p>Loading...</p>;
-  if (flow.error) return <p>{flow.error}</p>;
+  if (flow.error) return <NotFound message={flow.error} />;
+
+  const getStepImage = () => {
+    const images = {
+      1: Step1Img,
+      2: Step2Img,
+      3: Step3Img,
+    };
+    return images[flow.step] || Step1Img;
+  };
 
   const submit = async () => {
+    if (flow.setIsSubmitting) flow.setIsSubmitting(true);
+
     const payload = {
       ...flow.reportData,
       photoUrl: flow.photoUrl,
@@ -27,13 +42,16 @@ export default function FoundReport() {
       flow.next();
     } catch (error) {
       console.error("Error submitting report", error);
+    } finally {
+      if (flow.setIsSubmitting) flow.setIsSubmitting(false);
     }
   };
 
   return (
     <>
-     
       <Founder
+        leftImage={getStepImage()}
+        currentStep={flow.step}
         right={
           <div className="p-2 p-md-4">
             <ProgressBar step={flow.step} />
@@ -49,18 +67,17 @@ export default function FoundReport() {
               />
             )}
 
-            {flow.step === 2 &&  (
+            {flow.step === 2 && (
               <Step2Verification
                 reportData={flow.reportData}
                 setReportData={flow.setReportData}
                 onSubmit={submit}
-                onBack={flow.prev}
+                onBack={flow.back}
+                isLoading={flow.isSubmitting}
               />
             )}
 
-            {flow.step === 3 && <Step3FoundForm  reportData={flow.reportData}
-                setReportData={flow.setReportData}
-                onSubmit={submit}/>}
+            {flow.step === 3 && <Step3Success />}
           </div>
         }
       />

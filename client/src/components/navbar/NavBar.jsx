@@ -2,8 +2,9 @@ import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/Neverlose-Wide.svg";
 import CustomButton from "../CustomButton/CustomButton";
+import "./NavBar.css";
 
-const Navbar = () => {
+const Navbar = ({ isSticky = true }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -12,18 +13,12 @@ const Navbar = () => {
     location.pathname.includes("/f/") || location.pathname.includes("/found/");
   const isWelcomePage = location.pathname === "/";
 
-  const handleNavClick = (sectionId) => {
-    if (isLanding) {
-      // Smooth scroll
-      const element = document.getElementById(sectionId);
-      if (element) element.scrollIntoView({ behavior: "smooth" });
-    } else {
-      navigate("/home");
-    }
-  };
+  const navbarClasses = `navbar navbar-expand-md bg-white shadow-sm mt-3 mx-4 rounded-4 border ${
+    isSticky ? "sticky-top" : ""
+  }`;
 
   return (
-    <nav className="navbar navbar-expand-md bg-white shadow-sm mt-3 mx-4 rounded-4 border sticky-top">
+    <nav className={navbarClasses}>
       <div className="container-fluid px-4 py-1">
         <Link to="/home" className="navbar-brand">
           <img src={logo} alt="Neverlose" style={{ height: "37px" }} />
@@ -31,21 +26,20 @@ const Navbar = () => {
 
         {/* Navigation links */}
         <div className="collapse navbar-collapse justify-content-center">
-          <div className="navbar-nav gap-4">
-            <CustomButton
-              variant="primary"
-              className="nav-link btn btn-link  fw-medium small border-0"
-              onClick={() => navigate("/how-it-works")}              
+          <div className="navbar-nav gap-5">
+            <button
+              onClick={() => navigate("/how-it-works")}
+              className="nav-link-custom"
             >
               How it Works
-            </CustomButton>
+            </button>
+
             <button
               onClick={() => navigate("/features")}
-              className="nav-link btn btn-link  fw-medium small border-0"
+              className="nav-link-custom"
             >
               Features
             </button>
-           
           </div>
         </div>
 
@@ -54,10 +48,10 @@ const Navbar = () => {
           {isFinderPage ? (
             <CustomButton
               variant="primary"
-              className="btn-sm px-3"
+              className="btn px-3"
               onClick={() => navigate("/signup")}
             >
-              Get Started Free
+              Get Started
             </CustomButton>
           ) : (
             <>

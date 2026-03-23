@@ -65,6 +65,15 @@
   color: var(--nl-deep-blue) !important;
 }
 
+.custom-btn:disabled {
+  background-color: var(--nl-tech-blue) !important;
+  color: #ffffff !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+  opacity: 0.6;
+}
+
 /*  RESPONSIVE BREAKPOINT */
 @media (max-width: 575.98px) {
   .btn-blue,

@@ -58,8 +58,8 @@ function UploadPhoto({ photoUrl, onUploaded }) {
       {/* Wizard-image-box clickable */}
       <label htmlFor="photo-upload" className="w-100 cursor-pointer">
         <div
-          className={`wizard-image-box rounded-4 border overflow-hidden shadow-sm d-flex align-items-center justify-content-center bg-light ${uploading ? "opacity-50" : ""}`}
-          style={{ minHeight: "230px", maxHeight: "40px", cursor: "pointer" }}
+          className={`wizard-image-box rounded-4 border overflow-hidden d-flex align-items-center justify-content-center bg-light ${uploading ? "opacity-50" : ""}`}
+          style={{ cursor: "pointer" }}
         >
           {preview ? (
             <img

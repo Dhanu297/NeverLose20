@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { publicApi } from "../../api/publicApi"
+import { publicApi } from "../../api/publicApi";
 
 export function useFoundFlow(token) {
   const [step, setStep] = useState(1);
@@ -7,6 +7,7 @@ export function useFoundFlow(token) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [photoUrl, seturl] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [verificationAnswer, setVerificationAnswer] = useState("");
   const [reportData, setReportData] = useState({
@@ -17,7 +18,6 @@ export function useFoundFlow(token) {
   });
 
   useEffect(() => {
-
     //todo: token naver change
     async function load() {
       try {
@@ -48,5 +48,7 @@ export function useFoundFlow(token) {
     seturl,
     reportData,
     setReportData,
+    isSubmitting,
+    setIsSubmitting,
   };
 }

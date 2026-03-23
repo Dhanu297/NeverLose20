@@ -40,6 +40,7 @@ function ItemForm({ form, setForm, next }) {
                 <UploadPhoto
                   photoUrl={form.photoUrl}
                   onUploaded={(url) => setForm({ ...form, photoUrl: url })}
+                  style={{ minHeight: "230px", maxHeight: "40px" }}
                 />
               </div>
 
