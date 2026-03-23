@@ -7,7 +7,7 @@ const REPORTS = "foundReports";
 const ITEMS = "items";
 
 exports.ReportService = {
-  async listReportsForItem(itemId, ownerId) {
+  async listReports(itemId, ownerId) {
     // Verify item belongs to owner
     const itemSnap = await db.collection(ITEMS).doc(itemId).get();
     if (!itemSnap.exists) return [];
@@ -41,11 +41,11 @@ exports.ReportService = {
     return { id: reportSnap.id, ...report };
   },
 
-  async updateReportStatus(reportId, status) {
+  async updateReportStatus(reportId, reportStatus) {
     const updatedAt = new Date().toISOString();
 
     await db.collection(REPORTS).doc(reportId).update({
-      status,
+      reportStatus,
       updatedAt,
     });
 

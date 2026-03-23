@@ -7,10 +7,10 @@ import MainLayout from "../layouts/MainLayout/MainLayout";
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 
 export default function ReportListPage() {
-  const { itemId } = useParams();
+   const { id } = useParams();
   const navigate = useNavigate();
-   const { user, loading: authLoading } = useContext(AuthContext);
-  const { reports, loading, updateStatus } = useItemReports(itemId);
+   const { user, authLoading } = useContext(AuthContext);
+  const { reports, loading, updateStatus } = useItemReports(id);
 
   // if there are reports we take the nickname of the first one
   const itemNickname = reports.length > 0 ? reports[0].item_nickname : "item";

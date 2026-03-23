@@ -5,12 +5,9 @@ const requireFirebaseAuth = require("../middleware/firebaseAuth");
 const reportController = require("../controllers/reportController");
 
 // List all reports for a specific item (owner only)
-router.get("/:itemId/reports", requireFirebaseAuth, reportController.getReports);
-
-// Get a single report by ID (owner only)
-router.get("/report/:reportId", requireFirebaseAuth, reportController.getReportDetail);
+router.get("/item/:itemId", requireFirebaseAuth, reportController.getReports);
 
 // Update report status
-router.patch("/report/:reportId", requireFirebaseAuth, reportController.changeStatus);
+router.patch("/:reportId", requireFirebaseAuth, reportController.changeStatus);
 
 module.exports = router;
