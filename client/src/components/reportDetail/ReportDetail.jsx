@@ -6,7 +6,7 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
   const {} = useItemReports();
   const statusConfig = {
     NEW: { color: "var(--nl-success)", label: "New" },
-    OWNER_CONTACTED: { color: "var(--nl-warning)", label: "Contacted" },
+    CONTACTED: { color: "var(--nl-warning)", label: "Contacted" },
     RESOLVED: { color: "var(--nl-info)", label: "Recovered" },
     SPAM: { color: "var(--nl-danger)", label: "Spam" },
   };
@@ -24,7 +24,7 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
           {currentStatus.label}
         </Badge>
         <span className="text-muted small italic">
-          Reported on: {new Date(report.created_at).toLocaleDateString()}
+          Reported on: {new Date(report.createdAt).toLocaleDateString()}
         </span>
       </div>
       <div
@@ -47,12 +47,12 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
             </h6>
             <div className="mb-2">
               <span className="fw-bold me-2">Found Location:</span>
-              <span className="">{report.found_location_text || "N/A"}</span>
+              <span className="">{report.foundLocationText || "N/A"}</span>
             </div>
             <div className="mb-2">
               <span className="fw-bold me-2">Verification Answer:</span>
               <span className="text-primary fw-medium">
-                {report.verification_answer || "N/A"}
+                {report.verificationAnswer || "N/A"}
               </span>
             </div>
             <div className="mb-2">
@@ -68,15 +68,15 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
             </h6>
             <div className="mb-1">
               <span className="fw-bold">Email address:</span>
-              {report.finder_email}
+              {report.finder.email}
             </div>
             <div className="mb-1">
               <span className="fw-bold">Finder Name:</span>
-              {report.finder_name}
+              {report.finder.name}
             </div>
             <div className="mb-1">
               <span className="fw-bold">Phone Number:</span>
-              {report.finder_phone}
+              {report.finder.phone}
             </div>
           </section>
         </Col>

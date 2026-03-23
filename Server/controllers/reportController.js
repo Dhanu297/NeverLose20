@@ -41,26 +41,13 @@ exports.getReportDetail = async (req, res) => {
 
 exports.changeStatus = async (req, res) => {
   try {
-    const { itemId, reportId } = req.params;
-    const { status } = req.body;
+    const {  reportId } = req.params;
+    const { reportStatus  } = req.body;
     const ownerId = req.user.uid;
 
-    const report = await ReportService.getReport(itemId, reportId, ownerId);
+  
 
-    if (report === "FORBIDDEN") {
-      return res.status(403).json({ error: "FORBIDDEN" });
-    }
-
-    if (!report) {
-      return res.status(404).json({ error: "NOT_FOUND" });
-    }
-
-    const valid = ["NEW", "OWNER_CONTACTED", "RESOLVED", "SPAM"];
-    if (!valid.includes(status)) {
-      return res.status(400).json({ error: "INVALID_STATUS" });
-    }
-
-    await ReportService.updateReportStatus(itemId, reportId, status);
+    await ReportService.updateReportStatus( reportId, reportStatus );
 
     return res.json({ ok: true });
   } catch (err) {

@@ -41,7 +41,7 @@ const AppRoutes = () => {
       <Route path="/create-item" element={<CreateItemPage />} />
       <Route path="/label/:itemId" element={<QRCodePage />} />
       <Route path="/item-details/:id" element={<ItemDetailsPage />} />
-      <Route path="/item/:id/reports" element={<ReportListPage />} />
+      <Route path="/item-reports/:id" element={<ReportListPage />} />
 <Route path="/how-it-works" element={<HowItWork/>}/>
 <Route path="/features" element={<Features/>}/>
 <Route path="/edit-item/:id" element={<EditItemPage />} />

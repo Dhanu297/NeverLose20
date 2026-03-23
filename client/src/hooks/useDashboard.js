@@ -45,7 +45,7 @@ export const useDashboard = () => {
 
   const handleCreate = () => navigate("/create-item");
   const handleItemDetails = (id) => navigate(`/item-details/${id}`);
-  const handleReportsList = (id) => navigate(`/item/${id}/reports`);
+  const handleReportsList = (id) => navigate(`/item-reports/${id}`);
 
   return {
     items,

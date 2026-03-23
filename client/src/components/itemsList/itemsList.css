@@ -68,3 +68,28 @@
   text-decoration: underline;
   cursor: pointer;
 }
+/* document/report icon styles */
+.btn-link i.bi-journal-text {
+  display: inline-block;
+  transition:
+    transform 0.2s ease-in-out,
+    color 0.2s ease-in-out;
+  cursor: pointer;
+  -webkit-text-stroke: 1.5px currentColor;
+  color: var(--nl-tech-blue) !important;
+}
+
+/* hover (only when enabled) */
+.btn-link:not(:disabled):hover i.bi-journal-text {
+  transform: scale(1.15) rotate(-3deg);
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15));
+
+}
+
+/* disabled state */
+.btn-link:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.4;
+}
+

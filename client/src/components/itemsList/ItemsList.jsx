@@ -16,9 +16,8 @@ const ItemList = ({ items, onItemDetails, onReportsList }) => {
         <tbody>
           {items.map((item) => {
             // reports Count for defining View report enable or disable..
-            const hasReports =
-              item.reportsCount > 0 ||
-              (item.reports && item.reports.length > 0);
+            const hasReports = item.hasReports;
+             
 
             return (
               <tr key={item.id} className="align-middle border-bottom">
@@ -43,11 +42,12 @@ const ItemList = ({ items, onItemDetails, onReportsList }) => {
                     disabled={!hasReports}
                     title={hasReports ? "View reports" : "No scans yet"}
                   >
-                    <i
-                      className={`bi bi-arrow-right fs-4 ${
-                        hasReports ? "text-primary" : "text-muted"
-                      }`}
-                    ></i>
+                   <i
+  className={`bi bi-journal-text fs-4 fw-bold ${
+    hasReports ? "text-primary" : "text-muted"
+  }`}
+/>
+
                   </button>
                 </td>
               </tr>

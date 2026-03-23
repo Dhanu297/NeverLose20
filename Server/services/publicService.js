@@ -52,6 +52,7 @@ async createFoundReport({ item, token, payload }) {
         phone: payload.finder?.phone || "",
       },
       message: payload.message,
+      reportStatus:"open",
       foundLocationText: payload.foundLocationText || "",
       photoUrl: payload.photoUrl || "",
       verificationAnswer: payload.verificationAnswer || "",

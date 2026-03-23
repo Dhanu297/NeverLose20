@@ -95,7 +95,7 @@ exports.ItemService = {
 
     for (const item of items) {
       const reportsSnap = await db
-        .collection("reports")
+        .collection("foundReports")
         .where("itemId", "==", item.id)
         .limit(1)
         .get();
