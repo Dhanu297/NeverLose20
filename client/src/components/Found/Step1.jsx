@@ -72,7 +72,8 @@ export default function Step1ItemPreview({
 
           <UploadPhoto
             photoUrl={photoUrl}
-            onUploaded={(url) => seturl({ url })}
+          onUploaded={(url) => seturl(url)}
+
           />
         </div>
 
