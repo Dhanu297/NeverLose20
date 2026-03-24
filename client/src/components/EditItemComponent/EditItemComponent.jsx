@@ -29,7 +29,8 @@ const EditItemComponent = ({ item }) => {
       <h3 className="text-white fw-bold mb-4">Edit Your Item</h3>
 
       <div className="bg-white rounded-4 shadow-sm w-100 px-5 py-4">
-        <div className="d-flex gap-4">
+        <div className="d-flex gap-4 align-items-stretch">
+
           {/* LEFT SIDE */}
           <div style={{ width: "35%" }}>
             <p className="fw-semibold mt-2">Upload a Photo:</p>
@@ -42,7 +43,9 @@ const EditItemComponent = ({ item }) => {
               }
             />
             <div className="mt-3">
-              <p className="fw-semibold mb-1">Item Status:</p>
+              <p className="fw-semibold mb-1">
+                Item Status:
+              </p>
 
               <select
                 className="form-select form-select-sm"
@@ -59,7 +62,7 @@ const EditItemComponent = ({ item }) => {
           </div>
 
           {/* RIGHT SIDE */}
-          <div style={{ width: "65%" }}>
+          <div style={{ width: "65% " }}>
             <div className="mb-3">
               <label>Item Nickname:</label>
               <input
@@ -70,7 +73,6 @@ const EditItemComponent = ({ item }) => {
                 onChange={handleChange}
               />
             </div>
-
             <div className="mb-3">
               <label>Description:</label>
               <textarea
@@ -93,8 +95,11 @@ const EditItemComponent = ({ item }) => {
               />
             </div>
 
-            <div className="d-flex justify-content-between mt-4">
-              <CustomButton variant="outline" onClick={() => navigate(-1)}>
+            <div className="d-flex justify-content-between mt-auto pt-3">
+              <CustomButton
+                variant="outline"
+                onClick={() => navigate(-1)}
+              >
                 Back
               </CustomButton>
 
