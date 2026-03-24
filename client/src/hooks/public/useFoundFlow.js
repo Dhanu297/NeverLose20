@@ -50,5 +50,6 @@ export function useFoundFlow(token) {
     setReportData,
     isSubmitting,
     setIsSubmitting,
+    setError
   };
 }
