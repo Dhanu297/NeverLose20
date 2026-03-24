@@ -23,8 +23,8 @@ const EditItemPage = () => {
 
   return (
     <MainLayout>
-      <div className="max-w-4xl mx-auto">
-        <EditItemComponent item={itemData} />
+      <div className="px-0"> 
+        <EditItemComponent item={itemData} />        
       </div>
     </MainLayout>
   );
