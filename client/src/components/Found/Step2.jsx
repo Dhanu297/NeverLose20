@@ -51,10 +51,6 @@ function Step2Verification({
       newErrors.message = "Message is too short (min 10 chars)";
     }
 
-    if (!reportData.foundLocationText) {
-      newErrors.location = "Location is required";
-    }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -69,6 +65,7 @@ function Step2Verification({
   return (
     <div className="container py-4 px-4" style={{ maxWidth: "700px" }}>
       {/* Header Section */}
+
       <div className="text-center mb-5">
         <h1 className="fw-bold mb-2 text-dark">Reach out to the owner</h1>
         <p className="text-muted fs-5">
@@ -79,7 +76,7 @@ function Step2Verification({
       <div className="px-md-4">
         <label
           className="d-block fw-bold small text-uppercase mb-4"
-          style={{ color: "var(--nl-danger)", letterSpacing: "1px" }}
+          style={{ color: "var(--nl-tech-blue)", letterSpacing: "1px" }}
         >
           Contact Information
         </label>
@@ -95,16 +92,14 @@ function Step2Verification({
             <div className="col-md-8">
               <input
                 type="email"
-                className={
-                  "form-control bg-light border-0 p-3 fs-6 rounded-4 shadow-sm"
-                }
+                className={"form-control"}
                 placeholder="Enter your email"
                 value={reportData.finder.email}
                 onChange={(e) => updateFinder("email", e.target.value)}
               />
               {reportData.finder.email &&
                 !isValidEmail(reportData.finder.email) && (
-                  <div className="fade-in">
+                  <div className="nl-animated-fade">
                     <small className="text-danger mt-2 d-block ms-2 fw-medium">
                       Please enter a valid email address
                     </small>
@@ -122,7 +117,7 @@ function Step2Verification({
             </div>
             <div className="col-md-8">
               <textarea
-                className="form-control bg-light border-0 p-3 fs-6 rounded-4 shadow-sm"
+                className="form-control"
                 placeholder="Ex: I left it with the security guard at..."
                 rows={4}
                 value={reportData.message}
@@ -139,7 +134,7 @@ function Step2Verification({
               </div>
 
               {isMessageTooShort && (
-                <div className="fade-in">
+                <div className="nl-animated-fade">
                   <small className="text-danger mt-1 d-block ms-2 fw-medium">
                     Please write a bit more to help the owner (min. 10
                     characters)
@@ -159,7 +154,7 @@ function Step2Verification({
             <div className="col-md-8">
               <input
                 type="text"
-                className="form-control bg-light border-0 p-3 fs-6 rounded-4 shadow-sm"
+                className="form-control"
                 placeholder="Central Park, near the fountain..."
                 value={reportData.foundLocationText}
                 onChange={(e) => update("foundLocationText", e.target.value)}
@@ -179,7 +174,7 @@ function Step2Verification({
                 <div className="col-6">
                   <input
                     type="text"
-                    className="form-control bg-light border-0 p-3 fs-6 rounded-4 shadow-sm"
+                    className="form-control"
                     placeholder="Name"
                     value={reportData.finder.name || ""}
                     onChange={(e) => updateFinder("name", e.target.value)}
@@ -188,7 +183,7 @@ function Step2Verification({
                 <div className="col-6">
                   <input
                     type="text"
-                    className="form-control bg-light border-0 p-3 fs-6 rounded-4 shadow-sm"
+                    className="form-control"
                     placeholder="Phone number"
                     value={reportData.finder.phone || ""}
                     onChange={(e) => updateFinder("phone", e.target.value)}
