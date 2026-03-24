@@ -56,21 +56,16 @@ function UploadPhoto({ photoUrl, onUploaded }) {
         style={{ display: "none" }}
       />
       {/* Wizard-image-box clickable */}
-      <label htmlFor="photo-upload" className="w-100 cursor-pointer">
-        <div
-          className={`wizard-image-box rounded-4 border overflow-hidden d-flex align-items-center justify-content-center bg-light ${uploading ? "opacity-50" : ""}`}
-          style={{ cursor: "pointer" }}
-        >
+      <label htmlFor="photo-upload" className="w-100">
+        <div className={`nl-upload-zone ${uploading ? "opacity-50" : ""}`}>
           {preview ? (
-            <img
-              src={preview}
-              alt="preview"
-              className="img-fluid w-100 h-auto"
-            />
+            <img src={preview} alt="preview" />
           ) : (
             <div className="text-center p-4">
               <i className="bi bi-camera fs-1 text-muted"></i>
-              <p className="text-muted small mb-0">Click to upload photo</p>
+              <p className="fw-medium text-secondary mt-2">
+                Click to upload photo
+              </p>
             </div>
           )}
 
