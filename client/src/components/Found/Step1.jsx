@@ -10,6 +10,8 @@ export default function Step1ItemPreview({
   seturl,
   setAnswer,
 }) {
+  console.log("seturl is:", seturl);
+
   return (
     <div className="container py-5 px-4" style={{ maxWidth: "700px" }}>
       {/* Header Section */}
@@ -55,7 +57,8 @@ export default function Step1ItemPreview({
 
           <UploadPhoto
             photoUrl={photoUrl}
-            onUploaded={(url) => seturl({ url })}
+          onUploaded={(url) => seturl(url)}
+
           />
         </div>
 
