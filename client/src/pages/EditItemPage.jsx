@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useItemDetails } from "../hooks/useItemDetails";
+import { AuthContext } from "../context/AuthContext";
 import MainLayout from "../layouts/MainLayout/MainLayout";
 import EditItemComponent from "../components/EditItemComponent/EditItemComponent";
-
+import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 const EditItemPage = () => {
   const { id } = useParams();
-  const [itemData, setItemData] = useState(null);
+  const [itemData, setItemData] = useState(null);   
+  const navigate = useNavigate();
+  const { user, loading: authLoading } = useContext(AuthContext);
+  
+  const { item, loading, error } = useItemDetails(id);
 
   useEffect(() => {
-    const mockItem = {
-      _id: id,
-      nickname: "Grey Adventure Backpack",
-      description: "North Face bag...",
-      securityQuestion: "What color is inside?",
-      status: "Lost",
-      photo: "https://via.placeholder.com/200"
-    };
+  if (item) setItemData(item);
+}, [item]);
 
-    setItemData(mockItem);
-  }, [id]);
+  if (authLoading || loading) return <LoadingSpinner message="Loading..." />; 
 
   if (!itemData) return <div>Loading...</div>;
 

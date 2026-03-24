@@ -11,7 +11,7 @@ function ItemDetails({ item, onDelete, loadingDel }) {
     <div className="bg-white rounded-4 shadow p-4">
     
         <EditDeleteComponent 
-          onEdit={() => navigate(`/items/edit/${item.id}`)} 
+          onEdit={() => navigate(`/edit-item/${item.id}`)} 
           onDelete={onDelete} 
           isDeleting={loadingDel}
         />

@@ -10,7 +10,7 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
     RESOLVED: { color: "var(--nl-info)", label: "Recovered" },
     SPAM: { color: "var(--nl-danger)", label: "Spam" },
   };
-  const currentStatus = statusConfig[report.status] || statusConfig.NEW;
+  const currentStatus = statusConfig[report.reportStatus] || statusConfig.NEW;
   const renderTooltip = (text) => <Tooltip id="button-tooltip">{text}</Tooltip>;
 
   return (
@@ -100,8 +100,8 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
                 )}
               >
                 <button
-                  className={`btn w-100 fw-bold ${report.status === "OWNER-CONTACTED" ? "btn-primary" : "btn-outline-primary"}`}
-                  onClick={() => onUpdateStatus(report.id, "OWNER-CONTACTED")}
+                  className={`btn w-100 fw-bold ${report.reportStatus === "CONTACTED" ? "btn-primary" : "btn-outline-primary"}`}
+                  onClick={() => onUpdateStatus(report.id, "CONTACTED")}
                 >
                   Contacted
                 </button>

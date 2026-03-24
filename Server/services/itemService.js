@@ -97,6 +97,7 @@ exports.ItemService = {
       const reportsSnap = await db
         .collection("foundReports")
         .where("itemId", "==", item.id)
+        .where("internalStatus", "==", "OPEN")
         .limit(1)
         .get();
 

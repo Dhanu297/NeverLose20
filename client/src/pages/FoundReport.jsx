@@ -42,6 +42,21 @@ export default function FoundReport() {
       flow.next();
     } catch (error) {
       console.error("Error submitting report", error);
+       // Handle rate limit
+  if (error?.response?.status === 429) {
+    flow.setError({
+      type: "RATE_LIMITED",
+      message: "Too many submissions. Please try again later."
+    });
+    return; // stop flow
+  }
+
+  // Generic fallback
+  flow.setError({
+    type: "UNKNOWN",
+    message: "Something went wrong. Please try again."
+  });
+
     } finally {
       if (flow.setIsSubmitting) flow.setIsSubmitting(false);
     }

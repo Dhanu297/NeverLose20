@@ -19,6 +19,7 @@ exports.ReportService = {
     const snap = await db
       .collection(REPORTS)
       .where("itemId", "==", itemId)
+      .where("internalStatus", "==", "OPEN")
       .orderBy("createdAt", "desc")
       .get();
 
@@ -42,13 +43,36 @@ exports.ReportService = {
   },
 
   async updateReportStatus(reportId, reportStatus) {
-    const updatedAt = new Date().toISOString();
+  const updatedAt = new Date().toISOString();
 
-    await db.collection(REPORTS).doc(reportId).update({
-      reportStatus,
-      updatedAt,
-    });
+  // Build base update payload
+  const updatePayload = {
+    reportStatus,
+    updatedAt,
+  };
 
-    return { ok: true };
-  },
+  // Add conditional internalStatus
+  if (reportStatus === "RESOLVED") {
+    updatePayload.internalStatus = "CLOSE";
+  }
+
+  // 1. Update the report (single write)
+  await db.collection(REPORTS).doc(reportId).update(updatePayload);
+
+  // 2. If resolved, update the related item
+  if (reportStatus === "RESOLVED") {
+    const reportSnap = await db.collection(REPORTS).doc(reportId).get();
+
+    if (reportSnap.exists) {
+      const { itemId } = reportSnap.data();
+
+      await db.collection(ITEMS).doc(itemId).update({
+        status: "SAFE",
+        updatedAt,
+      });
+    }
+  }
+
+  return { ok: true };
+}
 };

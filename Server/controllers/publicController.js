@@ -45,12 +45,15 @@ async function submitFoundReport(req, res) {
           .json({ error: "Verification answer is required" });
       }
     }
+const ip = req.headers["x-forwarded-for"] || req.ip;
 
-    const result = await PublicService.createFoundReport({
-      item,
-      token,
-      payload,
-    });
+await PublicService.createFoundReport({
+  item,
+  token,
+  payload: req.body,
+  ip
+});
+   
 const reportId = result.reportId;
    // res.status(201).json(result); // { ok: true, reportId }
       // Fetch owner email
@@ -61,7 +64,7 @@ Your item "${item.nickname}" was reported found.
 
 Finder Email: ${payload.finder.email}
 Finder Phone: ${payload.finder.phone || "N/A"}
-Finder Name: ${payload.finder.Name || "N/A"}
+Finder Name: ${payload.finder.name || "N/A"}
 Message: ${payload.message}
 Location: ${payload.foundLocationText || "N/A"}
 Verification Answer: ${payload.verificationAnswer || "N/A"}
@@ -77,8 +80,21 @@ Photo: ${payload.photoUrl || "N/A"}
 
   return res.status(201).json({ ok: true, reportId});
   } catch (err) {
-    console.error("Found report submit error:", err);
-    res.status(500).json({ error: "Server error" });
+   if (err.code === "RATE_LIMITED") {
+    return res.status(429).json({
+      ok: false,
+      error: "RATE_LIMITED",
+      message: "Too many submissions. Please try again later.",
+    });
+  }
+
+  // fallback
+  res.status(500).json({
+    ok: false,
+    error: "SERVER_ERROR",
+    message: err.message,
+  });
+
   }
 
 

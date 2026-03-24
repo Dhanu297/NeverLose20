@@ -37,34 +37,56 @@ exports.PublicService = {
     return doc.exists ? doc.data() : null;
   },
   
-async createFoundReport({ item, token, payload }) {
-    const createdAt = new Date().toISOString();
-    const docRef = db.collection(FOUND_COLLECTION).doc();
+async createFoundReport({ item, token, payload,ip}) {
+  const createdAt = new Date().toISOString();
 
-    const report = {
-      id: docRef.id,
-      itemId: item.id,
-      itemToken: token,
-      ownerId: item.ownerId,
-      finder: {
-        name: payload.finder?.name || "",
-        email: payload.finder.email,
-        phone: payload.finder?.phone || "",
-      },
-      message: payload.message,
-      reportStatus:"open",
-      foundLocationText: payload.foundLocationText || "",
-      photoUrl: payload.photoUrl || "",
-      verificationAnswer: payload.verificationAnswer || "",
-      createdAt,
-    };
+  // 1. Enforce business rule: max 3 reports per email
+  const finderEmail = payload.finder.email;
+ // 1. Read max attempts from environment variable
+  const MAX_ATTEMPTS = parseInt(process.env.MAX_FOUNDER_ATTEMPTS || "3", 10);
 
-    await docRef.set(report);
 
-    // Return only non-sensitive data to public client
-    return {
-      reportId: report.id,
-      ok: true,
-    };
-  },
+  const existingReportsSnap = await db
+    .collection(FOUND_COLLECTION)
+    .where("ip", "==", ip)
+    .get();
+
+  if (existingReportsSnap.size >= MAX_ATTEMPTS) {
+    const rateLimitError = new Error("Too many submissions. Please try again later.");
+    rateLimitError.code = "RATE_LIMITED";
+    rateLimitError.status = 429;
+    throw rateLimitError;
+
+  }
+
+  // 2. Create new report
+  const docRef = db.collection(FOUND_COLLECTION).doc();
+
+  const report = {
+    id: docRef.id,
+    itemId: item.id,
+    itemToken: token,
+    ownerId: item.ownerId,
+    finder: {
+      name: payload.finder?.name || "",
+      email: finderEmail,
+      phone: payload.finder?.phone || "",
+    },
+    message: payload.message,
+    reportStatus: "NEW",
+    internalStatus: "OPEN",
+    foundLocationText: payload.foundLocationText || "",
+    photoUrl: payload.photoUrl || "",
+    verificationAnswer: payload.verificationAnswer || "",
+    createdAt,
+    ip
+  };
+
+  await docRef.set(report);
+
+  return {
+    reportId: report.id,
+    ok: true,
+  };
+}
 };
