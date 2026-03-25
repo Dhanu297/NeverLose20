@@ -18,11 +18,11 @@ export default function Step1ItemPreview({
     <div className="container py-5 px-4" style={{ maxWidth: "700px" }}>
       {/* Header Section */}
       <div className="text-center mb-5">
-        <h1 className="fw-bold mb-2 text-dark">You found a lost item!</h1>
+        <h1 className="fw-bold mb-2 text-dark">Help the owner recognize it</h1>
         <p className="text-muted fs-5">
           {hasQuestion
             ? "Help us verify it by answering this quick question from the owner."
-            : "The owner will be thrilled! You can share a photo of the item below."}
+            : "The owner will be thrilled! A photo of the item helps confirm its status."}
         </p>
       </div>
 
@@ -50,7 +50,7 @@ export default function Step1ItemPreview({
                 className="form-control"
                 rows="4"
                 style={{ resize: "none" }}
-                placeholder="Describe the item to verify..."
+                placeholder="Provide a brief detail (e.g., color, stickers, unique marks)..."
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
               />
@@ -70,11 +70,7 @@ export default function Step1ItemPreview({
             Evidence Photo (Optional)
           </label>
 
-          <UploadPhoto
-            photoUrl={photoUrl}
-          onUploaded={(url) => seturl(url)}
-
-          />
+          <UploadPhoto photoUrl={photoUrl} onUploaded={(url) => seturl(url)} />
         </div>
 
         {/* CTA */}
