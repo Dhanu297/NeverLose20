@@ -35,7 +35,7 @@ describe('Create Item Flow - NeverLose', () => {
     //cy.contains('Item created successfully').should('be.visible');
 
     // Redirect to dashboard
-    cy.url().should('include', '/');
+    cy.url().should('include', '/item-details');
 
     // Verify item exists
     cy.contains('Test Item Cypress').should('be.visible');
