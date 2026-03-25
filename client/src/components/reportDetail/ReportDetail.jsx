@@ -1,141 +1,144 @@
 import React from "react";
+import "./ReportDetail.css";
 import { Row, Col, Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useItemReports } from "../../hooks/useItemReports";
 
 const ReportDetail = ({ report, onUpdateStatus }) => {
-  const {} = useItemReports();
   const statusConfig = {
     NEW: { color: "var(--nl-success)", label: "New" },
     CONTACTED: { color: "var(--nl-warning)", label: "Contacted" },
     RESOLVED: { color: "var(--nl-info)", label: "Recovered" },
     SPAM: { color: "var(--nl-danger)", label: "Spam" },
   };
+
   const currentStatus = statusConfig[report.reportStatus] || statusConfig.NEW;
-  const renderTooltip = (text) => <Tooltip id="button-tooltip">{text}</Tooltip>;
+
+  // Function to render the Tooltip component
+  const renderTooltip = (text) => (
+    <Tooltip id="button-tooltip" className="custom-tooltip">
+      {text}
+    </Tooltip>
+  );
+
+  const getButtonClass = (buttonStatus) => {
+    const isActive = report.reportStatus === buttonStatus;
+    const isClosed = report.reportStatus === "RESOLVED" || report.reportStatus === "SPAM";
+    
+    let baseClass = "btn manage-btn w-100 fw-bold ";
+    if (isActive) return baseClass + "active-status";
+    if (isClosed && !isActive) return baseClass + "disabled-fade";
+    return baseClass;
+  };
 
   return (
-    <div className="bg-white rounded-4 overflow-hidden shadow p-a mt-3">
-      {/* Header: Status and date */}
-      <div className="d-flex align-items-center gap-3 mb-2">
-        <Badge
-          style={{ backgroundColor: currentStatus.color, color: "#000" }}
-          className="px-3 text-uppercase"
-        >
-          {currentStatus.label}
-        </Badge>
+    <div className="bg-white rounded-4 overflow-hidden shadow-sm p-4 mt-3 border report-card">
+      <Badge
+        style={{ backgroundColor: currentStatus.color, color: "#000" }}
+        className="px-3 text-uppercase mb-2"
+      >
+        {currentStatus.label}
+      </Badge>
+
+      <div className="text-center mb-3">
         <span className="text-muted small italic">
-          Reported on: {new Date(report.createdAt).toLocaleDateString()}
+          Last Activity: {new Date(report.createdAt).toLocaleString('en-US', { 
+            month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' 
+          })}
         </span>
       </div>
-      <div
-        style={{
-          height: "2px",
-          backgroundColor: currentStatus.color,
-          width: "100%",
-          marginBottom: "20px",
-          transition: "Background-color 0.3s ease",
-        }}
-      />
+
+      <div className="status-divider" style={{ backgroundColor: "#b2f2bb" }} />
 
       <Row>
-        {/* card left side */}
-        <Col md={7} className="border-end">
-          {/* Found context section */}
-          <section className="mb-4 pb-3 border-bottom">
-            <h6 className="text-uppercase text-muted fw-bold small mb-3">
-              Found Context
-            </h6>
-            <div className="mb-2">
-              <span className="fw-bold me-2">Found Location:</span>
-              <span className="">{report.foundLocationText || "N/A"}</span>
+        {/* Left Side */}
+        <Col md={8} className="border-end pe-md-4">
+          <section className="mb-5 pb-3 border-bottom">
+            <h6 className="text-uppercase text-muted fw-bold small mb-3 ls-wide">Found Context</h6>
+            <div className="mb-3 d-flex align-items-baseline">
+              <span className="fw-bold me-2 min-w-150">Found Location:</span>
+              <span>{report.foundLocationText || "N/A"}</span>
             </div>
-            <div className="mb-2">
-              <span className="fw-bold me-2">Verification Answer:</span>
-              <span className="text-primary fw-medium">
-                {report.verificationAnswer || "N/A"}
-              </span>
+            <div className="mb-3 d-flex align-items-baseline">
+              <span className="fw-bold me-2 min-w-150">Verification Answer:</span>
+              <span className="text-primary">{report.verificationAnswer || "N/A"}</span>
             </div>
-            <div className="mb-2">
-              <span className="fw-bold d-block">Message from finder:</span>
-              <p className="mb-0 text-secondary">"{report.message || "N/A"}"</p>
+            <div className="mb-3 d-flex align-items-baseline">
+              <span className="fw-bold me-2 min-w-150">Message:</span>
+              <span className="text-secondary">"{report.message || "N/A"}"</span>
+            </div>
+            <div className="mb-2 d-flex align-items-center">
+              <span className="fw-bold me-2 min-w-150">Photo evidence:</span>
+              <div className="evidence-icon-box">
+                <i className="bi bi-image"></i> <span className="text-secondary">"{report.photoUrl || "N/A"}"</span>
+              </div>
             </div>
           </section>
 
-          {/* finder contact section */}
           <section>
-            <h6 className="text-uppercase text-muted fw-bold small mb-3">
-              Finder Contact
-            </h6>
-            <div className="mb-1">
-              <span className="fw-bold">Email address:</span>
-              {report.finder.email}
+            <h6 className="text-uppercase text-muted fw-bold small mb-3 ls-wide">Finder Contact</h6>
+            <div className="mb-2 d-flex">
+              <span className="fw-bold me-2 min-w-150">Email Address:</span>
+              <span>{report.finder?.email}</span>
             </div>
-            <div className="mb-1">
-              <span className="fw-bold">Finder Name:</span>
-              {report.finder.name}
+            <div className="mb-2 d-flex">
+              <span className="fw-bold me-2 min-w-150">Finder Name:</span>
+              <span>{report.finder?.name}</span>
             </div>
-            <div className="mb-1">
-              <span className="fw-bold">Phone Number:</span>
-              {report.finder.phone}
+            <div className="mb-2 d-flex">
+              <span className="fw-bold me-2 min-w-150">Phone Number:</span>
+              <span>{report.finder?.phone}</span>
             </div>
           </section>
         </Col>
-        {/* card rigt side */}
-        {/* manage report */}
-        <Col md={5} className="ps-md-4">
-          <div className="manage-section">
-            <h6 className="text-uppercase text-muted fw-bold small mb-2">
-              Manage Report
-            </h6>
-            <p className="extra-small text-muted mb-4">
-              Update the status of this report to keep your dashboard organized.
-            </p>
-            {/* Buttons list */}
-            <div className="d-flex flex-column gap-3 mt-4">
-              {/* Contacted Button */}
-              <OverlayTrigger
-                placement="bottom"
-                overlay={renderTooltip(
-                  "You have reached out to the finder to coordinate the recovery.",
-                )}
-              >
-                <button
-                  className={`btn w-100 fw-bold ${report.reportStatus === "CONTACTED" ? "btn-primary" : "btn-outline-primary"}`}
+
+        {/* Right Side: Manage Report */}
+        <Col md={4} className="ps-md-5">
+          <h6 className="text-uppercase text-muted fw-bold small mb-2">Manage Report</h6>
+          <p className="extra-small text-muted mb-4">
+            Update the status of this report to keep your dashboard organized.
+          </p>
+
+          <div className="d-flex flex-column gap-4">
+            {/* Contacted */}
+            <div className="action-wrapper">
+              <OverlayTrigger placement="bottom" overlay={renderTooltip("Click to confirm you have contacted the finder.")}>
+                <button 
+                  className={getButtonClass("CONTACTED")}
                   onClick={() => onUpdateStatus(report.id, "CONTACTED")}
+                  disabled={report.reportStatus === "RESOLVED"}
+                  style={{ color: "#e8944f" }}
                 >
                   Contacted
                 </button>
               </OverlayTrigger>
+              <p className="extra-small text-muted mt-2">You have reached out to the finder to coordinate the recovery.</p>
+            </div>
 
-              {/* Item Recovered Button */}
-              <OverlayTrigger
-                placement="bottom"
-                overlay={renderTooltip(
-                  "Case closed! The item is back in your hands. This will resolve the report.",
-                )}
-              >
-                <button
-                  className={`btn w-100 fw-bold ${report.status === "RESOLVED" ? "btn-primary" : "btn-outline-primary"}`}
+            {/* Item Recovered */}
+            <div className="action-wrapper">
+              <OverlayTrigger placement="bottom" overlay={renderTooltip("Mark as resolved once the item is back with you.")}>
+                <button 
+                  className={getButtonClass("RESOLVED")}
                   onClick={() => onUpdateStatus(report.id, "RESOLVED")}
+                  style={{ color: "#87ceeb" }}
                 >
                   Item Recovered
                 </button>
               </OverlayTrigger>
+              <p className="extra-small text-muted mt-2">Case closed! The item is back in your hands. This will resolve the report.</p>
+            </div>
 
-              {/* Spam Button */}
-              <OverlayTrigger
-                placement="bottom"
-                overlay={renderTooltip(
-                  "Mark this as fake or irrelevant. It will be moved out of your active reports.",
-                )}
-              >
-                <button
-                  className={`btn btn-outline-danger w-100 fw-bold ${report.status === "SPAM" ? "btn-primary" : "btn-outline-primary"}`}
+            {/* Spam */}
+            <div className="action-wrapper">
+              <OverlayTrigger placement="bottom" overlay={renderTooltip("Mark as spam to remove from active list.")}>
+                <button 
+                  className={getButtonClass("SPAM")}
                   onClick={() => onUpdateStatus(report.id, "SPAM")}
+                  style={{ color: "#f08080" }}
                 >
                   Spam
                 </button>
               </OverlayTrigger>
+              <p className="extra-small text-muted mt-2">Mark this as fake or irrelevant. It will be moved out of your active reports.</p>
             </div>
           </div>
         </Col>
@@ -145,66 +148,3 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
 };
 
 export default ReportDetail;
-
-// import { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-// import { reportsApi } from "../../api/reportsApi";
-
-// export default function ReportDetail() {
-//   const { reportId } = useParams();
-//   const [report, setReport] = useState(null);
-
-//   useEffect(() => {
-//     reportsApi.detail(reportId).then((res) => setReport(res.data));
-//   }, [reportId]);
-
-//   if (!report) return <p className="p-6">Loading…</p>;
-
-//   const updateStatus = async (status) => {
-//     await reportsApi.updateStatus(reportId, status);
-//     setReport({ ...report, status });
-//   };
-
-//   return (
-//     <div className="p-6 max-w-xl mx-auto">
-//       <h1 className="text-xl font-bold mb-4">Report Details</h1>
-
-//       <p><strong>Email:</strong> {report.finder_email}</p>
-
-//       <p><strong>Phone:</strong> {report.finder_phone || "N/A"}</p>
-
-//       <p><strong>Message:</strong> {report.message}</p>
-
-//       <p><strong>Location:</strong> {report.found_location_text || "N/A"}</p>
-
-//       <p><strong>Verification:</strong> {report.verification_answer || "N/A"}</p>
-
-//       <p><strong>Status:</strong> {report.status}</p>
-
-//       <div className="mt-4 flex gap-2">
-
-//         <button onClick={() => updateStatus("OWNER_CONTACTED")} className="btn">
-
-//           Owner Contacted
-
-//         </button>
-
-//         <button onClick={() => updateStatus("RESOLVED")} className="btn">
-
-//           Resolved
-
-//         </button>
-
-//         <button onClick={() => updateStatus("SPAM")} className="btn">
-
-//           Mark Spam
-
-//         </button>
-
-//       </div>
-
-//     </div>
-
-//   );
-
-// }
