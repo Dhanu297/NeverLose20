@@ -12,14 +12,51 @@ import customQR from "../../assets/CustomQR.svg";
 import ConfirmDialog from "../confirmDialog/ConfirmDialog";
 import "./LabelScreen.css";
 
-export default function LabelScreen() {
+export default function LabelScreen({ item: propItem, embedded = true }) {
   const { itemId } = useParams();
   const location = useLocation();
 
-  // Item data passed from ItemCard via navigate()
-  const initialItem = location.state;
+//  IMPORTANT FIX
+const initialItem = propItem || location.state;
+const defaultPresets = [
+  {
+    id: "wallet",
+    name: "Wallet",
+    description: "Standard ID size (8.5 x 5.4 cm)",
+    shape: "rect",
+    widthMm: 85.6,
+    heightMm: 54.0,
+  },
+  {
+    id: "airtag",
+    name: "AirTag",
+    description: "Circular sticker (3.2 cm diameter)",
+    shape: "circle",
+    diameterMm: 32.0,
+  },
+  {
+    id: "small-tag",
+    name: "Small Tag",
+    description: "Ideal for keychains (3 x 2 cm)",
+    shape: "rect",
+    widthMm: 30.0,
+    heightMm: 20.0,
+  },
+  {
+    id: "custom",
+    name: "Custom",
+    description: "Set your own dimensions",
+  },
+];
 
-  const [item, setItem] = useState(initialItem);
+const [item, setItem] = useState(() => {
+  if (!initialItem) return null;
+
+  return {
+    ...initialItem,
+    labelPresets: initialItem.labelPresets || defaultPresets,
+  };
+});
   const [error, setError] = useState("");
 
   // Custom size inputs
@@ -29,59 +66,6 @@ export default function LabelScreen() {
   //confirmation States
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [selectedPresetId, setSelectedPresetId] = useState(null);
-
-  // If user refreshes the page, state is lost → fetch minimal item info
-  useEffect(() => {
-    const loadItem = async () => {
-      try {
-        const res = await itemApi.getItemById(itemId);
-        const data = res;
-
-        // Default presets
-        const labelPresets = [
-          {
-            id: "wallet",
-            name: "Wallet",
-            description: "Standard ID size (8.5 x 5.4 cm)",
-            shape: "rect",
-            widthMm: 85.6,
-            heightMm: 54.0,
-          },
-          {
-            id: "airtag",
-            name: "AirTag",
-            description: "Circular sticker (3.2 cm diameter)",
-            shape: "circle",
-            diameterMm: 32.0,
-          },
-          {
-            id: "small-tag",
-            name: "Small Tag",
-            description: "Ideal for keychains (3 x 2 cm)",
-            shape: "rect",
-            widthMm: 30.0,
-            heightMm: 20.0,
-          },
-          {
-            id: "custom",
-            name: "Custom",
-            description: "Set your own dimensions",
-          },
-        ];
-
-        setItem({
-          ...data,
-          labelPresets: data.labelPresets || labelPresets,
-        });
-      } catch (err) {
-        console.error(err);
-        setError("Unable to load item details.");
-      }
-    };
-
-    loadItem();
-  }, [initialItem, itemId]);
-
   const downloadPreset = async (preset) => {
     try {
       let payload = { preset }; // DO NOT CHANGE API CALL STRUCTURE
@@ -105,7 +89,7 @@ export default function LabelScreen() {
         payload.heightMm = h;
       }
 
-      const res = await labelApi.downloadPdf(itemId, payload);
+      const res = await labelApi.downloadPdf(propItem.id, payload);
 
       const blob = new Blob([res.data], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
@@ -140,43 +124,60 @@ export default function LabelScreen() {
     setSelectedPresetId(null);
   };
 
-  if (error) return <div className="alert alert-danger m-5">{error}</div>;
+  if (!embedded && error) {
+  return <div className="alert alert-danger m-5">{error}</div>;
+}
   if (!item) {
     return <p className="p-6">Loading…</p>;
   }
-
+console.log("ITEM:", item);
+console.log("PRESETS:", item?.labelPresets);
   return (
-    <div className="container py-5">
+    <div className={embedded ? "embedded-label-box" : "container py-5"}>
       <div
-        className="rounded-5 p-4 p-md-5 shadow-lg border-0"
-        style={{ backgroundColor: "var(--nl-deep-blue)", color: "white" }}
-      >
-        <div className="d-flex justify-content-between align-items-center mb-5">
-          <div>
-            <h1 className="display-5 fw-extrabold mb-0">
-              Download your QR Code
-            </h1>
-            <p className="fs-4" style={{ color: "white" }}>
-              {item.nickname}
-            </p>
+  className="rounded-5 p-4 p-md-5 shadow-lg border-0"
+  style={{ backgroundColor: "var(--nl-deep-blue)", color: "white" }}
+>
 
-            <p className="font-semibold">
-              Public Scan URL:
-              <code className="block bg-gray-100 p-2 rounded text-sm mt-1">
-                {item.publicUrl}
-              </code>
-            </p>
-          </div>
-          <div className="d-none d-md-flex align-items-center gap-3 p-3 rounded-4">
-            <img alt="" src={qrIcon} width="50" className="me-2" />
-            <i className="bi bi-arrow-right"></i>
-            <img alt="" src={printIcon} width="50" className="me-2" />
-            <i className="bi bi-arrow-right"></i>
-            <img alt="" src={tagIcon} width="60" className="me-2" />
-          </div>
-        </div>
+  {/* 🔥 FULL PAGE HEADER */}
+  {!embedded && (
+    <div className="d-flex justify-content-between align-items-center mb-5">
+      <div>
+        <h1 className="display-5 fw-extrabold mb-0">
+          Download your QR Code
+        </h1>
+        <p className="fs-4">{propItem.nickname}</p>
 
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+        <p>
+          Public Scan URL:
+          <code className="d-block bg-light text-dark p-2 rounded mt-1">
+            {propItem.publicUrl}
+          </code>
+        </p>
+      </div>
+
+      <div className="d-none d-md-flex align-items-center gap-3">
+        <img src={qrIcon} width="40" />
+        <i className="bi bi-arrow-right"></i>
+        <img src={printIcon} width="40" />
+        <i className="bi bi-arrow-right"></i>
+        <img src={tagIcon} width="50" />
+      </div>
+    </div>
+  )}
+
+  {/*  EMBEDDED HEADER (FIGMA STYLE) */}
+  {embedded && (
+    <div className="mb-4">
+      <h4 className="fw-bold mb-0">
+        Ready to protect it?{" "}
+        <span className="fw-normal">Print your QR Code</span>
+      </h4>
+    </div>
+  )}
+
+  {/*  GRID */}
+  <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
           {item.labelPresets?.map((preset) => (
             <div key={preset.id} className="col">
               {/* Card */}

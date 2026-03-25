@@ -13,6 +13,8 @@ const EditItemComponent = ({ item }) => {
   const { formData, handleChange, handlePhotoChange } = useEditFormData(item);
 
   const handleSubmit = async () => {
+    try
+    {
     await updateItem({
       nickname: formData.nickname,
       description: formData.description,
@@ -21,19 +23,38 @@ const EditItemComponent = ({ item }) => {
       photoUrl: formData.photoUrl,
     });
 
-    navigate(`/items/${item.id}`);
+    navigate(`/item-details/${item.id}`);
+  }
+  catch(error)
+  {
+    console.log("Error in update")
+  }
   };
 
   return (
     <div className="main-card p-4">
-      <h3 className="text-white fw-bold mb-4">Edit Your Item</h3>
+      <div className="mx-auto"></div>
+      <h3 className="text-white fw-bold mb-1">
+        Edit Your Item
+      </h3>
 
-      <div className="bg-white rounded-4 shadow-sm w-100 px-5 py-4">
-        <div className="d-flex gap-4 align-items-stretch">
+      {/* BACK BUTTON */}
+      <button
+        className="btn btn-link text-white text-decoration-none p-0 mb-3"
+        onClick={() => navigate(-1)}
+      >
+        <i className="bi bi-chevron-left"></i>
+        <span className="ms-1">Back</span>
+      </button>
+      <div
+        className="bg-white rounded-4 shadow-sm w-100 mx-auto px-4 py-4"
+        
+      >
+        <div className="row" style={{ maxWidth: "900px" }} >
 
           {/* LEFT SIDE */}
-          <div style={{ width: "35%" }}>
-            <p className="fw-semibold mt-2">Upload a Photo:</p>
+          <div className="col-md-4">
+            <p className="fw-semibold mt-2">Upload Photo:(Click Image To Upload)</p>
             <UploadPhoto
               photoUrl={formData.photoUrl}
               onUploaded={(url) =>
@@ -62,7 +83,7 @@ const EditItemComponent = ({ item }) => {
           </div>
 
           {/* RIGHT SIDE */}
-          <div style={{ width: "65% " }}>
+          <div className="col-md-8">
             <div className="mb-3">
               <label>Item Nickname:</label>
               <input
@@ -95,14 +116,7 @@ const EditItemComponent = ({ item }) => {
               />
             </div>
 
-            <div className="d-flex justify-content-between mt-auto pt-3">
-              <CustomButton
-                variant="outline"
-                onClick={() => navigate(-1)}
-              >
-                Back
-              </CustomButton>
-
+            <div className="d-flex justify-content-end mt-4">
               <CustomButton
                 variant="primary"
                 disabled={saving}

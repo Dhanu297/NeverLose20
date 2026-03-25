@@ -65,11 +65,29 @@ exports.ReportService = {
 
     if (reportSnap.exists) {
       const { itemId } = reportSnap.data();
-
+  // 2a. Mark the item as SAFE
       await db.collection(ITEMS).doc(itemId).update({
         status: "SAFE",
         updatedAt,
       });
+      // 2b. Mark ALL reports for this item as CLOSED
+      const allReportsSnap = await db
+        .collection(REPORTS)
+        .where("itemId", "==", itemId)
+        .get();
+
+      const batch = db.batch();
+
+      allReportsSnap.forEach((doc) => {
+        batch.update(doc.ref, {
+          reportStatus: "CLOSED",
+          internalStatus: "CLOSE",
+          updatedAt,
+        });
+      });
+
+      await batch.commit();
+
     }
   }
 

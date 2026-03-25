@@ -22,8 +22,12 @@ export default function CreateItemPage() {
   const navigate = useNavigate();
 
   async function handleCreate() {
-    const res = await itemApi.create(form);
-    navigate(`/label/${res.data.itemId}`, { state: res.data });
+    try {
+       const res = await itemApi.create(form);
+    navigate(`/item-details/${res.data.itemId}`);
+    } catch (error) {
+      console.log("Error in item creation.")
+    }   
   }
 
   return (
