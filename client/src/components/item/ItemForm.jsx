@@ -20,12 +20,16 @@ function ItemForm({ form, setForm, next }) {
   return (
     <div className="item-form-content">
       <h3 className="text-white text-center fw-bold mb-4 display-6">
-        Create your item
+        Create Your Item
       </h3>
 
-      <div className="d-flex align-items-center justify-content-center px-5 bg-white rounded-4 shadow-sm w-100">
-        <div style={{ maxWidth: "900px" }}>
-          <p className="text-center text-muted m-5 mx-auto">
+      <div className="d-flex align-items-center justify-content-center px-4 px-lg-5 bg-white rounded-4 shadow-sm w-100">
+        <div style={{ width: "100%", maxWidth: "1300px" }}>
+          {" "}
+          <p
+            className="text-center text-muted my-4 mx-auto"
+            style={{ maxWidth: "600px" }}
+          >
             This info helps organize your inventory and helps the finder
             identify your item.
           </p>
@@ -34,7 +38,7 @@ function ItemForm({ form, setForm, next }) {
               {/* left side */}
               <div className="col-md-6 order-2 order-md-1">
                 <label className="form-label fw-semibold mb-1">
-                  Upload a photo:
+                  Upload Photo:
                 </label>
 
                 <UploadPhoto
@@ -89,7 +93,6 @@ function ItemForm({ form, setForm, next }) {
               </div>
             </div>
           </div>
-
           {/* Progress Bar */}
           <div className=" p-2 mt-3 mx-auto" style={{ maxWidth: "450px" }}>
             <div className="progress rounded-pill" style={{ height: "10px" }}>
