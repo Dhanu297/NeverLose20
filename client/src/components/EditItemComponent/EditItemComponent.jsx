@@ -26,25 +26,28 @@ const EditItemComponent = ({ item }) => {
 
   return (
     <div className="main-card p-4">
-  <div className="d-flex justify-content-between align-items-center mb-2 px-2">
-    <button
-      className="btn btn-link text-white text-decoration-none"
-      onClick={() => navigate(-1)}
-    >
-      <i className="bi bi-chevron-left"></i> Back
-    </button>
-  </div>
-      <h3 className="text-white fw-bold mb-4">Edit Your Item</h3>
+      <div className="mx-auto"></div>
+      <h3 className="text-white fw-bold mb-1">
+        Edit Your Item
+      </h3>
 
-      <div className="bg-white rounded-4 shadow-sm w-100 px-5 py-4">
-        <div className="d-flex gap-4 align-items-stretch">
+      {/* BACK BUTTON */}
+      <button
+        className="btn btn-link text-white text-decoration-none p-0 mb-3"
+        onClick={() => navigate(-1)}
+      >
+        <i className="bi bi-chevron-left"></i>
+        <span className="ms-1">Back</span>
+      </button>
+      <div
+        className="bg-white rounded-4 shadow-sm w-100 mx-auto px-4 py-4"
+        
+      >
+        <div className="row" style={{ maxWidth: "900px" }} >
 
           {/* LEFT SIDE */}
-          <div style={{ width: "35%" }}>
-            <p className="fw-semibold mt-2">Upload A Photo:(Click Image To Upload)</p>
-            {/* <span className="text-muted small">
-    (Click image to upload)
-  </span> */}
+          <div className="col-md-4">
+            <p className="fw-semibold mt-2">Upload Photo:(Click Image To Upload)</p>
             <UploadPhoto
               photoUrl={formData.photoUrl}
               onUploaded={(url) =>
@@ -73,7 +76,7 @@ const EditItemComponent = ({ item }) => {
           </div>
 
           {/* RIGHT SIDE */}
-          <div style={{ width: "65% " }}>
+          <div className="col-md-8">
             <div className="mb-3">
               <label>Item Nickname:</label>
               <input
@@ -106,7 +109,7 @@ const EditItemComponent = ({ item }) => {
               />
             </div>
 
-            <div className="d-flex justify-content-between mt-auto pt-3">
+            <div className="d-flex justify-content-end mt-4">
               <CustomButton
                 variant="primary"
                 disabled={saving}
