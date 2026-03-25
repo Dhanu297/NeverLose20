@@ -21,6 +21,8 @@ describe('Create Item Flow - NeverLose', () => {
 
     // Upload image (mock file)
     cy.get('input[type="file"]').selectFile('cypress/fixtures/backpack.jpeg', { force: true });
+    cy.log('Pausing for 20 seconds to inspect the uploaded image...');
+    cy.wait(10000);
 
     // Click Next
     cy.contains('Next').click();

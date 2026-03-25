@@ -13,6 +13,8 @@ const EditItemComponent = ({ item }) => {
   const { formData, handleChange, handlePhotoChange } = useEditFormData(item);
 
   const handleSubmit = async () => {
+    try
+    {
     await updateItem({
       nickname: formData.nickname,
       description: formData.description,
@@ -21,7 +23,12 @@ const EditItemComponent = ({ item }) => {
       photoUrl: formData.photoUrl,
     });
 
-    navigate(`/items/${item.id}`);
+    navigate(`/item-details/${item.id}`);
+  }
+  catch(error)
+  {
+    console.log("Error in update")
+  }
   };
 
   return (
