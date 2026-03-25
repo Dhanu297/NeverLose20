@@ -14,7 +14,7 @@ export default function ItemDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user, loading: authLoading } = useContext(AuthContext);
-  
+
   const { item, loading, error } = useItemDetails(id);
   const { deleteItem, loadingDel } = useDeleteItem();
   const confirm = useConfirmDialog();
@@ -35,12 +35,17 @@ export default function ItemDetailsPage() {
   return (
     <MainLayout username={user?.displayName || "User"}>
       <div className="container mt-4">
-        <div className="d-flex justify-content-between align-items-center mb-3 px-2">
-          <button className="btn btn-link text-white text-decoration-none" onClick={() => navigate(-1)}>
-            <i className="bi bi-chevron-left"></i> Back
-          </button>
-        </div>
+        <button
+          className="btn btn-link text-white text-decoration-none p-0"
+          onClick={() => navigate(-1)}
+        >
+          <i className="bi bi-chevron-left me-1"></i>
+           Back
+        </button>
 
+        <div className="px-4 pt-4 pb-3">
+          <h3 className="text-white fw-bold mb-1">Item Details</h3>
+        </div>
         {error ? (
           <div className="alert alert-danger">{error}</div>
         ) : (

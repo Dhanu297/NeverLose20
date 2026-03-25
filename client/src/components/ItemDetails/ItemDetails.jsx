@@ -17,13 +17,9 @@ function ItemDetails({ item, onDelete, loadingDel }) {
         />
       
           <ItemCard data={item} />
-      
-          <button 
-            className="btn btn-primary rounded-pill px-4"
-            onClick={() => navigate(`/label/${item.id}`, { state: item })}
-          >
-            View & Download Labels
-          </button>
+          <div className="mt-4">
+  <LabelScreen item={item} embedded/>
+</div>
        
     </div>
   );

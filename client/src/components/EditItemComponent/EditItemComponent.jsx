@@ -26,6 +26,14 @@ const EditItemComponent = ({ item }) => {
 
   return (
     <div className="main-card p-4">
+  <div className="d-flex justify-content-between align-items-center mb-2 px-2">
+    <button
+      className="btn btn-link text-white text-decoration-none"
+      onClick={() => navigate(-1)}
+    >
+      <i className="bi bi-chevron-left"></i> Back
+    </button>
+  </div>
       <h3 className="text-white fw-bold mb-4">Edit Your Item</h3>
 
       <div className="bg-white rounded-4 shadow-sm w-100 px-5 py-4">
@@ -33,7 +41,10 @@ const EditItemComponent = ({ item }) => {
 
           {/* LEFT SIDE */}
           <div style={{ width: "35%" }}>
-            <p className="fw-semibold mt-2">Upload a Photo:</p>
+            <p className="fw-semibold mt-2">Upload A Photo:(Click Image To Upload)</p>
+            {/* <span className="text-muted small">
+    (Click image to upload)
+  </span> */}
             <UploadPhoto
               photoUrl={formData.photoUrl}
               onUploaded={(url) =>
@@ -96,13 +107,6 @@ const EditItemComponent = ({ item }) => {
             </div>
 
             <div className="d-flex justify-content-between mt-auto pt-3">
-              <CustomButton
-                variant="outline"
-                onClick={() => navigate(-1)}
-              >
-                Back
-              </CustomButton>
-
               <CustomButton
                 variant="primary"
                 disabled={saving}
