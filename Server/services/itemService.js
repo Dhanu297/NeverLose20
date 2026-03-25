@@ -64,7 +64,7 @@ exports.ItemService = {
       photoUrl: payload.photoUrl || "",
       verification: payload.verification || { enabled: false },
       token,
-      status: "ACTIVE",
+      status: "SAFE",
       createdAt,
       lastActivityAt: null,
     };

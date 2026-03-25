@@ -1,8 +1,8 @@
-const {PublicService} = require("../services/publicService")
+const { PublicService } = require("../services/publicService");
 const { sendFoundReportEmail } = require("../services/emailService");
 // GET /api/public/items/:token
 async function getPublicItem(req, res) {
- try {
+  try {
     const { token } = req.params;
 
     const item = await PublicService.getItemByToken(token);
@@ -18,7 +18,6 @@ async function getPublicItem(req, res) {
     console.error("Public item fetch error:", err);
     res.status(500).json({ error: "Server error" });
   }
-
 }
 
 // POST /api/public/items/:token/found
@@ -45,22 +44,21 @@ async function submitFoundReport(req, res) {
           .json({ error: "Verification answer is required" });
       }
     }
-const ip = req.headers["x-forwarded-for"] || req.ip;
+    const ip = req.headers["x-forwarded-for"] || req.ip;
 
-await PublicService.createFoundReport({
-  item,
-  token,
-  payload: req.body,
-  ip
-});
-   
-const reportId = result.reportId;
-   // res.status(201).json(result); // { ok: true, reportId }
-      // Fetch owner email
- const owner = await PublicService.getItemOwner(ownerid);
+    const result = await PublicService.createFoundReport({
+      item,
+      token,
+      payload: req.body,
+      ip,
+    });
 
-  const emailBody = `
-Your item "${item.nickname}" was reported found.
+    const reportId = result.reportId;
+    // res.status(201).json(result); // { ok: true, reportId }
+    // Fetch owner email
+    const owner = await PublicService.getItemOwner(ownerid);
+
+    const emailBody = `Your item "${item.nickname}" was reported found.
 
 Finder Email: ${payload.finder.email}
 Finder Phone: ${payload.finder.phone || "N/A"}
@@ -72,38 +70,33 @@ Photo: ${payload.photoUrl || "N/A"}
 
   `;
 
-  await sendFoundReportEmail({
-    to: owner.email,
-    subject: "Your item was found",
-    body: emailBody
-  });
+    await sendFoundReportEmail({
+      to: owner.email,
+      subject: "Your item was found",
+      body: emailBody,
+    });
 
-  return res.status(201).json({ ok: true, reportId});
+    return res.status(201).json({ ok: true, reportId });
   } catch (err) {
-   if (err.code === "RATE_LIMITED") {
-    return res.status(429).json({
+    if (err.code === "RATE_LIMITED") {
+      return res.status(429).json({
+        ok: false,
+        error: "RATE_LIMITED",
+        message: "Too many submissions. Please try again later.",
+      });
+    }
+    else {
+    // fallback
+    res.status(500).json({
       ok: false,
-      error: "RATE_LIMITED",
-      message: "Too many submissions. Please try again later.",
+      error: "SERVER_ERROR",
+      message: err.message,
     });
   }
-
-  // fallback
-  res.status(500).json({
-    ok: false,
-    error: "SERVER_ERROR",
-    message: err.message,
-  });
-
   }
-
-
-   
-
-  
 }
 
 module.exports = {
   getPublicItem,
-  submitFoundReport
+  submitFoundReport,
 };
