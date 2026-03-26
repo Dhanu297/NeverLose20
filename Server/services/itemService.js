@@ -97,8 +97,7 @@ exports.ItemService = {
       const reportsSnap = await db
         .collection("foundReports")
         .where("itemId", "==", item.id)
-        .where("internalStatus", "==", "OPEN")
-        .where("reportStatus", "!=", "SPAM")      
+        .where("internalStatus", "==", "OPEN")            
         .get();
 
       results.push({
