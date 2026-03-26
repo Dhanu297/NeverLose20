@@ -14,6 +14,9 @@ function VerificationStep({ form, setForm, next, back }) {
     });
   const totalSteps = 3;
   const currentStep = 2;
+  const isButtonDisabled =
+    form.verification.enabled &&
+    (!form.verification.question || form.verification.question.trim() === "");
 
   return (
     <div className="item-form-content">
@@ -44,7 +47,7 @@ function VerificationStep({ form, setForm, next, back }) {
                         className="d-flex align-items-center justify-content-center bg-light"
                         style={{ minHeight: "180px" }}
                       >
-                        <span className="text-muted small italic">
+                        <span className="text-muted small">
                           No image uploaded
                         </span>
                       </div>
@@ -73,11 +76,18 @@ function VerificationStep({ form, setForm, next, back }) {
                 {form.verification.enabled && (
                   <div className="mb-3">
                     <label className="form-label fw-semibold">
-                      Your Security Question:
+                      <span className="text-danger me-1">*</span>Your Security
+                      Question:
                     </label>
+
                     <textarea
-                      type="text"
+                      style={{
+                        zIndex: 2,
+                        position: "relative",
+                        backgroundColor: "var(--nl-light-bg)",
+                      }}
                       className="form-control"
+                      maxLength={200}
                       rows="4"
                       value={form.verification.question}
                       onChange={(e) =>
@@ -91,10 +101,23 @@ function VerificationStep({ form, setForm, next, back }) {
                       }
                       placeholder="e.g., What color is the inside pocket or is there any specific brand on the zipper?"
                     />
-                    <p className="small text-muted mt-2">
-                      The finder will see this question to prove they have the
-                      item.
-                    </p>
+                    <div
+                      className="nl-animated-fade position-relative mt-1 pt-1 d-flex justify-content-between px-2"
+                      style={{
+                        zIndex: 1,
+                      }}
+                    >
+                      <p
+                        className="text-muted small mb-0"
+                        style={{ maxWidth: "75%" }}
+                      >
+                        The finder will see this question to prove they have the
+                        item.
+                      </p>
+                      <p className="text-end small fw-medium mb-0">
+                        {form.verification.question?.length || 0}/200
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>
@@ -104,7 +127,11 @@ function VerificationStep({ form, setForm, next, back }) {
                 <CustomButton variant="outline" onClick={back}>
                   Back
                 </CustomButton>
-                <CustomButton variant="primary" onClick={next}>
+                <CustomButton
+                  variant="primary"
+                  onClick={next}
+                  disabled={isButtonDisabled}
+                >
                   Review & Create
                 </CustomButton>
               </div>

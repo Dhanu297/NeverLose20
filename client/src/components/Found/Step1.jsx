@@ -53,12 +53,20 @@ export default function Step1ItemPreview({
                 placeholder="Provide a brief detail (e.g., color, stickers, unique marks)..."
                 value={answer}
                 onChange={(e) => setAnswer(e.target.value)}
+                maxLength={200}
               />
               {!isAnswerValid && (
-                <div className="nl-animated-fade">
-                  <small className="text-danger mt-1 d-block ms-2 fw-medium">
+                <div className="nl-animated-fade d-flex justify-content-between align-items-center mt-1 px-2">
+                  <small
+                    className="text-danger fw-medium"
+                    style={{ maxWidth: "75%" }}
+                  >
                     Please provide a brief answer to help the owner
                   </small>
+
+                  <p className="text-muted small mb-0">
+                    {answer?.length || 0}/200
+                  </p>
                 </div>
               )}
             </div>

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 function ItemForm({ form, setForm, next }) {
   const [error, setError] = useState("");
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const handleNext = () => {
     if (!form.nickname.trim()) {
@@ -22,18 +22,16 @@ function ItemForm({ form, setForm, next }) {
   return (
     <div className="item-form-content">
       <div className="d-flex flex-column align-items-start mb-3">
-  <h3 className="text-white fw-bold mb-1">
-    Create Your Item
-  </h3>
+        <h3 className="text-white fw-bold mb-2">Create Your Item</h3>
 
-  <button
-    className="btn btn-link text-white text-decoration-none p-0"
-    onClick={() => navigate(-1)}
-  >
-    <i className="bi bi-chevron-left"></i>
-    <span className="ms-1">Back</span>
-  </button>
-</div>
+        <button
+          className="btn btn-link text-white text-decoration-none p-0"
+          onClick={() => navigate(-1)}
+        >
+          <i className="bi bi-chevron-left"></i>
+          <span className="ms-1">Back</span>
+        </button>
+      </div>
 
       <div className="d-flex align-items-center justify-content-center px-4 px-lg-5 bg-white rounded-4 shadow-sm w-100">
         <div style={{ width: "100%", maxWidth: "1300px" }}>
@@ -71,6 +69,7 @@ function ItemForm({ form, setForm, next }) {
                     type="text"
                     className="form-control"
                     value={form.nickname}
+                    maxLength={50}
                     required
                     onChange={(e) =>
                       setForm({ ...form, nickname: e.target.value })
@@ -87,6 +86,7 @@ function ItemForm({ form, setForm, next }) {
                   <label className="form-label fw-semibold">Description:</label>
                   <textarea
                     className="form-control"
+                    maxLength={200}
                     rows="5"
                     value={form.description}
                     onChange={(e) =>
@@ -94,6 +94,9 @@ function ItemForm({ form, setForm, next }) {
                     }
                     placeholder="Mention unique details like marks or tags"
                   />
+                  <p className="text-end small mt-1 me-2">
+                    {form.description?.length || 0}/200
+                  </p>
                 </div>
               </div>
 

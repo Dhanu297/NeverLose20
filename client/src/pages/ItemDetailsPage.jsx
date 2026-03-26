@@ -26,7 +26,7 @@ export default function ItemDetailsPage() {
         const result = await deleteItem(id);
         if (result.ok) navigate("/dashboard");
         confirm.close();
-      }
+      },
     );
   };
 
@@ -35,24 +35,26 @@ export default function ItemDetailsPage() {
   return (
     <MainLayout username={user?.displayName || "User"}>
       <div className="px-4 pt-4">
-  <div className="d-flex flex-column align-items-start">
-    <h3 className="text-white fw-bold mb-1">
-      Item Details
-    </h3>
-    <button
-      className="btn btn-link text-white text-decoration-none p-0 mb-3"
-      onClick={() => navigate(-1)}
-      style={{ lineHeight: "1" }}
-    >
-      <i className="bi bi-chevron-left"></i> 
-      <span className="ms-1">Back</span>
-    </button>
+        <div className="d-flex flex-column align-items-start mb-3">
+          <h3 className="text-white fw-bold mb-2">Item Details</h3>
 
-  </div>
+          <button
+            className="btn btn-link text-white text-decoration-none p-0"
+            onClick={() => navigate(-1)}
+          >
+            <i className="bi bi-chevron-left"></i>
+            <span className="ms-1">Back</span>
+          </button>
+        </div>
+
         {error ? (
           <div className="alert alert-danger">{error}</div>
         ) : (
-          <ItemDetails item={item} onDelete={handleDelete} loadingDel={loadingDel} />
+          <ItemDetails
+            item={item}
+            onDelete={handleDelete}
+            loadingDel={loadingDel}
+          />
         )}
       </div>
 

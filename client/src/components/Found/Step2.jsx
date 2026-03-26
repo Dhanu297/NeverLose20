@@ -92,6 +92,7 @@ function Step2Verification({
             <div className="col-md-8">
               <input
                 type="email"
+                maxLength={50}
                 className={"form-control"}
                 placeholder="Enter your email"
                 value={reportData.finder.email}
@@ -120,11 +121,12 @@ function Step2Verification({
                 className="form-control"
                 placeholder="Ex: I left it with the security guard at..."
                 rows={4}
+                maxLength={500}
                 value={reportData.message}
                 onChange={(e) => update("message", e.target.value)}
                 style={{ resize: "none" }}
               />
-              <div className="text-end mt-1 me-2">
+              <div className="text-end small mt-1 me-2">
                 <small
                   className={`fw-medium ${isMessageTooLong ? "text-danger" : "text-muted"}`}
                   style={{ fontSize: "0.75rem" }}
@@ -154,6 +156,7 @@ function Step2Verification({
             <div className="col-md-8">
               <input
                 type="text"
+                maxLength={50}
                 className="form-control"
                 placeholder="Central Park, near the fountain..."
                 value={reportData.foundLocationText}
@@ -174,6 +177,7 @@ function Step2Verification({
                 <div className="col-6">
                   <input
                     type="text"
+                    maxLength={50}
                     className="form-control"
                     placeholder="Name"
                     value={reportData.finder.name || ""}
