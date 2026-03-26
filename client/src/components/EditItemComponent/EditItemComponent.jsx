@@ -11,13 +11,16 @@ const EditItemComponent = ({ item }) => {
 
   // Pass item directly into your hook
   const { formData, handleChange, handlePhotoChange } = useEditFormData(item);
+  const [enableVerification, setEnableVerification] = React.useState(
+    !!item?.securityQuestion
+  );
 
   const handleSubmit = async () => {
     try {
       await updateItem({
         nickname: formData.nickname,
         description: formData.description,
-        securityQuestion: formData.securityQuestion,
+        securityQuestion: enableVerification ? formData.securityQuestion : "",
         status: formData.status,
         photoUrl: formData.photoUrl,
       });
@@ -113,18 +116,30 @@ const EditItemComponent = ({ item }) => {
                   onChange={handleChange}
                 />
               </div>
-
               <div className="mb-3">
-                <label className="fw-semibold">Security Question</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="securityQuestion"
-                  value={formData.securityQuestion}
-                  onChange={handleChange}
-                />
-              </div>
+                <div className="d-flex justify-content-between align-items-center mb-2">
+                  <label className="fw-semibold mb-0">Security Question</label>
 
+                  <div className="form-check form-switch">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      checked={enableVerification}
+                      onChange={(e) => setEnableVerification(e.target.checked)}
+                    />
+                  </div>
+                </div>
+                {enableVerification && (
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="securityQuestion"
+                    value={formData.securityQuestion}
+                    onChange={handleChange}
+                    placeholder="Enter your verification question"
+                  />
+                )}
+              </div>
               <div className="d-flex justify-content-end mt-4">
                 <CustomButton
                   variant="primary"
