@@ -50,7 +50,13 @@ const navigate = useNavigate();
      }
       
     } catch (err) {
-      alert("Error updating status");
+      navigate("/error", {
+    state: {
+      title: "Report update failed.",
+      message: "Report updation failed. Please try again.",
+      
+    },
+  });
     }
   };
 

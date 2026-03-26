@@ -15,7 +15,7 @@ import EditItemPage from "../pages/EditItemPage"
 import LandingPage from "../pages/LandingPage";
 import HowItWork from "../pages/HowItWork";
 import Features from "../pages/features";
-
+import GenericErrorPage from "../pages/GenericErrorPage";
 // PrivateRoute Component: If the user is not authenticated, it redirects them to the login page using the Navigate component
 function PrivateRoute({ children }) {
   const { user, loading } = useContext(AuthContext);
@@ -47,6 +47,8 @@ const AppRoutes = () => {
 <Route path="/edit-item/:id" element={<EditItemPage />} />
       {/* Default redirection - if the path does not exist */}
       <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="/error" element={<GenericErrorPage />} />
+
     </Routes>
   );
 };

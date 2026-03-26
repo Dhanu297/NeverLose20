@@ -46,8 +46,13 @@ export const useDashboard = () => {
 
         setItems(rawItems);
       } catch (err) {
-        console.error("Failed to load items:", err);
-        setError("Could not sync with the database.");
+         navigate("/error", {
+    state: {
+      title: "Could not load your items",
+      message: "Could not load your items. Please try again.",
+      
+    },
+  });
       } finally {
         setLoading(false);
       }

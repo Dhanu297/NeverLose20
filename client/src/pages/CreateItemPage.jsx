@@ -25,9 +25,18 @@ export default function CreateItemPage() {
     try {
        const res = await itemApi.create(form);
     navigate(`/item-details/${res.data.itemId}`);
-    } catch (error) {
-      console.log("Error in item creation.")
-    }   
+    }catch (error) {
+  console.error("Error in item creation:", error);
+
+  navigate("/error", {
+    state: {
+      title: "Item Creation Failed",
+      message: "We couldn’t create your item. Please try again.",
+      
+    },
+  });
+}
+
   }
 
   return (

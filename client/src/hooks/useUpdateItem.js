@@ -8,7 +8,18 @@ export function useUpdateItem(itemId) {
     setLoading(true);
     try {
       return await itemApi.updateItem(itemId, data);
-    } finally {
+    } 
+    catch(error)
+    {
+      navigate("/error", {
+    state: {
+      title: "Item updation Failed",
+      message: "We couldn’t update your item. Please try again.",
+      
+    },
+  });
+    }
+    finally {
       setLoading(false);
     }
   };
