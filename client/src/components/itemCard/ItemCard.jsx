@@ -1,5 +1,6 @@
 import EditDeleteComponent from "../EditDeleteComponent/EditDeleteComponent";
-const ItemCard = ({ data, onEdit, onDelete,showActions = false }) => {
+
+const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
   if (!data) return null;
 
   const { nickname, description, photoUrl, verification } = data;
@@ -7,11 +8,10 @@ const ItemCard = ({ data, onEdit, onDelete,showActions = false }) => {
   return (
     <div
       className="container mx-auto bg-white p-4 p-md-4"
-      style={{
-        maxWidth: "850px",
-      }}
+      style={{ maxWidth: "850px" }}
     >
       <div className="row align-items-center gx-lg-5">
+
         {/* LEFT SIDE IMAGE */}
         <div className="col-12 col-md-5 d-flex justify-content-center">
           <div
@@ -19,7 +19,6 @@ const ItemCard = ({ data, onEdit, onDelete,showActions = false }) => {
             style={{
               width: "100%",
               aspectRatio: "1 / 1",
-              transition: "transform 0.3s ease",
             }}
           >
             {photoUrl ? (
@@ -36,60 +35,49 @@ const ItemCard = ({ data, onEdit, onDelete,showActions = false }) => {
           </div>
         </div>
 
-        {/* RIGHT SIDE TEXT */}
-        <div className="col-md-7">
-          <h2 className="fw-bold mb-2" style={{ color: "var(--nl-deep-blue)" }}>
-            {nickname || "Unnamed Item"}
-          </h2>
-          <p className="text-muted mb-4">
-            {description || "No description provided."}
-          </p>
+        {/* RIGHT SIDE TEXT + ICONS */}
+        <div className="col-md-7 d-flex justify-content-between align-items-center">
 
-          {verification?.question && (
-            <div className="p-3 bg-light rounded-3">
-              <label
-                className="d-block fw-bold small text-uppercase mb-1"
-                style={{ color: "var(--nl-tech-blue)", letterSpacing: "1px" }}
-              >
-                Security Question
-              </label>
-              <span>{verification.question}</span>
+          {/* TEXT BLOCK */}
+          <div className="flex-grow-1">
+            <h2
+              className="fw-bold mb-2"
+              style={{ color: "var(--nl-deep-blue)" }}
+            >
+              {nickname || "Unnamed Item"}
+            </h2>
+
+            <p className="text-muted mb-4">
+              {description || "No description provided."}
+            </p>
+
+            {verification?.question && (
+              <div className="p-3 bg-light rounded-3">
+                <label
+                  className="d-block fw-bold small text-uppercase mb-1"
+                  style={{
+                    color: "var(--nl-tech-blue)",
+                    letterSpacing: "1px",
+                  }}
+                >
+                  Security Question
+                </label>
+                <span>{verification.question}</span>
+              </div>
+            )}
+          </div>
+
+          {/* ICONS */}
+          {showActions && (
+            <div className="ms-3">
+              <EditDeleteComponent onEdit={onEdit} onDelete={onDelete} />
             </div>
           )}
+
         </div>
       </div>
-      <div className="col-md-8 d-flex justify-content-between align-items-center">
-
-  {/* TEXT BLOCK */}
-  <div flex-grow-1>
-    <h2 className="fw-bold mb-2">{nickname || "Unnamed Item"}</h2>
-
-    <p className="text-muted mb-3">
-      {description || "No description provided."}
-    </p>
-
-    {verification?.question && (
-      <div className="p-3 bg-light rounded-3">
-        <small className="text-uppercase fw-bold text-muted d-block mb-1">
-          Security Question
-        </small>
-        <span>{verification.question}</span>
-      </div>
-    )}
-  </div>
-
-  {/* ICONS ON RIGHT */}
-  <div className="ms-3">
-    {showActions && (
-  <EditDeleteComponent onEdit={onEdit} onDelete={onDelete} />
-)}
-  </div>
-
-</div>
-</div>
+    </div>
   );
 };
-export default ItemCard;
 
-        
-      
+export default ItemCard;
