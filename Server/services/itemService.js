@@ -93,11 +93,12 @@ exports.ItemService = {
     // 3. Check if each item has reports
     const results = [];
 
-    for (const item of items) {
+    for (const item of items) {     
       const reportsSnap = await db
         .collection("foundReports")
         .where("itemId", "==", item.id)
         .where("internalStatus", "==", "OPEN")
+        .where("reportStatus", "!=", "SPAM")
         .limit(1)
         .get();
 

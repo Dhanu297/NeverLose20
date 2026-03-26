@@ -20,6 +20,7 @@ exports.ReportService = {
       .collection(REPORTS)
       .where("itemId", "==", itemId)
       .where("internalStatus", "==", "OPEN")
+      .where("reportStatus", "!=", "SPAM")
       .orderBy("createdAt", "desc")
       .get();
 

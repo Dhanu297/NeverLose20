@@ -1,44 +1,58 @@
-/* Base dark blue button */
+/* Layout Helpers */
+.min-w-150 { min-width: 150px; }
+.ls-wide { letter-spacing: 0.05rem; }
+.extra-small { font-size: 0.75rem; line-height: 1.3; }
+.italic { font-style: italic; }
+
+.status-divider {
+  height: 3px;
+  background-color: #b2f2bb; /* Light green from reference */
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.evidence-icon-box {
+  background-color: #1a368d;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Button Base Style */
 .manage-btn {
   background-color: #1a368d !important;
   border-radius: 10px;
   padding: 12px;
   border: 2px solid transparent !important;
   font-size: 1.1rem;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 1. HOVER EFFECT: Brighten and lift */
+/* Hover Effect */
 .manage-btn:hover:not(:disabled) {
-  filter: brightness(1.4);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(26, 54, 141, 0.4);
 }
 
-/* 2. ACTIVE STATUS: Glowing border based on text color */
+/* Active State (Glow) */
 .manage-btn.active-status {
   border-color: currentColor !important;
-  box-shadow: 0 0 15px currentColor;
-  transform: scale(1.03);
+  box-shadow: 0 0 12px currentColor;
+  filter: brightness(1.1);
 }
 
-/* 3. DISABLED STYLE: Gray out and shrink */
+/* Disabled/Locked State */
+.manage-btn:disabled, 
 .manage-btn.disabled-fade {
   opacity: 0.25;
   filter: grayscale(1);
   cursor: not-allowed;
-  transform: scale(0.96);
+  transform: scale(0.97);
 }
 
-/* Tooltip Customization */
-.custom-tooltip .tooltip-inner {
-  background-color: #1a368d;
-  color: #fff;
-  font-size: 0.8rem;
-  padding: 8px 12px;
-  border-radius: 8px;
-}
-
-.custom-tooltip .tooltip-arrow::before {
-  border-bottom-color: #1a368d;
+/* Action wrapper ensures the span doesn't disrupt button width */
+.action-wrapper span.d-block {
+  width: 100%;
 }
