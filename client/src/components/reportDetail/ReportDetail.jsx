@@ -3,6 +3,8 @@ import "./ReportDetail.css";
 import { Row, Col, Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const ReportDetail = ({ report, onUpdateStatus }) => {
+  const currentStatus = report.reportStatus || "NEW";
+
   const statusConfig = {
     NEW: { color: "var(--nl-success)", label: "New" },
     CONTACTED: { color: "var(--nl-warning)", label: "Contacted" },
@@ -10,32 +12,51 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
     SPAM: { color: "var(--nl-danger)", label: "Spam" },
   };
 
-  const currentStatus = statusConfig[report.reportStatus] || statusConfig.NEW;
+  const badgeStyle = statusConfig[currentStatus] || statusConfig.NEW;
 
-  // Function to render the Tooltip component
   const renderTooltip = (text) => (
     <Tooltip id="button-tooltip" className="custom-tooltip">
       {text}
     </Tooltip>
   );
 
-  const getButtonClass = (buttonStatus) => {
-    const isActive = report.reportStatus === buttonStatus;
-    const isClosed = report.reportStatus === "RESOLVED" || report.reportStatus === "SPAM";
-    
-    let baseClass = "btn manage-btn w-100 fw-bold ";
-    if (isActive) return baseClass + "active-status";
-    if (isClosed && !isActive) return baseClass + "disabled-fade";
-    return baseClass;
+  // Helper to determine button states based on sequential workflow
+  const getButtonProps = (type) => {
+    const isNew = currentStatus === "NEW";
+    const isContacted = currentStatus === "CONTACTED";
+    const isFinal = currentStatus === "RESOLVED" || currentStatus === "SPAM";
+
+    let isDisabled = true;
+    let className = "btn manage-btn w-100 fw-bold ";
+    let color = "#fff";
+
+    if (type === "CONTACTED") {
+      color = "#e8944f"; // Orange
+      isDisabled = !isNew || isFinal; // Enabled only when NEW
+      if (isContacted) className += "active-status";
+    } else if (type === "RESOLVED") {
+      color = "#87ceeb"; // Light Blue
+      isDisabled = !isContacted || isFinal; // Enabled only after CONTACTED
+      if (currentStatus === "RESOLVED") className += "active-status";
+    } else if (type === "SPAM") {
+      color = "#f08080"; // Salmon/Red
+      isDisabled = !isContacted || isFinal; // Enabled only after CONTACTED
+      if (currentStatus === "SPAM") className += "active-status";
+    }
+
+    // Apply fade if disabled and not the current active state
+    if (isDisabled && currentStatus !== type) className += "disabled-fade";
+
+    return { disabled: isDisabled, className, style: { color } };
   };
 
   return (
     <div className="bg-white rounded-4 overflow-hidden shadow-sm p-4 mt-3 border report-card">
-      <Badge
-        style={{ backgroundColor: currentStatus.color, color: "#000" }}
+      <Badge 
+        style={{ backgroundColor: badgeStyle.color, color: "#000" }} 
         className="px-3 text-uppercase mb-2"
       >
-        {currentStatus.label}
+        {badgeStyle.label}
       </Badge>
 
       <div className="text-center mb-3">
@@ -49,7 +70,7 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
       <div className="status-divider" style={{ backgroundColor: "#b2f2bb" }} />
 
       <Row>
-        {/* Left Side */}
+        {/* Left Side: Context and Contact */}
         <Col md={8} className="border-end pe-md-4">
           <section className="mb-5 pb-3 border-bottom">
             <h6 className="text-uppercase text-muted fw-bold small mb-3 ls-wide">Found Context</h6>
@@ -63,13 +84,26 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
             </div>
             <div className="mb-3 d-flex align-items-baseline">
               <span className="fw-bold me-2 min-w-150">Message:</span>
-              <span className="text-secondary">"{report.message || "N/A"}"</span>
+              <span className="text-secondary italic">"{report.message || "N/A"}"</span>
             </div>
             <div className="mb-2 d-flex align-items-center">
               <span className="fw-bold me-2 min-w-150">Photo evidence:</span>
-              <div className="evidence-icon-box">
-                <i className="bi bi-image"></i> <span className="text-secondary">"{report.photoUrl || "N/A"}"</span>
-              </div>
+             {report.photoUrl ? (
+    /* Link exists only if URL is present */
+    <a href={report.photoUrl} target="_blank" rel="noopener noreferrer" className="text-decoration-none">
+      <div className="evidence-icon-box me-2">
+        <i className="bi bi-image"></i>
+      </div>
+    </a>
+  ) : (
+    /* Static box if no URL */
+    <div className="evidence-icon-box me-2 opacity-25">
+      <i className="bi bi-image"></i>
+    </div>
+  )}<span className="text-secondary small">
+    {report.photoUrl ? "Click to view evidence" : "No photo uploaded"}
+  </span>
+             {/*  <span className="text-secondary small">{report.photoUrl || "N/A"}</span> */}
             </div>
           </section>
 
@@ -93,52 +127,52 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
         {/* Right Side: Manage Report */}
         <Col md={4} className="ps-md-5">
           <h6 className="text-uppercase text-muted fw-bold small mb-2">Manage Report</h6>
-          <p className="extra-small text-muted mb-4">
-            Update the status of this report to keep your dashboard organized.
-          </p>
+          <p className="extra-small text-muted mb-4">Follow the steps to recover your item.</p>
 
           <div className="d-flex flex-column gap-4">
             {/* Contacted */}
             <div className="action-wrapper">
-              <OverlayTrigger placement="bottom" overlay={renderTooltip("Click to confirm you have contacted the finder.")}>
-                <button 
-                  className={getButtonClass("CONTACTED")}
-                  onClick={() => onUpdateStatus(report.id, "CONTACTED")}
-                  disabled={report.reportStatus === "RESOLVED"}
-                  style={{ color: "#e8944f" }}
-                >
-                  Contacted
-                </button>
+              <OverlayTrigger placement="bottom" overlay={renderTooltip("Step 1: Confirm you contacted the finder.")}>
+                <span className="d-block">
+                  <button 
+                    {...getButtonProps("CONTACTED")} 
+                    onClick={() => onUpdateStatus(report.id, "CONTACTED")}
+                  >
+                    Contacted
+                  </button>
+                </span>
               </OverlayTrigger>
-              <p className="extra-small text-muted mt-2">You have reached out to the finder to coordinate the recovery.</p>
+              <p className="extra-small text-muted mt-2">Enable this first to reach out to the finder.</p>
             </div>
 
             {/* Item Recovered */}
             <div className="action-wrapper">
-              <OverlayTrigger placement="bottom" overlay={renderTooltip("Mark as resolved once the item is back with you.")}>
-                <button 
-                  className={getButtonClass("RESOLVED")}
-                  onClick={() => onUpdateStatus(report.id, "RESOLVED")}
-                  style={{ color: "#87ceeb" }}
-                >
-                  Item Recovered
-                </button>
+              <OverlayTrigger placement="bottom" overlay={renderTooltip("Step 2: Close case once item is back.")}>
+                <span className="d-block">
+                  <button 
+                    {...getButtonProps("RESOLVED")} 
+                    onClick={() => onUpdateStatus(report.id, "RESOLVED")}
+                  >
+                    Item Recovered
+                  </button>
+                </span>
               </OverlayTrigger>
-              <p className="extra-small text-muted mt-2">Case closed! The item is back in your hands. This will resolve the report.</p>
+              <p className="extra-small text-muted mt-2">Case closed! This will resolve the report.</p>
             </div>
 
             {/* Spam */}
             <div className="action-wrapper">
-              <OverlayTrigger placement="bottom" overlay={renderTooltip("Mark as spam to remove from active list.")}>
-                <button 
-                  className={getButtonClass("SPAM")}
-                  onClick={() => onUpdateStatus(report.id, "SPAM")}
-                  style={{ color: "#f08080" }}
-                >
-                  Spam
-                </button>
+              <OverlayTrigger placement="bottom" overlay={renderTooltip("Alternative: Mark as fake/spam.")}>
+                <span className="d-block">
+                  <button 
+                    {...getButtonProps("SPAM")} 
+                    onClick={() => onUpdateStatus(report.id, "SPAM")}
+                  >
+                    Spam
+                  </button>
+                </span>
               </OverlayTrigger>
-              <p className="extra-small text-muted mt-2">Mark this as fake or irrelevant. It will be moved out of your active reports.</p>
+              <p className="extra-small text-muted mt-2">Mark as fake. This will remove the item from active reports.</p>
             </div>
           </div>
         </Col>

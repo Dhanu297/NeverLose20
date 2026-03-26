@@ -1,10 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import { reportsApi } from "../api/reportsApi";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 export const useItemReports = (itemId) => {
   const { user, loading: authLoading } = useContext(AuthContext);
-
+const navigate = useNavigate();
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -39,11 +40,15 @@ export const useItemReports = (itemId) => {
   const updateStatus = async (reportId, newStatus) => {
     try {
       await reportsApi.updateStatus(reportId,{reportStatus:newStatus});
-      setReports((prev) =>
-        prev.map((report) =>
-          report.id === reportId ? { ...report, status: newStatus } : report
-        )
-      );
+     if(newStatus!="RESOLVED")
+     {
+      navigate(0);
+     }
+     else 
+     {
+        navigate(`/dashboard`);
+     }
+      
     } catch (err) {
       alert("Error updating status");
     }

@@ -50,6 +50,7 @@ async createFoundReport({ item, token, payload,ip}) {
     .collection(FOUND_COLLECTION)
     .where("ip", "==", ip)
     .where("itemId", "==", item.id)
+    .where("internalStatus", "!=", "CLOSE")
     .get();
 
   if (existingReportsSnap.size >= MAX_ATTEMPTS) {
@@ -61,7 +62,7 @@ async createFoundReport({ item, token, payload,ip}) {
   }
    const allReportsForItem = await db
     .collection(FOUND_COLLECTION)
-    .where("itemId", "==", item.id)
+    .where("itemId", "==", item.id)    
     .get();
 
   const isFirstReport = allReportsForItem.empty;
@@ -92,12 +93,12 @@ async createFoundReport({ item, token, payload,ip}) {
 
   await docRef.set(report);
     //  Update item status ONLY if this is the first report
-   if (isFirstReport) {
+  
     await db.collection(COLLECTION).doc(item.id).update({
       status: "LOST",
       updatedAt: new Date().toISOString(),
     });
-  }
+  
 
   return {
     reportId: report.id,
