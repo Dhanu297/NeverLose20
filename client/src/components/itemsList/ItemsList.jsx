@@ -101,15 +101,11 @@ const ItemList = ({
 
               <td className="p-3 text-center">
                 <button
-                  className="btn btn-link p-0 border-0"
+                  className="btn btn-link p-0 border-0" fs-4 fw-bold
                   onClick={() => onReportsList(item.id)}
-                  disabled={!item.hasReports}
+                  disabled={item.ReportCount==0}
                 >
-                  <i
-                    className={`bi bi-journal-text fs-4 fw-bold ${
-                      item.hasReports ? "text-primary" : "text-muted"
-                    }`}
-                  />
+                  {item.ReportCount}
                 </button>
               </td>
             </tr>

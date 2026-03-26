@@ -98,13 +98,13 @@ exports.ItemService = {
         .collection("foundReports")
         .where("itemId", "==", item.id)
         .where("internalStatus", "==", "OPEN")
-        .where("reportStatus", "!=", "SPAM")
-        .limit(1)
+        .where("reportStatus", "!=", "SPAM")      
         .get();
 
       results.push({
         ...item,
         hasReports: !reportsSnap.empty,
+        ReportCount:reportsSnap.size
       });
     }
 
