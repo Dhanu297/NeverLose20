@@ -9,7 +9,7 @@ function ReviewStep({ form, back, create, showButtons = true }) {
 
   return (
     <div className="item-form-content">
-      <h3 className="text-white text-center fw-bold mb-4 display-6">
+      <h3 className="text-white fw-bold mb-3">
         Review Your Item
       </h3>
 

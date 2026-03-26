@@ -1,4 +1,5 @@
-const ItemCard = ({ data }) => {
+import EditDeleteComponent from "../EditDeleteComponent/EditDeleteComponent";
+const ItemCard = ({ data, onEdit, onDelete,showActions = false }) => {
   if (!data) return null;
 
   const { nickname, description, photoUrl, verification } = data;
@@ -57,8 +58,38 @@ const ItemCard = ({ data }) => {
           )}
         </div>
       </div>
-    </div>
+      <div className="col-md-8 d-flex justify-content-between align-items-center">
+
+  {/* TEXT BLOCK */}
+  <div flex-grow-1>
+    <h2 className="fw-bold mb-2">{nickname || "Unnamed Item"}</h2>
+
+    <p className="text-muted mb-3">
+      {description || "No description provided."}
+    </p>
+
+    {verification?.question && (
+      <div className="p-3 bg-light rounded-3">
+        <small className="text-uppercase fw-bold text-muted d-block mb-1">
+          Security Question
+        </small>
+        <span>{verification.question}</span>
+      </div>
+    )}
+  </div>
+
+  {/* ICONS ON RIGHT */}
+  <div className="ms-3">
+    {showActions && (
+  <EditDeleteComponent onEdit={onEdit} onDelete={onDelete} />
+)}
+  </div>
+
+</div>
+</div>
   );
 };
-
 export default ItemCard;
+
+        
+      

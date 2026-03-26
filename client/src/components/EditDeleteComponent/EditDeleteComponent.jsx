@@ -1,7 +1,7 @@
 import React from "react";
 import "./EditDeleteComponent.css";
 
-const EditDeleteComponet = ({ onEdit, onDelete }) => {
+const EditDeleteComponent = ({ onEdit, onDelete }) => {
   return (
     <div className="EditDelete-container">
       {/* Edit icon */}
@@ -20,4 +20,4 @@ const EditDeleteComponet = ({ onEdit, onDelete }) => {
   );
 };
 
-export default EditDeleteComponet;
+export default EditDeleteComponent;
