@@ -1,7 +1,8 @@
 import { useState } from "react";
 import itemApi from "../api/itemApi";
-
+import { useNavigate } from "react-router-dom";
 export function useUpdateItem(itemId) {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const updateItem = async (data) => {
