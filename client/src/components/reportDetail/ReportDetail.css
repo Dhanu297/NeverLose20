@@ -1,0 +1,44 @@
+/* Base dark blue button */
+.manage-btn {
+  background-color: #1a368d !important;
+  border-radius: 10px;
+  padding: 12px;
+  border: 2px solid transparent !important;
+  font-size: 1.1rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 1. HOVER EFFECT: Brighten and lift */
+.manage-btn:hover:not(:disabled) {
+  filter: brightness(1.4);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* 2. ACTIVE STATUS: Glowing border based on text color */
+.manage-btn.active-status {
+  border-color: currentColor !important;
+  box-shadow: 0 0 15px currentColor;
+  transform: scale(1.03);
+}
+
+/* 3. DISABLED STYLE: Gray out and shrink */
+.manage-btn.disabled-fade {
+  opacity: 0.25;
+  filter: grayscale(1);
+  cursor: not-allowed;
+  transform: scale(0.96);
+}
+
+/* Tooltip Customization */
+.custom-tooltip .tooltip-inner {
+  background-color: #1a368d;
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.custom-tooltip .tooltip-arrow::before {
+  border-bottom-color: #1a368d;
+}
