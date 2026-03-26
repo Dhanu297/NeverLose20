@@ -1,10 +1,14 @@
-.nl-preset-card {
-  background-color: rgba(255, 255, 255, 0.03) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  border-radius: 20px !important;
-  transition: all 0.3s;
-  cursor: pointer;
+.nl-QRcontainer {
+  background-color: rgba(138, 225, 234, 0.3);
+  color: var(--nl-deep-blue);
+}
 
+.nl-preset-card {
+  background-color: transparent !important;
+  border: 2px solid rgba(9, 32, 121, 0.9) !important;
+  border-radius: 20px !important;
+  transition: all 0.3s ease;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,8 +19,7 @@
 
 .nl-preset-card:hover {
   transform: translateY(-3px);
-  background-color: rgba(255, 255, 255, 0.06) !important;
-  border-color: #0c6dff !important;
+  background-color: rgba(9, 32, 121, 0.9) !important;
   box-shadow: 0 10px 30px rgba(12, 109, 255, 0.3) !important;
 }
 
@@ -26,13 +29,35 @@
 }
 
 .nl-preset-card .preset-name {
-  color: white;
+  color: rgba(9, 32, 121, 0.9);
   font-weight: 700;
   margin-top: 15px;
   margin-bottom: 5px;
+  transition: color 0.3s ease;
+}
+.nl-preset-card .preset-desc {
+  color: rgba(9, 32, 121, 0.9);
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
 }
 
-.nl-preset-card .preset-desc {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.85rem;
+.qr-svg-icon path {
+  fill: rgba(9, 32, 121, 0.9);
+  transition: fill 0.3s ease;
+}
+
+/* card on hover */
+.nl-preset-card:hover {
+  transform: translateY(-5px);
+  background-color: rgba(9, 32, 121, 0.9) !important;
+  box-shadow: 0 10px 30px rgba(9, 32, 121, 0.3) !important;
+}
+
+.nl-preset-card:hover .qr-svg-icon path {
+  fill: white;
+}
+
+.nl-preset-card:hover .preset-name,
+.nl-preset-card:hover .preset-desc {
+  color: white;
 }

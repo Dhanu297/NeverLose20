@@ -5,10 +5,12 @@ import itemApi from "../../api/itemApi";
 import qrIcon from "../../assets/QR-Icon.svg";
 import tagIcon from "../../assets/tag-icon.svg";
 import printIcon from "../../assets/print-icon.svg";
-import walletQR from "../../assets/WalletQR.svg";
-import circleQR from "../../assets/CircleQR.svg";
-import squareQR from "../../assets/SquareQR.svg";
-import customQR from "../../assets/CustomQR.svg";
+
+import { ReactComponent as WalletIcon } from "../../assets/WalletQR.svg";
+import { ReactComponent as CircleIcon } from "../../assets/CircleQR.svg";
+import { ReactComponent as SquareIcon } from "../../assets/SquareQR.svg";
+import { ReactComponent as CustomIcon } from "../../assets/CustomQR.svg";
+
 import ConfirmDialog from "../confirmDialog/ConfirmDialog";
 import "./LabelScreen.css";
 
@@ -16,47 +18,47 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
   const { itemId } = useParams();
   const location = useLocation();
 
-//  IMPORTANT FIX
-const initialItem = propItem || location.state;
-const defaultPresets = [
-  {
-    id: "wallet",
-    name: "Wallet",
-    description: "Standard ID size (8.5 x 5.4 cm)",
-    shape: "rect",
-    widthMm: 85.6,
-    heightMm: 54.0,
-  },
-  {
-    id: "airtag",
-    name: "AirTag",
-    description: "Circular sticker (3.2 cm diameter)",
-    shape: "circle",
-    diameterMm: 32.0,
-  },
-  {
-    id: "small-tag",
-    name: "Small Tag",
-    description: "Ideal for keychains (3 x 2 cm)",
-    shape: "rect",
-    widthMm: 30.0,
-    heightMm: 20.0,
-  },
-  {
-    id: "custom",
-    name: "Custom",
-    description: "Set your own dimensions",
-  },
-];
+  //  IMPORTANT FIX
+  const initialItem = propItem || location.state;
+  const defaultPresets = [
+    {
+      id: "wallet",
+      name: "Wallet",
+      description: "Standard ID size (8.5 x 5.4 cm)",
+      shape: "rect",
+      widthMm: 85.6,
+      heightMm: 54.0,
+    },
+    {
+      id: "airtag",
+      name: "AirTag",
+      description: "Circular sticker (3.2 cm diameter)",
+      shape: "circle",
+      diameterMm: 32.0,
+    },
+    {
+      id: "small-tag",
+      name: "Small Tag",
+      description: "Ideal for keychains (3 x 2 cm)",
+      shape: "rect",
+      widthMm: 30.0,
+      heightMm: 20.0,
+    },
+    {
+      id: "custom",
+      name: "Custom",
+      description: "Set your own dimensions",
+    },
+  ];
 
-const [item, setItem] = useState(() => {
-  if (!initialItem) return null;
+  const [item, setItem] = useState(() => {
+    if (!initialItem) return null;
 
-  return {
-    ...initialItem,
-    labelPresets: initialItem.labelPresets || defaultPresets,
-  };
-});
+    return {
+      ...initialItem,
+      labelPresets: initialItem.labelPresets || defaultPresets,
+    };
+  });
   const [error, setError] = useState("");
 
   // Custom size inputs
@@ -125,59 +127,55 @@ const [item, setItem] = useState(() => {
   };
 
   if (!embedded && error) {
-  return <div className="alert alert-danger m-5">{error}</div>;
-}
+    return <div className="alert alert-danger m-5">{error}</div>;
+  }
   if (!item) {
     return <p className="p-6">Loading…</p>;
   }
-console.log("ITEM:", item);
-console.log("PRESETS:", item?.labelPresets);
+  console.log("ITEM:", item);
+  console.log("PRESETS:", item?.labelPresets);
   return (
     <div className={embedded ? "embedded-label-box" : "container py-5"}>
-      <div
-  className="rounded-5 p-4 p-md-5 shadow-lg border-0"
-  style={{ backgroundColor: "var(--nl-deep-blue)", color: "white" }}
->
+      <div className="nl-QRcontainer rounded-4 p-4 p-md-5  border-0">
+        {/* 🔥 FULL PAGE HEADER */}
+        {!embedded && (
+          <div className="d-flex justify-content-between align-items-center mb-5">
+            <div>
+              <h1 className="display-5 fw-extrabold mb-0">
+                Download your QR Code
+              </h1>
+              <p className="fs-4">{propItem.nickname}</p>
 
-  {/* 🔥 FULL PAGE HEADER */}
-  {!embedded && (
-    <div className="d-flex justify-content-between align-items-center mb-5">
-      <div>
-        <h1 className="display-5 fw-extrabold mb-0">
-          Download your QR Code
-        </h1>
-        <p className="fs-4">{propItem.nickname}</p>
+              <p>
+                Public Scan URL:
+                <code className="d-block bg-light text-dark p-2 rounded mt-1">
+                  {propItem.publicUrl}
+                </code>
+              </p>
+            </div>
 
-        <p>
-          Public Scan URL:
-          <code className="d-block bg-light text-dark p-2 rounded mt-1">
-            {propItem.publicUrl}
-          </code>
-        </p>
-      </div>
+            <div className="d-none d-md-flex align-items-center gap-3">
+              <img src={qrIcon} width="40" />
+              <i className="bi bi-arrow-right"></i>
+              <img src={printIcon} width="40" />
+              <i className="bi bi-arrow-right"></i>
+              <img src={tagIcon} width="50" />
+            </div>
+          </div>
+        )}
 
-      <div className="d-none d-md-flex align-items-center gap-3">
-        <img src={qrIcon} width="40" />
-        <i className="bi bi-arrow-right"></i>
-        <img src={printIcon} width="40" />
-        <i className="bi bi-arrow-right"></i>
-        <img src={tagIcon} width="50" />
-      </div>
-    </div>
-  )}
+        {/*  EMBEDDED HEADER (FIGMA STYLE) */}
+        {embedded && (
+          <div className="mb-4">
+            <h4 className="fw-bold mb-0">
+              Ready to protect it?{" "}
+              <span className="fw-normal">Print your QR Code</span>
+            </h4>
+          </div>
+        )}
 
-  {/*  EMBEDDED HEADER (FIGMA STYLE) */}
-  {embedded && (
-    <div className="mb-4">
-      <h4 className="fw-bold mb-0">
-        Ready to protect it?{" "}
-        <span className="fw-normal">Print your QR Code</span>
-      </h4>
-    </div>
-  )}
-
-  {/*  GRID */}
-  <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+        {/*  GRID */}
+        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
           {item.labelPresets?.map((preset) => (
             <div key={preset.id} className="col">
               {/* Card */}
@@ -186,27 +184,22 @@ console.log("PRESETS:", item?.labelPresets);
                   if (preset.id !== "custom") handlePrepareDownload(preset.id);
                 }}
                 role="button"
-                className="h-100 nl-preset-card shadow-sm p-4 d-flex flex-column align-items-center justify-content-center"
+                className="h-100 nl-preset-card shadow-sm p-1 d-flex flex-column align-items-center justify-content-center"
               >
                 {/* Icons */}
                 <div
                   className="mb-3 d-flex align-items-center justify-content-center"
-                  style={{ height: "60px" }}
+                  style={{ height: "30px" }}
                 >
-                  <img
-                    src={
-                      preset.id === "wallet"
-                        ? walletQR
-                        : preset.id === "airtag"
-                          ? squareQR
-                          : preset.id === "small-tag"
-                            ? circleQR
-                            : customQR
-                    }
-                    alt={preset.name}
-                    className="img-fluid"
-                    style={{ maxHeight: "100%", width: "auto" }}
-                  />
+                  {preset.id === "wallet" && (
+                    <WalletIcon className="qr-svg-icon" />
+                  )}
+                  {preset.id === "airtag" && (
+                    <CircleIcon className="qr-svg-icon" />
+                  )}
+                  {preset.id === "small-tag" && (
+                    <SquareIcon className="qr-svg-icon" />
+                  )}
                 </div>
 
                 {/* Info Tag */}
@@ -225,27 +218,27 @@ console.log("PRESETS:", item?.labelPresets);
                 {/* Download Buttons */}
                 {preset.id === "custom" && (
                   <div
-                    className="w-100 mt-4"
+                    className="w-100 mb-2"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <div className="d-flex gap-2 mb-3">
+                    <div className="d-flex gap-2 mb-3 mx-3">
                       <input
                         type="number"
                         placeholder="Width"
-                        className="form-control form-control-sm border-0 text-center bg-white shadow-sm py-2"
+                        className="form-control form-control-sm rounded-3 border-0 text-center bg-white shadow-sm py-2"
                         value={customWidth}
                         onChange={(e) => setCustomWidth(e.target.value)}
                       />
                       <input
                         type="number"
                         placeholder="Height"
-                        className="form-control form-control-sm border-0 text-center bg-white shadow-sm py-2"
+                        className="form-control form-control-sm rounded-3 border-0 text-center bg-white shadow-sm py-2"
                         value={customHeight}
                         onChange={(e) => setCustomHeight(e.target.value)}
                       />
                     </div>
                     <button
-                      className="btn btn-light btn-sm w-100 rounded-pill fw-bold py-2 text-primary"
+                      className="btn btn-light btn-sm  rounded-pill mx-3 fw-bold py-2 text-primary"
                       onClick={() => handlePrepareDownload("custom")}
                     >
                       Generate PDF
