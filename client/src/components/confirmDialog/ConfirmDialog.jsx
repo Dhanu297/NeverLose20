@@ -1,4 +1,5 @@
 import React from "react";
+import CustomButton from "../CustomButton/CustomButton";
 
 export default function ConfirmDialog({
   open,
@@ -22,7 +23,7 @@ export default function ConfirmDialog({
       }}
     >
       <div
-        className="bg-white p-4 shadow-lg border-0 text-center animate__animated animate__fadeInUp"
+        className="bg-white px-4 py-5  shadow-lg border-0 text-center animate__animated animate__fadeInUp"
         style={{
           maxWidth: "340px",
           width: "100%",
@@ -32,11 +33,22 @@ export default function ConfirmDialog({
       >
         {/* Icon */}
         <div className="mb-3">
-          <div
-            className="rounded-circle bg-light d-inline-flex align-items-center justify-content-center"
-            style={{ width: "60px", height: "60px" }}
-          >
-            <i className="bi bi-cloud-arrow-down-fill text-primary fs-3"></i>
+          <div className="d-flex justify-content-center mb-4 animate__animated animate__backInDown ">
+            <div
+              className="nl-icon-box"
+              style={{
+                width: "64px",
+                height: "64px",
+              }}
+            >
+              <i
+                className="bi bi-printer"
+                style={{
+                  color: "var(--nl-success)",
+                  fontSize: "28px",
+                }}
+              ></i>
+            </div>
           </div>
         </div>
 
@@ -52,20 +64,21 @@ export default function ConfirmDialog({
         </p>
 
         <div className="vstack gap-2 px-2">
-          <button
+          <CustomButton
             onClick={onConfirm}
             className="btn btn-primary rounded-pill py-2 fw-bold w-100 border-0 shadow-sm"
-            style={{ backgroundColor: "#0c6dff", fontSize: "0.9rem" }}
+            variant="primary"
           >
             Confirm
-          </button>
+          </CustomButton>
 
-          <button
+          <CustomButton
             onClick={onCancel}
             className="btn btn-link text-muted text-decoration-none fw-bold w-100 py-1 small"
+            variant="outline"
           >
             Cancel
-          </button>
+          </CustomButton>
         </div>
       </div>
     </div>
