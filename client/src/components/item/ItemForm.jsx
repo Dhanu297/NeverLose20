@@ -2,9 +2,11 @@ import React, { useState } from "react"; //Importing react and usestate hook fro
 import "./ItemForm.css";
 import CustomButton from "../CustomButton/CustomButton";
 import UploadPhoto from "../uploadPhoto/UploadPhoto";
+import { useNavigate } from "react-router-dom";
 
 function ItemForm({ form, setForm, next }) {
   const [error, setError] = useState("");
+  const navigate=useNavigate();
 
   const handleNext = () => {
     if (!form.nickname.trim()) {
@@ -19,9 +21,19 @@ function ItemForm({ form, setForm, next }) {
 
   return (
     <div className="item-form-content">
-      <h3 className="text-white text-center fw-bold mb-4 display-6">
-        Create Your Item
-      </h3>
+      <div className="d-flex flex-column align-items-start mb-3">
+  <h3 className="text-white fw-bold mb-1">
+    Create Your Item
+  </h3>
+
+  <button
+    className="btn btn-link text-white text-decoration-none p-0"
+    onClick={() => navigate(-1)}
+  >
+    <i className="bi bi-chevron-left"></i>
+    <span className="ms-1">Back</span>
+  </button>
+</div>
 
       <div className="d-flex align-items-center justify-content-center px-4 px-lg-5 bg-white rounded-4 shadow-sm w-100">
         <div style={{ width: "100%", maxWidth: "1300px" }}>
