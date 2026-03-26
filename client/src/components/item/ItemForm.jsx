@@ -21,7 +21,7 @@ function ItemForm({ form, setForm, next }) {
 
   return (
     <div className="item-form-content">
-      <div className="d-flex flex-column align-items-start mb-3">
+      <div className="d-flex flex-column align-items-start mb-">
         <h3 className="text-white fw-bold mb-2">Create Your Item</h3>
 
         <button
@@ -33,29 +33,31 @@ function ItemForm({ form, setForm, next }) {
         </button>
       </div>
 
-      <div className="d-flex align-items-center justify-content-center px-4 px-lg-5 bg-white rounded-4 shadow-sm w-100">
-        <div style={{ width: "100%", maxWidth: "1300px" }}>
-          {" "}
+      <div className="d-flex align-items-center justify-content-center px-5 bg-white rounded-4 shadow-sm w-100">
+        <div style={{ maxWidth: "900px" }} className="w-100">
           <p
-            className="text-center text-muted my-4 mx-auto"
+            className="text-center text-muted m-5 mx-auto"
             style={{ maxWidth: "600px" }}
           >
             This info helps organize your inventory and helps the finder
             identify your item.
           </p>
-          <div>
-            <div className="row g-5 g-lg-5">
-              {/* left side */}
-              <div className="col-md-6 order-2 order-md-1">
-                <label className="form-label fw-semibold mb-1">
-                  Upload Photo:
-                </label>
 
-                <UploadPhoto
-                  photoUrl={form.photoUrl}
-                  onUploaded={(url) => setForm({ ...form, photoUrl: url })}
-                  style={{ minHeight: "230px", maxHeight: "40px" }}
-                />
+          <div className="pb-5">
+            <div className="row g-5 g-lg-5 justify-content-center align-items-center">
+              {/* left side */}
+              <div className="col-md-6 order-1 order-md-1 d-flex flex-column align-items-center">
+                <div className="col-md-6 order-2 order-md-1">
+                  <label className="form-label fw-semibold mb-1">
+                    Upload Photo:
+                  </label>
+
+                  <UploadPhoto
+                    photoUrl={form.photoUrl}
+                    onUploaded={(url) => setForm({ ...form, photoUrl: url })}
+                    style={{ minHeight: "230px", maxHeight: "400px" }}
+                  />
+                </div>
               </div>
 
               {/* right side */}

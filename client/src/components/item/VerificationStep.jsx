@@ -30,29 +30,26 @@ function VerificationStep({ form, setForm, next, back }) {
             Ask a question that only someone holding the item can answer.
           </p>
 
-          <div className="pb-5">
-            <div className="row g-5 g-lg-5 justify-content-center align-items-center">
+          <div className="pb-4">
+            <div className="row align-items-center gx-lg-5">
               {/* left side */}
-              <div className="col-md-6 order-1 order-md-1 d-flex flex-column align-items-center">
-                <div className="review-image-wrapper mx-auto mx-md-0">
-                  <div className="wizard-image-box rounded-4 border overflow-hidden shadow-sm">
-                    {form.photoUrl ? (
-                      <img
-                        src={form.photoUrl}
-                        alt="Item"
-                        className="img-fluid w-100"
-                      />
-                    ) : (
-                      <div
-                        className="d-flex align-items-center justify-content-center bg-light"
-                        style={{ minHeight: "180px" }}
-                      >
-                        <span className="text-muted small">
-                          No image uploaded
-                        </span>
-                      </div>
-                    )}
-                  </div>
+              <div className="col-12 col-md-5 d-flex justify-content-center mb-4 mb-md-0">
+                <div
+                  className="rounded-4 border overflow-hidden bg-light d-flex align-items-center justify-content-center w-100"
+                  style={{
+                    aspectRatio: "1 / 1",
+                    transition: "transform 0.3s ease",
+                  }}
+                >
+                  {form.photoUrl ? (
+                    <img
+                      src={form.photoUrl}
+                      alt="Item"
+                      className="w-100 h-100 object-fit-cover"
+                    />
+                  ) : (
+                    <div className="text-muted small">No image uploaded</div>
+                  )}
                 </div>
               </div>
 
