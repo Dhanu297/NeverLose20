@@ -82,13 +82,13 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
         const w = Number(customWidth);
         const h = Number(customHeight);
 
-        if (w <= 0 || w > 100 || h <= 0 || h > 100) {
-          alert("Width and height must be between 1 and 100 mm.");
+        if (w <= 0 || w > 21 || h <= 0 || h > 21) {
+          alert("Width and height must be between 1 and 21 cm.");
           return;
         }
 
-        payload.widthMm = w;
-        payload.heightMm = h;
+        payload.widthMm = w*10;
+        payload.heightMm = h*10;
       }
 
       const res = await labelApi.downloadPdf(propItem.id, payload);
@@ -224,14 +224,14 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
                     <div className="d-flex gap-2 mb-3 mx-3">
                       <input
                         type="number"
-                        placeholder="Width"
+                        placeholder="Width(cm)"
                         className="form-control form-control-sm rounded-3 border-0 text-center bg-white shadow-sm py-2"
                         value={customWidth}
                         onChange={(e) => setCustomWidth(e.target.value)}
                       />
                       <input
                         type="number"
-                        placeholder="Height"
+                        placeholder="Height(cm)"
                         className="form-control form-control-sm rounded-3 border-0 text-center bg-white shadow-sm py-2"
                         value={customHeight}
                         onChange={(e) => setCustomHeight(e.target.value)}
