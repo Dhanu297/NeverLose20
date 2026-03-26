@@ -9,15 +9,10 @@ export default function Step3Success() {
       {/*  Hero Badge */}
       <div className="d-flex justify-content-center mb-4 animate__animated animate__backInDown ">
         <div
-          className="rounded-4"
+          className="nl-icon-box"
           style={{
-            backgroundColor: "var(--nl-deep-blue)",
             width: "64px",
             height: "64px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0 8px 16px rgba(5, 21, 51, 0.2)",
           }}
         >
           <i

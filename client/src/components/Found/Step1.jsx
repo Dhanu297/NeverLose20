@@ -80,14 +80,17 @@ export default function Step1ItemPreview({
               This tag is inactive.
             </div>
           ) : (
-            <CustomButton
-              variant="primary"
-              className="px-5 py-2"
-              onClick={onNext}
-              disabled={!isAnswerValid}
-            >
-              Next
-            </CustomButton>
+            <div className="d-flex justify-content-between my-5">
+              <CustomButton variant="outline">Back</CustomButton>
+              <CustomButton
+                variant="primary"
+                className="px-5 py-2"
+                onClick={onNext}
+                disabled={!isAnswerValid}
+              >
+                Next
+              </CustomButton>
+            </div>
           )}
         </div>
       </div>
