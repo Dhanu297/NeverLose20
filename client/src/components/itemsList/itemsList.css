@@ -4,12 +4,15 @@
 }
 
 .custom-table th:nth-child(1) {
-  width: 50%;
+  width: 25%;
 } /* Nickname */
 .custom-table th:nth-child(2) {
   width: 25%;
-} /* Status */
+} /* Last activity */
 .custom-table th:nth-child(3) {
+  width: 25%;
+} /* Status */
+.custom-table th:nth-child(4) {
   width: 25%;
 } /* Details */
 

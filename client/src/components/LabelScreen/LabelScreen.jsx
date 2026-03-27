@@ -87,8 +87,8 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
           return;
         }
 
-        payload.widthMm = w*10;
-        payload.heightMm = h*10;
+        payload.widthMm = w * 10;
+        payload.heightMm = h * 10;
       }
 
       const res = await labelApi.downloadPdf(propItem.id, payload);
@@ -257,6 +257,7 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
         message={`You are about to download the ${selectedPresetId} label for "${item.nickname}". This will generate a printable PDF file.`}
         onConfirm={handleConfirmAction}
         onCancel={() => setIsConfirmOpen(false)}
+        variant="print"
       />
     </div>
   );

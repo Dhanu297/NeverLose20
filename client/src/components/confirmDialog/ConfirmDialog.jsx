@@ -1,14 +1,40 @@
 import React from "react";
 import CustomButton from "../CustomButton/CustomButton";
 
+const DIALOG_VARIANTS = {
+  success: {
+    icon: "bi-check-circle",
+    color: "var(--nl-success)",
+    btnClass: "btn-primary",
+  },
+  delete: {
+    icon: "bi-trash",
+    color: "var(--nl-danger)",
+    btnClass: "btn-danger",
+  },
+  warning: {
+    icon: "bi-exclamation-triangle",
+    color: "var(--nl-warning)",
+    btnClass: "btn-warning",
+  },
+  print: {
+    icon: "bi-printer",
+    color: "var(--nl-info)",
+    btnClass: "btn-primary",
+  },
+};
+
 export default function ConfirmDialog({
   open,
   message,
   onConfirm,
   onCancel,
   title,
+  variant = "warning",
 }) {
   if (!open) return null;
+
+  const config = DIALOG_VARIANTS[variant] || DIALOG_VARIANTS.warning;
 
   return (
     <div
@@ -42,10 +68,10 @@ export default function ConfirmDialog({
               }}
             >
               <i
-                className="bi bi-printer"
+                className={`bi ${config.icon}`}
                 style={{
-                  color: "var(--nl-success)",
-                  fontSize: "28px",
+                  color: config.color,
+                  fontSize: "32px",
                 }}
               ></i>
             </div>

@@ -5,26 +5,27 @@ import { AuthContext } from "../context/AuthContext";
 import MainLayout from "../layouts/MainLayout/MainLayout";
 import EditItemComponent from "../components/EditItemComponent/EditItemComponent";
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
+
 const EditItemPage = () => {
   const { id } = useParams();
-  const [itemData, setItemData] = useState(null);   
+  const [itemData, setItemData] = useState(null);
   const navigate = useNavigate();
   const { user, loading: authLoading } = useContext(AuthContext);
-  
+
   const { item, loading, error } = useItemDetails(id);
 
   useEffect(() => {
-  if (item) setItemData(item);
-}, [item]);
+    if (item) setItemData(item);
+  }, [item]);
 
-  if (authLoading || loading) return <LoadingSpinner message="Loading..." />; 
+  if (authLoading || loading) return <LoadingSpinner message="Loading..." />;
 
   if (!itemData) return <div>Loading...</div>;
 
   return (
-    <MainLayout>
-      <div className="px-0"> 
-        <EditItemComponent item={itemData} />        
+    <MainLayout username={user?.displayName || "User"}>
+      <div className="px-0">
+        <EditItemComponent item={itemData} />
       </div>
     </MainLayout>
   );

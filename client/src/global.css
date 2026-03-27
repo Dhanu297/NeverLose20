@@ -117,7 +117,6 @@ p {
   background-color: var(--nl-light-bg) !important;
   border: 1px solid #eceef0 !important;
   border-radius: 16px !important;
-
   font-family: var(--font-body);
   padding: 1rem 1.25rem !important;
   color: var(--nl-dark-navy) !important;
@@ -155,6 +154,27 @@ input:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
 }
 
+/* --- SELECT / DROPDOWN STANDARD --- */
+.form-select {
+  background-color: var(--nl-light-bg) !important;
+  border: 1px solid #eceef0 !important;
+  border-radius: 16px !important;
+  font-family: var(--font-body);
+  padding: 0.75rem 1.25rem !important;
+  color: var(--nl-dark-navy) !important;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.form-select:focus {
+  background-color: var(--nl-white) !important;
+  border-color: var(--nl-tech-blue) !important;
+  box-shadow: 0 10px 20px rgba(12, 109, 255, 0.1) !important;
+  transform: translateY(-1px);
+  outline: 0;
+}
+
 /* --- UPLOAD IMAGE STANDARD --- */
 
 .nl-upload-zone {
@@ -188,6 +208,7 @@ input:-webkit-autofill:focus {
   transform: scale(1.05);
 }
 
+/* error message fade in / out */
 .nl-animated-fade {
   color: var(--nl-danger);
   font-size: 0.85rem;
@@ -214,4 +235,26 @@ input:-webkit-autofill:focus {
 .opacity-hover:hover {
   opacity: 0.75 !important;
   cursor: pointer;
+}
+
+/* --- STATUS INDICATORS --- */
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.status-dot.safe,
+.status-dot.active {
+  background-color: var(--nl-success);
+}
+
+.status-dot.closed {
+  background-color: var(--nl-warning);
+}
+
+.status-dot.lost {
+  background-color: var(--nl-danger);
 }

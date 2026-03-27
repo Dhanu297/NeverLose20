@@ -39,7 +39,7 @@ export default function ItemDetailsPage() {
           <h3 className="text-white fw-bold mb-2">Item Details</h3>
 
           <button
-            className="btn btn-link text-white text-decoration-none p-0"
+            className="btn btn-link text-white text-decoration-none p-0 opacity-hover"
             onClick={() => navigate(-1)}
           >
             <i className="bi bi-chevron-left"></i>
@@ -60,9 +60,11 @@ export default function ItemDetailsPage() {
 
       <ConfirmDialog
         open={confirm.open}
+        title="Delete Item?"
         message={confirm.message}
         onConfirm={confirm.onConfirm}
         onCancel={confirm.close}
+        variant="delete"
       />
     </MainLayout>
   );

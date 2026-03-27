@@ -20,10 +20,8 @@ const ItemList = ({
 }) => {
   return (
     <div className="bg-white rounded-4 overflow-hidden shadow p-3">
-
       {/* FILTER + SORT BAR */}
       <div className="d-flex gap-3 mb-3">
-
         {/* Search */}
         <input
           type="text"
@@ -78,6 +76,7 @@ const ItemList = ({
           <tr>
             <th className="p-3 border-0 w-50">Item Nickname</th>
             <th className="p-3 border-0">Item Status</th>
+            <th className="p-3 border-0">Last Activity</th>
             <th className="p-3 border-0 text-center">View Report</th>
           </tr>
         </thead>
@@ -97,6 +96,10 @@ const ItemList = ({
                   className={`status-dot me-2 ${item.status.toLowerCase()}`}
                 ></span>
                 {item.status}
+              </td>
+
+              <td className="p-3 text-muted small">
+                {item.lastActivity || "No activity yet"}
               </td>
 
               <td className="p-3 text-center">

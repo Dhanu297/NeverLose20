@@ -25,7 +25,7 @@ function ItemForm({ form, setForm, next }) {
         <h3 className="text-white fw-bold mb-2">Create Your Item</h3>
 
         <button
-          className="btn btn-link text-white text-decoration-none p-0"
+          className="btn btn-link text-white text-decoration-none p-0 opacity-hover"
           onClick={() => navigate("/")}
         >
           <i className="bi bi-chevron-left"></i>
@@ -46,7 +46,6 @@ function ItemForm({ form, setForm, next }) {
           <div className="pb-4">
             <div className="row align-items-center gx-lg-5">
               {/* left side */}
-
               <div className="col-12 col-md-6 mb-4 mb-md-0 d-flex flex-column">
                 <label className="form-label fw-semibold mb-1">
                   Upload Photo:
@@ -103,7 +102,7 @@ function ItemForm({ form, setForm, next }) {
                   <textarea
                     className="form-control"
                     maxLength={200}
-                    rows="5"
+                    rows="4"
                     value={form.description}
                     onChange={(e) =>
                       setForm({ ...form, description: e.target.value })

@@ -127,20 +127,21 @@ function Step2Verification({
                 onChange={(e) => update("message", e.target.value)}
                 style={{ resize: "none" }}
               />
-              <div className="text-end small mt-1 me-2">
-                <small
-                  className={`fw-medium ${isMessageTooLong ? "text-danger" : "text-muted"}`}
-                  style={{ fontSize: "0.75rem" }}
-                >
-                  {reportData.message.length} / 500
-                </small>
-              </div>
 
               {isMessageTooShort && (
-                <div className="nl-animated-fade">
-                  <small className="text-danger mt-1 d-block ms-2 fw-medium">
+                <div className="nl-animated-fade position-relative mt-1 pt-1 d-flex justify-content-between px-2">
+                  <small
+                    className="text-danger mt-1 ms-2 fw-medium"
+                    style={{ maxWidth: "75%" }}
+                  >
                     <i className="bi bi-exclamation-circle me-1"></i>Please
                     write a bit more to help the owner (min. 10 characters)
+                  </small>
+                  <small
+                    className={`fw-medium ${isMessageTooLong ? "text-danger" : "text-muted"}`}
+                    style={{ fontSize: "0.75rem" }}
+                  >
+                    {reportData.message.length} / 500
                   </small>
                 </div>
               )}
