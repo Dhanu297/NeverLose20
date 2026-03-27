@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import uploadApi from "../../api/uploadApi";
 import imageCompression from "browser-image-compression"; //
-import "../item/ItemForm.css";
 
 function UploadPhoto({ photoUrl, onUploaded }) {
   const [preview, setPreview] = useState(photoUrl || null);
@@ -46,7 +45,7 @@ function UploadPhoto({ photoUrl, onUploaded }) {
   };
 
   return (
-    <div className="upload-photo-container">
+    <div className="upload-photo-container h-100">
       {/* input hide */}
       <input
         type="file"
@@ -56,16 +55,24 @@ function UploadPhoto({ photoUrl, onUploaded }) {
         style={{ display: "none" }}
       />
       {/* Wizard-image-box clickable */}
-      <label htmlFor="photo-upload" className="w-100">
+      <label htmlFor="photo-upload" className="w-100 h-100 d-block">
         <div className={`nl-upload-zone ${uploading ? "opacity-50" : ""}`}>
           {preview ? (
-            <img src={preview} alt="preview" />
+            <img
+              src={preview}
+              alt="preview"
+              className="w-100 h-100 object-fit-cover shadow-sm" // Añadimos h-100 y object-fit-cover
+              style={{
+                borderRadius: "inherit",
+                display: "block",
+              }}
+            />
           ) : (
             <div className="text-center p-4">
               <i className="bi bi-camera fs-1 text-muted"></i>
-              <p className="fw-medium text-secondary mt-2">
+              <div className="h-100 d-flex align-items-center justify-content-center text-muted">
                 Click to upload photo
-              </p>
+              </div>
             </div>
           )}
 

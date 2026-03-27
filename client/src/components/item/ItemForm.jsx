@@ -1,4 +1,4 @@
-import React, { useState } from "react"; //Importing react and usestate hook from
+import React, { useState } from "react";
 import "./ItemForm.css";
 import CustomButton from "../CustomButton/CustomButton";
 import UploadPhoto from "../uploadPhoto/UploadPhoto";
@@ -21,49 +21,56 @@ function ItemForm({ form, setForm, next }) {
 
   return (
     <div className="item-form-content">
-      <div className="d-flex flex-column align-items-start mb-">
+      <div className="d-flex flex-column align-items-start mb-3">
         <h3 className="text-white fw-bold mb-2">Create Your Item</h3>
 
         <button
           className="btn btn-link text-white text-decoration-none p-0"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/")}
         >
           <i className="bi bi-chevron-left"></i>
           <span className="ms-1">Back</span>
         </button>
       </div>
 
-      <div className="d-flex align-items-center justify-content-center px-5 bg-white rounded-4 shadow-sm w-100">
-        <div style={{ maxWidth: "900px" }} className="w-100">
+      <div className="bg-white rounded-4 shadow-sm w-100 px-5 py-4">
+        <div style={{ maxWidth: "900px" }} className="mx-auto">
           <p
-            className="text-center text-muted m-5 mx-auto"
+            className="text-center text-muted mt-4 mb-5 mx-auto"
             style={{ maxWidth: "600px" }}
           >
             This info helps organize your inventory and helps the finder
             identify your item.
           </p>
 
-          <div className="pb-5">
-            <div className="row g-5 g-lg-5 justify-content-center align-items-center">
+          <div className="pb-4">
+            <div className="row align-items-center gx-lg-5">
               {/* left side */}
-              <div className="col-md-6 order-1 order-md-1 d-flex flex-column align-items-center">
-                <div className="col-md-6 order-2 order-md-1">
-                  <label className="form-label fw-semibold mb-1">
-                    Upload Photo:
-                  </label>
 
+              <div className="col-12 col-md-6 mb-4 mb-md-0 d-flex flex-column">
+                <label className="form-label fw-semibold mb-1">
+                  Upload Photo:
+                </label>
+                <div
+                  className="flex-grow-1 p-1"
+                  style={{
+                    width: "100%",
+                    maxWidth: "400px",
+                    aspectRatio: "1 / 1",
+                    margin: "0 auto",
+                  }}
+                >
                   <UploadPhoto
                     photoUrl={form.photoUrl}
                     onUploaded={(url) => setForm({ ...form, photoUrl: url })}
-                    style={{ minHeight: "230px", maxHeight: "400px" }}
                   />
                 </div>
               </div>
 
               {/* right side */}
-              <div className="col-md-6 order-1 order-md-2">
+              <div className="col-12 col-md-6">
                 <div className="mb-4">
-                  <label className="form-label fw-semibold">
+                  <label className="form-label fw-semibold mb-2">
                     <span className="text-danger me-1">*</span>
                     Item Nickname :
                   </label>
@@ -73,15 +80,22 @@ function ItemForm({ form, setForm, next }) {
                     value={form.nickname}
                     maxLength={50}
                     required
-                    onChange={(e) =>
-                      setForm({ ...form, nickname: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setForm({ ...form, nickname: e.target.value });
+                      if (e.target.value.trim().length > 0 && error) {
+                        setError(null);
+                      }
+                    }}
                     placeholder="e.g., Grey Adventure Backpack"
                   />
-                  {error && (
-                    <p className="text-danger text-center mt-2 small">
-                      {error}
-                    </p>
+
+                  {error && !form.nickname && (
+                    <div className="nl-animated-fade-in">
+                      <small className="text-danger mt-2 d-block ms-2 fw-medium">
+                        <i className="bi bi-exclamation-circle me-1"></i>
+                        {error}
+                      </small>
+                    </div>
                   )}
                 </div>
                 <div>
@@ -101,13 +115,13 @@ function ItemForm({ form, setForm, next }) {
                   </p>
                 </div>
               </div>
+            </div>
 
-              {/* Buttons Bar */}
-              <div className="order-3 text-end pb-2">
-                <CustomButton variant="primary" onClick={handleNext}>
-                  Next
-                </CustomButton>
-              </div>
+            {/* Buttons Bar */}
+            <div className="order-3 text-end pb-2">
+              <CustomButton variant="primary" onClick={handleNext}>
+                Next
+              </CustomButton>
             </div>
           </div>
           {/* Progress Bar */}
@@ -116,7 +130,7 @@ function ItemForm({ form, setForm, next }) {
               <div
                 className="progress-bar bg-primary"
                 role="progressbar"
-                style={{ width: "33%", padding: "20px" }}
+                style={{ width: "33%", transition: "width 0.4s ease" }}
               ></div>
             </div>
             <p className="mt-1 text-center small text-muted fw-medium">

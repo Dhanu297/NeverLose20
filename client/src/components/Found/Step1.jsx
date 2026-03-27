@@ -61,7 +61,8 @@ export default function Step1ItemPreview({
                     className="text-danger fw-medium"
                     style={{ maxWidth: "75%" }}
                   >
-                    Please provide a brief answer to help the owner
+                    <i className="bi bi-exclamation-circle me-1"></i>Please
+                    provide a brief answer to help the owner
                   </small>
 
                   <p className="text-muted small mb-0">

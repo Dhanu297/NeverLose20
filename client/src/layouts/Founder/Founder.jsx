@@ -10,7 +10,15 @@ export default function Founder({ right, leftImage, currentStep }) {
       <NavBar isSticky={false} />
 
       <div className="py-4 mx-4">
-        <div className="bg-white rounded-4 shadow-lg overflow-hidden w-100">
+        <div
+          className="bg-white rounded-4 shadow-lg overflow-hidden animate__animated animate__fadeIn"
+          style={{
+            width: "100%",
+            maxWidth: "1300px",
+            minHeight: "75vh",
+            margin: "0 auto",
+          }}
+        >
           <Row className="g-4">
             {" "}
             {/* Left side */}

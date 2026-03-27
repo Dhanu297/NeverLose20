@@ -49,14 +49,14 @@
   display: inline-block;
 }
 
-.status-dot.active {
+.status-dot.safe {
   background-color: var(--nl-success);
+}
+.status-dot.closed {
+  background-color: var(--nl-warning);
 }
 .status-dot.lost {
   background-color: var(--nl-danger);
-}
-.status-dot.found {
-  background-color: var(--nl-info);
 }
 
 .item-nickname {
@@ -82,8 +82,7 @@
 /* hover (only when enabled) */
 .btn-link:not(:disabled):hover i.bi-journal-text {
   transform: scale(1.15) rotate(-3deg);
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15));
-
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
 }
 
 /* disabled state */
@@ -92,4 +91,3 @@
   pointer-events: none;
   opacity: 0.4;
 }
-

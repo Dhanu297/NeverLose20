@@ -1,4 +1,4 @@
-.nav-link-custom {
+/* .nav-link-custom {
   background: none;
   border: none;
   padding: 0;
@@ -27,6 +27,56 @@
   background-color: var(--nl-deep-blue);
   transition: width 0.3s ease;
   box-shadow: 0 0 8px rgba(0, 82, 255, 0.5);
+}
+
+.nav-link-custom:hover::after {
+  width: 100%;
+} */
+
+/* NavBar.css */
+
+.navbar {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-contained {
+  max-width: 1300px !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+}
+
+.navbar-full-width {
+  max-width: none !important;
+
+  width: calc(100% - 3rem) !important;
+  margin-left: 1.5rem !important;
+  margin-right: 1.5rem !important;
+}
+
+.nav-link-custom {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6c757d;
+  cursor: pointer;
+  transition: color 0.25s ease;
+  position: relative;
+}
+
+.nav-link-custom:hover {
+  color: var(--nl-deep-blue);
+}
+
+.nav-link-custom::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--nl-deep-blue);
+  transition: width 0.3s ease;
 }
 
 .nav-link-custom:hover::after {

@@ -6,74 +6,79 @@ import "./NavBar.css";
 
 const Navbar = ({ isSticky = true }) => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { pathname } = useLocation();
 
-  const isLanding = location.pathname === "/home";
+  const currentPath = pathname.toLowerCase();
+
+  const isLanding = currentPath === "/home" || currentPath === "/";
   const isFinderPage =
-    location.pathname.includes("/f/") || location.pathname.includes("/found/");
-  const isWelcomePage = location.pathname === "/";
+    currentPath.includes("/f/") || currentPath.includes("/found/");
 
-  const navbarClasses = `navbar navbar-expand-md bg-white shadow-sm mt-3 mx-4 rounded-4 border ${
+  const wrapperClass = isLanding ? "w-100" : "px-4";
+  const navTypeClass = isLanding ? "navbar-full-width" : "navbar-contained";
+
+  const navbarClasses = `navbar navbar-expand-md bg-white shadow-sm mt-3 rounded-4 border ${
     isSticky ? "sticky-top" : ""
-  }`;
+  } ${navTypeClass}`;
 
   return (
-    <nav className={navbarClasses}>
-      <div className="container-fluid px-4 py-1">
-        <Link to="/home" className="navbar-brand">
-          <img src={logo} alt="Neverlose" style={{ height: "37px" }} />
-        </Link>
+    <div className={wrapperClass}>
+      <nav className={navbarClasses}>
+        <div className="container-fluid px-4 py-1">
+          <Link to="/home" className="navbar-brand">
+            <img src={logo} alt="Neverlose" style={{ height: "37px" }} />
+          </Link>
 
-        {/* Navigation links */}
-        <div className="collapse navbar-collapse justify-content-center">
-          <div className="navbar-nav gap-5">
-            <button
-              onClick={() => navigate("/how-it-works")}
-              className="nav-link-custom"
-            >
-              How it Works
-            </button>
-
-            <button
-              onClick={() => navigate("/features")}
-              className="nav-link-custom"
-            >
-              Features
-            </button>
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div className="d-flex align-items-center gap-2">
-          {isFinderPage ? (
-            <CustomButton
-              variant="primary"
-              className="btn px-3"
-              onClick={() => navigate("/signup")}
-            >
-              Get Started
-            </CustomButton>
-          ) : (
-            <>
-              <CustomButton
-                variant="outline"
-                className="btn-sm px-3"
-                onClick={() => navigate("/login")}
+          {/* Navigation links */}
+          <div className="collapse navbar-collapse justify-content-center">
+            <div className="navbar-nav gap-5">
+              <button
+                onClick={() => navigate("/how-it-works")}
+                className="nav-link-custom"
               >
-                Log In
-              </CustomButton>
+                How it Works
+              </button>
+              <button
+                onClick={() => navigate("/features")}
+                className="nav-link-custom"
+              >
+                Features
+              </button>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="d-flex align-items-center gap-2">
+            {isFinderPage ? (
               <CustomButton
                 variant="primary"
-                className="btn-sm px-3"
+                className="btn px-3"
                 onClick={() => navigate("/signup")}
               >
-                Register
+                Get Started
               </CustomButton>
-            </>
-          )}
+            ) : (
+              <>
+                <CustomButton
+                  variant="outline"
+                  className="btn-sm px-3"
+                  onClick={() => navigate("/login")}
+                >
+                  Log In
+                </CustomButton>
+                <CustomButton
+                  variant="primary"
+                  className="btn-sm px-3"
+                  onClick={() => navigate("/signup")}
+                >
+                  Register
+                </CustomButton>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 };
 

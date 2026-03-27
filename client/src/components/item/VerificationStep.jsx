@@ -2,8 +2,10 @@ import React from "react";
 import VerificationImage from "../../assets/VerificationImage.svg";
 import CustomButton from "../CustomButton/CustomButton";
 import "./ItemForm.css";
+import { useNavigate } from "react-router-dom";
 
 function VerificationStep({ form, setForm, next, back }) {
+  const navigate = useNavigate();
   const toggle = () =>
     setForm({
       ...form,
@@ -20,25 +22,37 @@ function VerificationStep({ form, setForm, next, back }) {
 
   return (
     <div className="item-form-content">
-      <h3 className="text-white fw-bold mb-3">
-        Set a Security Layer
-      </h3>
+      <div className="d-flex flex-column align-items-start mb-3">
+        <h3 className="text-white fw-bold mb-2">Set a Security Layer</h3>
+
+        <button
+          className="btn btn-link text-white text-decoration-none p-0 opacity-hover"
+          onClick={currentStep === 1 ? () => navigate(-1) : back}
+          style={{ transition: "opacity 0.2s" }}
+        >
+          <i className="bi bi-chevron-left"></i>
+          <span className="ms-1">Back</span>
+        </button>
+      </div>
 
       <div className="d-flex align-items-center justify-content-center px-5 bg-white rounded-4 shadow-sm w-100">
         <div style={{ maxWidth: "900px" }} className="w-100">
-          <p className="text-center text-muted m-5 mx-auto">
+          <p
+            className="text-center text-muted m-5 mx-auto"
+            style={{ maxWidth: "600px" }}
+          >
             Ask a question that only someone holding the item can answer.
           </p>
 
           <div className="pb-4">
             <div className="row align-items-center gx-lg-5">
               {/* left side */}
-              <div className="col-12 col-md-5 d-flex justify-content-center mb-4 mb-md-0">
+              <div className="col-12 col-md-6 d-flex justify-content-center">
                 <div
-                  className="rounded-4 border overflow-hidden bg-light d-flex align-items-center justify-content-center w-100"
+                  className="rounded-4 border overflow-hidden bg-light d-flex align-items-center justify-content-center mx-auto"
                   style={{
+                    width: "100%",
                     aspectRatio: "1 / 1",
-                    transition: "transform 0.3s ease",
                   }}
                 >
                   {form.photoUrl ? (
@@ -48,7 +62,9 @@ function VerificationStep({ form, setForm, next, back }) {
                       className="w-100 h-100 object-fit-cover"
                     />
                   ) : (
-                    <div className="text-muted small">No image uploaded</div>
+                    <div className="h-100 d-flex align-items-center justify-content-center text-muted">
+                      No image uploaded
+                    </div>
                   )}
                 </div>
               </div>
@@ -118,20 +134,20 @@ function VerificationStep({ form, setForm, next, back }) {
                   </div>
                 )}
               </div>
+            </div>
 
-              {/* Buttons Bar */}
-              <div className="d-flex justify-content-between mt-4 order-3">
-                <CustomButton variant="outline" onClick={back}>
+            {/* Buttons Bar */}
+            <div className="order-3 text-end pb-2">
+              {/* <CustomButton variant="outline" onClick={back}>
                   Back
-                </CustomButton>
-                <CustomButton
-                  variant="primary"
-                  onClick={next}
-                  disabled={isButtonDisabled}
-                >
-                  Review & Create
-                </CustomButton>
-              </div>
+                </CustomButton> */}
+              <CustomButton
+                variant="primary"
+                onClick={next}
+                disabled={isButtonDisabled}
+              >
+                Review & Create
+              </CustomButton>
             </div>
           </div>
 
@@ -141,7 +157,7 @@ function VerificationStep({ form, setForm, next, back }) {
               <div
                 className="progress-bar bg-primary"
                 role="progressbar"
-                style={{ width: "66%" }}
+                style={{ width: "66%", transition: "width 0.4s ease" }}
               ></div>
             </div>
 

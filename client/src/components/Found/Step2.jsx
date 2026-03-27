@@ -102,7 +102,8 @@ function Step2Verification({
                 !isValidEmail(reportData.finder.email) && (
                   <div className="nl-animated-fade">
                     <small className="text-danger mt-2 d-block ms-2 fw-medium">
-                      Please enter a valid email address
+                      <i className="bi bi-exclamation-circle me-1"></i>Please
+                      enter a valid email address
                     </small>
                   </div>
                 )}
@@ -138,8 +139,8 @@ function Step2Verification({
               {isMessageTooShort && (
                 <div className="nl-animated-fade">
                   <small className="text-danger mt-1 d-block ms-2 fw-medium">
-                    Please write a bit more to help the owner (min. 10
-                    characters)
+                    <i className="bi bi-exclamation-circle me-1"></i>Please
+                    write a bit more to help the owner (min. 10 characters)
                   </small>
                 </div>
               )}

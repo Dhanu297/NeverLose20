@@ -11,9 +11,8 @@ const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
       style={{ maxWidth: "850px" }}
     >
       <div className="row align-items-center gx-lg-5">
-
         {/* LEFT SIDE IMAGE */}
-        <div className="col-12 col-md-5 d-flex justify-content-center">
+        <div className="col-12 col-md-6 d-flex justify-content-center">
           <div
             className="rounded-4 border overflow-hidden bg-light d-flex align-items-center justify-content-center mx-auto"
             style={{
@@ -29,17 +28,16 @@ const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
               />
             ) : (
               <div className="h-100 d-flex align-items-center justify-content-center text-muted">
-                No Image
+                No image uploaded
               </div>
             )}
           </div>
         </div>
 
         {/* RIGHT SIDE TEXT + ICONS */}
-        <div className="col-md-7 d-flex justify-content-between align-items-center">
-
+        <div className="col-md-6 d-flex justify-content-between align-items-center">
           {/* TEXT BLOCK */}
-          <div className="flex-grow-1">
+          <div className="flex-grow-1 mt-3">
             <h2
               className="fw-bold mb-2"
               style={{ color: "var(--nl-deep-blue)" }}
@@ -73,7 +71,6 @@ const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
               <EditDeleteComponent onEdit={onEdit} onDelete={onDelete} />
             </div>
           )}
-
         </div>
       </div>
     </div>

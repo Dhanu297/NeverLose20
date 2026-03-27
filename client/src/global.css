@@ -158,31 +158,30 @@ input:-webkit-autofill:focus {
 /* --- UPLOAD IMAGE STANDARD --- */
 
 .nl-upload-zone {
-  background-color: var(--nl-light-bg) !important;
-  border: 2px dashed #d1d5db !important;
-  border-radius: 16px !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  min-height: 180px;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
   cursor: pointer;
+  background-color: var(--nl-light-bg);
+  border: 2px dashed var(--nl-soft-gray);
+  border-radius: 25px;
+  transition: all 0.3s ease;
 }
 
 .nl-upload-zone:hover {
-  background-color: var(--nl-white) !important;
-  border-color: var(--nl-tech-blue) !important;
-  transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(12, 109, 255, 0.1) !important;
+  border-color: var(--nl-tech-blue);
+  background-color: #fff;
+  transform: scale(1.01);
 }
 
 .nl-upload-zone img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  object-position: center;
 }
 
 .nl-upload-zone:hover img {
@@ -205,4 +204,14 @@ input:-webkit-autofill:focus {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Hover button < back */
+.opacity-hover {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.opacity-hover:hover {
+  opacity: 0.75 !important;
+  cursor: pointer;
 }
