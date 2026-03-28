@@ -4,10 +4,12 @@
 }
 
 .nl-preset-card {
+  transition: transform 0.2s, border-color 0.2s;
+  cursor: pointer; 
   background-color: transparent !important;
   border: 2px solid rgba(9, 32, 121, 0.9) !important;
   border-radius: 20px !important;
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -51,6 +53,7 @@
   transform: translateY(-5px);
   background-color: rgba(9, 32, 121, 0.9) !important;
   box-shadow: 0 10px 30px rgba(9, 32, 121, 0.3) !important;
+  border-color: #007bff;
 }
 
 .nl-preset-card:hover .qr-svg-icon path {
@@ -60,4 +63,18 @@
 .nl-preset-card:hover .preset-name,
 .nl-preset-card:hover .preset-desc {
   color: white;
+}
+/* Branding Font */
+.preset-name, .preview-card h3, .preview-card h4 {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: -0.5px;
+}
+
+/* Specific Preview Adjustments */
+.airtag-style {
+  padding: 20px;
+}
+
+.wallet-style {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }

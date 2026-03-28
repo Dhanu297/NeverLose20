@@ -50,7 +50,60 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
   const [activePreset, setActivePreset] = useState(null);
 
   // --- 3. Logic Functions ---
+const LabelPreviewContent = ({ activePreset, item }) => {
+  const qrValue = item.publicUrl || `${window.location.origin}/f/${item.token}`;
 
+  // 1. STYLE: WALLET (Horizontal)
+  if (activePreset?.id === "wallet") {
+    return (
+      <div className="preview-card wallet-style d-flex align-items-center p-3 border border-dark rounded-3 bg-white" 
+           style={{ width: "340px", height: "215px", position: "relative" }}>
+        {/* QR on Left */}
+        <div className="qr-section me-3">
+          <QRCodeSVG value={qrValue} size={120} level="H" />
+        </div>
+        {/* Text on Right */}
+        <div className="text-section text-start">
+           <h3 className="fw-bold">Neverlose</h3>
+          <p className="text-muted mb-0" style={{ fontSize: "12px", lineHeight: "1.2" }}>SCAN IF FOUND</p>
+         
+        </div>
+      </div>
+    );
+  }
+
+  // 2. STYLE: AIRTAG (Circular)
+  if (activePreset?.id === "airtag") {
+    return (
+      <div className="preview-card airtag-style d-flex flex-column align-items-center justify-content-center border border-dark rounded-circle bg-white shadow-sm"
+           style={{ width: "200px", height: "200px" }}>
+        <QRCodeSVG value={qrValue} size={100} level="H" />
+        <h6 className="fw-bold mt-2 mb-0" style={{ fontSize: "12px" }}>SCAN IF FOUND</h6>
+      </div>
+    );
+  }
+
+  // 3. STYLE: SMALL TAG (Minimalist)
+  if (activePreset?.id === "small-tag") {
+    return (
+      <div className="preview-card small-tag-style d-flex flex-column align-items-center justify-content-center border border-dark rounded-2 bg-white"
+           style={{ width: "180px", height: "110px" }}>
+        <QRCodeSVG value={qrValue} size={60} level="H" />
+        <p className="fw-bold mt-2 mb-0" style={{ fontSize: "10px" }}>SCAN IF FOUND</p>
+      </div>
+    );
+  }
+
+  // 4. STYLE: POSTER / CUSTOM (Vertical Stack)
+  return (
+    <div className="preview-card poster-style d-flex flex-column align-items-center justify-content-center border border-dark p-4 bg-white"
+         style={{ width: "250px", height: "350px" }}>
+      <QRCodeSVG value={qrValue} size={160} level="H" />
+      <p className="text-muted mt-4 mb-1" style={{ fontSize: "14px" }}>SCAN IF FOUND</p>
+     
+    </div>
+  );
+};
   const getPreviewDimensions = (presetId) => {
     // 1. Handle Custom Case
     if (presetId === "custom") {
@@ -249,27 +302,7 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
             <Modal show={isPreviewOpen} onHide={() => setIsPreviewOpen(false)} centered>
               <Modal.Header closeButton><Modal.Title>QR Preview</Modal.Title></Modal.Header>
               <Modal.Body className="d-flex flex-column align-items-center bg-light py-4">
-                <div style={{
-                  width: `${getPreviewDimensions(activePreset?.id).w * 4}px`,
-                  height: `${getPreviewDimensions(activePreset?.id).h * 4}px`,
-                  backgroundColor: "white",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: activePreset?.shape === "circle" ? "50%" : "4px",
-                  border: "1px solid #ddd",
-                  position: "relative",
-        overflow: "hidden", // Ensures no corner clipping
-                }}>
-                  <QRCodeSVG value={propItem.publicUrl} 
-                  size={
-          activePreset?.shape === "circle"
-            ? getPreviewDimensions(activePreset?.id).w * 1.4 // 70% of the 2x scaled container
-            : Math.min(getPreviewDimensions(activePreset?.id).w, getPreviewDimensions(activePreset?.id).h) * 1.6
-        }
-        level="H" // High error correction is best for small/curved surfaces
-        includeMargin={false} />
-                </div>
+                <LabelPreviewContent activePreset={activePreset} item={item} />
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="primary" onClick={() => { setIsPreviewOpen(false); handlePrepareDownload(activePreset); }}>Looks Good, Download</Button>
