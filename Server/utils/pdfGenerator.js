@@ -1,181 +1,97 @@
-/* 
-const PDFDocument = require('pdfkit');
-
-const MM_TO_PT = 72 / 25.4;
-const mmToPt = (mm) => Number(mm) * MM_TO_PT;
-
-exports.getPresetSize = (preset, custom) => {
-  switch (preset) {
-    case 'wallet':
-      return { width: mmToPt(85.6), height: mmToPt(54) };
-
-    case 'airtag':
-      return { width: mmToPt(32), height: mmToPt(32), circle: true };
-
-    case 'small-tag':
-      return { width: mmToPt(40), height: mmToPt(20) };
-
-    case 'custom':
-      // Circle tag (diameter)
-      if (custom?.diameterMm) {
-        const d = mmToPt(custom.diameterMm);
-        return { width: d, height: d, circle: true };
-      }
-
-      // Rectangle tag
-      if (!custom?.widthMm || !custom?.heightMm) {
-        throw new Error("Custom preset requires widthMm and heightMm");
-      }
-
-      return {
-        width: mmToPt(custom.widthMm),
-        height: mmToPt(custom.heightMm),
-      };
-
-    default:
-      throw new Error('Invalid preset');
-  }
-};
-
-exports.streamLabelPdf = async (res, opts) => {
-  const size = exports.getPresetSize(opts.preset, opts.custom);
-
-  const doc = new PDFDocument({
-    size: [size.width, size.height],
-    margin: 0,
-  });
-
-  res.setHeader('Content-Type', 'application/pdf');
-  res.setHeader('Content-Disposition', 'attachment; filename="label.pdf"');
-
-  doc.pipe(res);
-
-  // QR sizing
-  const qrSize = Math.min(size.width * 0.8, size.height * 0.8);
-  const qrX = (size.width - qrSize) / 2;
-  const qrY = (size.height - qrSize) / 2 - 5;
-
-  const qrCenterX = qrX + qrSize / 2;
-  const qrCenterY = qrY + qrSize / 2;
-
-  // Draw QR (circle mask if needed)
-  if (size.circle) {
-    doc.save();
-    doc.circle(qrCenterX, qrCenterY, qrSize / 2);
-    
-    doc.image(opts.qrDataUrl, qrX, qrY, {
-      width: qrSize,
-      height: qrSize,
-    });
-    doc.restore();
-  } else {
-    doc.image(opts.qrDataUrl, qrX, qrY, {
-      width: qrSize,
-      height: qrSize,
-    });
-  }
-const qrBottom = qrY + qrSize;
-
-  // Blue "SCAN IF FOUND"
-  doc
-    .fillColor('#007BFF')
-    .fontSize(10)
-    .text('SCAN IF FOUND', 5,qrBottom + 5, {
-      width: size.width - 10,
-      align: 'center',
-    })
-    .fillColor('black'); // reset
-
-  // Scan URL
-  doc.fontSize(8).text(opts.scanUrl, 5,qrBottom + 18, {
-    width: size.width - 10,
-    align: 'center',
-  });
-
-  doc.end();
-}; */
-
-// --- Proportional layout ---
-// src/lib/pdf.js
 const PDFDocument = require('pdfkit');
 const QRCode = require('qrcode');
 
 const MM_TO_PT = 72 / 25.4;
-const mmToPt = (mm) => Number(mm) * MM_TO_PT;
-
-exports.getPresetSize = (preset, custom) => {
-  switch (preset) {
-    case 'wallet':
-      return { width: mmToPt(85.6), height: mmToPt(54) };
-
-    case 'airtag':
-      return { width: mmToPt(32), height: mmToPt(32), circle: true };
-
-    case 'small-tag':
-      return { width: mmToPt(40), height: mmToPt(20) };
-
-    case 'custom':
-      // Circle tag
-      if (custom?.diameterMm) {
-        const d = mmToPt(custom.diameterMm);
-        return { width: d, height: d, circle: true };
-      }
-
-      // Rectangle tag
-      if (!custom?.widthMm || !custom?.heightMm) {
-        throw new Error("Custom preset requires widthMm and heightMm");
-      }
-
-      return {
-        width: mmToPt(custom.widthMm),
-        height: mmToPt(custom.heightMm),
-      };
-
-    default:
-      throw new Error('Invalid preset');
-  }
-};
 
 exports.streamLabelPdf = async (res, opts) => {
-  const size = exports.getPresetSize(opts.preset, opts.custom);
+  const { preset, widthMm, heightMm, scanUrl } = opts;
 
-  // Create document with exact size of the label (no margins)
-  const doc = new PDFDocument({
-    size: [size.width, size.height],
-    margins: { top: 0, left: 0, bottom: 0, right: 0 }
-  }); 
-// Generate QR Code as a high-quality Buffer
-  const qrBuffer = await QRCode.toBuffer(opts.scanUrl, {
-    errorCorrectionLevel: 'H',
-    margin: 1,
-    type: 'png',
-    width: 600 // High resolution for print
-  });
-
-  // 1. Draw Circle Clip (if AirTag)
-  if (size.circle) {
-    doc.circle(size.width / 2, size.height / 2, size.width / 2).clip();
+  // 1. Determine Dimensions based on Image Reference
+  let wMm, hMm, isCircle = false;
+  switch (preset) {
+    case 'wallet': wMm = 85.6; hMm = 53.98; break; 
+    case 'airtag': wMm = 32; hMm = 32; isCircle = true; break;
+    case 'small-tag': wMm = 25; hMm = 15; break;
+    default: wMm = parseFloat(widthMm) || 50; hMm = parseFloat(heightMm) || 50;
   }
 
-  // 2. Calculate QR size (leave 15% padding)
-  const qrSize = Math.min(size.width, size.height ) * 0.75;
-  const xPos = (size.width - qrSize) / 2;
-  const yPos = (size.height  - qrSize) / 2;
+  const w = wMm * MM_TO_PT;
+  const h = hMm * MM_TO_PT;
 
-  // 3. Add QR to PDF
-  doc.image(qrBuffer, xPos, yPos - (size.height  * 0.05), { width: qrSize });
+  const doc = new PDFDocument({ size: [w, h], margins: 0 });
+  doc.pipe(res);
 
-  // 4. Add Label Text (Nickname)
- /*  const fontSize = Math.max(size.height  * 0.08, 6); // Responsive font size
-  doc
-    .fillColor('#333333')
-    .fontSize(fontSize)
-    .text("SCAN IF FOUND", 0, yPos + qrSize + 2, {
-      width: size.width ,
-      align: 'center',
-      lineBreak: false
-    }); */
+  const qrBuffer = await QRCode.toBuffer(scanUrl, {
+    errorCorrectionLevel: 'H',
+    margin: 0,
+    width: 600
+  });
+
+  // --- STYLE A: WALLET (Horizontal Layout) ---
+  if (preset === 'wallet') {
+    const padding = h * 0.1;
+    const innerH = h - (padding * 2);
+    const innerW = w - (padding * 2);
+
+    // Rounded Border
+    doc.roundedRect(padding, padding, innerW, innerH, 8).lineWidth(1.5).stroke('#333');
+
+    // QR on the Left
+    const qrSize = innerH * 0.8;
+    doc.image(qrBuffer, padding + 15, (h - qrSize) / 2, { width: qrSize });
+
+    // Text on the Right
+    doc.fillColor('#000').font('Helvetica-Bold').fontSize(16)
+       .text('Neverlose', padding + qrSize + 25, h * 0.35);
+    doc.fillColor('#666').font('Helvetica').fontSize(9)
+       .text('SCAN IF FOUND', padding + qrSize + 25, h * 0.55);
+  }
+
+  // --- STYLE B: AIRTAG (Circular with Arched Text) ---
+  else if (preset === 'airtag') {
+    const center = w / 2;
+    const radius = (w / 2) - 2;
+
+    // Outer Circle
+    doc.circle(center, center, radius).lineWidth(1).stroke('#333');
+
+    // QR Centered
+    const qrSize = w * 0.45;
+    doc.image(qrBuffer, center - (qrSize / 2), center - (qrSize / 2) - 4, { width: qrSize });
+
+    // Arched Branding (Simplified for PDFKit: centered below)
+    doc.fillColor('#000').font('Helvetica-Bold').fontSize(7)
+       .text('SCAN IF FOUND', 0, center + (qrSize / 2) + 2, { width: w, align: 'center' });
+  }
+
+  // --- STYLE C: SMALL TAG (Minimalist) ---
+  else if (preset === 'small-tag') {
+    const innerPadding = 2.5 * MM_TO_PT;
+    doc.roundedRect(innerPadding, innerPadding, w - (innerPadding * 2), h - (innerPadding * 2), 3)
+       .lineWidth(0.8).stroke('#333');
+
+    const qrSize = h * 0.5;
+    doc.image(qrBuffer, (w - qrSize) / 2, innerPadding + 2, { width: qrSize });
+
+    doc.fillColor('#000').font('Helvetica-Bold').fontSize(4)
+       .text('SCAN IF FOUND', 0, h - innerPadding +2, { width: w, align: 'center' });
+  }
+
+  // --- STYLE D: POSTER / CUSTOM (The Main Image Style) ---
+  else {
+    const borderPadding = w * 0.05;
+    doc.rect(borderPadding, borderPadding, w - (borderPadding * 2), h - (borderPadding * 2))
+       .lineWidth(2).stroke('#333');
+
+    const qrSize = w * 0.6;
+    doc.image(qrBuffer, (w - qrSize) / 2, h * 0.15, { width: qrSize });
+
+    doc.fillColor('#666').font('Helvetica').fontSize(w * 0.05)
+       .text('SCAN IF FOUND', 0, h * 0.8, { width: w, align: 'center' });
+
+    //doc.fillColor('#000').font('Helvetica-Bold').fontSize(w * 0.1)
+    //   .text('Neverlose', 0, h * 0.8, { width: w, align: 'center' });
+  }
 
   doc.end();
- return doc;
 };

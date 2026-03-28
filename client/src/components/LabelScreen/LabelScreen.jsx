@@ -117,12 +117,14 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
   };
 
   const handlePrepareDownload = (preset) => {
-    if (preset.id === "custom" && (!customWidth || !customHeight)) {
+    /* if (preset.id === "custom" && (!customWidth || !customHeight)) {
       alert("Please enter dimensions for your custom label.");
       return;
     }
     setSelectedPresetId(preset);
-    setIsConfirmOpen(true);
+    setIsConfirmOpen(true); */
+      downloadPreset(activePreset); 
+      setIsConfirmOpen(false); 
   };
   const handlePreview = (preset) => {
     if (preset.id === "custom" && (!customWidth || !customHeight)) {

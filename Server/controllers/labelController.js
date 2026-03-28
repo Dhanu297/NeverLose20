@@ -1,7 +1,3 @@
-// controllers/labelsController.js
-// Generates printable QR label PDFs for items owned by the authenticated user.
-// The controller delegates all logic to LabelService.
-
 const { LabelService } = require("../services/labelService");
 
 exports.getLabel = async (req, res) => {
@@ -9,29 +5,29 @@ exports.getLabel = async (req, res) => {
     const ownerId = req.user.uid;
     const { itemId } = req.params;
 
-    // Default preset is "wallet" unless specified
-    const preset = req.query["preset[id]"] || "wallet";
+    const preset = req.query["preset[id]"]|| "wallet";
+    const widthMm = req.query["preset[widthMm]"];
+    const heightMm = req.query["preset[heightMm]"];
+    const diameterMm = req.query["preset[diameterMm]"];
 
-    // Optional custom dimensions
-    const widthMm = req.query["preset[widthMm]"] ? Number(req.query["preset[widthMm]"] ) : undefined;
-    const heightMm = req.query["preset[heightMm]"]  ? Number(req.query["preset[heightMm]"]) : undefined;
-    const diameterMm =req.query["preset[diameterMm]"]  ? Number(req.query["preset[diameterMm]"] ) : undefined;
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="label-${itemId}.pdf"`);
 
-    // Streams PDF directly to response
-    const doc = await LabelService.generateLabelPdfForItem({
+    await LabelService.generateLabelPdfForItem({
       ownerId,
       itemId,
       preset,
       widthMm,
       heightMm,
       diameterMm,
-      res,
+      res
     });
-     res.setHeader('Content-Type', 'application/pdf');
-  res.setHeader('Content-Disposition', 'attachment; filename="label.pdf"');
 
-  doc.pipe(res);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    if (!res.headersSent) {
+      res.status(400).json({ error: err.message });
+    } else {
+      res.end();
+    }
   }
 };
