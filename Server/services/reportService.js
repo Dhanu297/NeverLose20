@@ -19,8 +19,7 @@ exports.ReportService = {
     const snap = await db
       .collection(REPORTS)
       .where("itemId", "==", itemId)
-      .where("internalStatus", "==", "OPEN")
-      .where("reportStatus", "!=", "SPAM")
+      .where("internalStatus", "==", "OPEN")      
       .orderBy("createdAt", "desc")
       .get();
 

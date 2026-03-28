@@ -150,13 +150,13 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
         {
           <div className="d-flex justify-content-between align-items-center mb-5">
             <div>
-              <h1 className="display-5 fw-extrabold mb-0">
-                Download your QR Code
-              </h1>
+              <h5 className="fw-bold mb-2">
+                Download Your QR Code
+              </h5>
              
               <p>
                 Public Scan URL:
-                <code className="d-block bg-light text-dark p-2 rounded mt-1">
+                <code className="d-block text-dark p-2 rounded mt-1">
                   {propItem.publicUrl}
                 </code>
               </p>
@@ -177,7 +177,10 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
           {item.labelPresets?.map((preset) => (
             <div key={preset.id} className="col">
               {/* Card */}
-              <div  className="h-100 nl-preset-card shadow-sm p-1 d-flex flex-column align-items-center justify-content-center"
+              <div      onClick={() => {
+                   handlePreview(preset);
+                }}
+                role="button"  className="h-100 nl-preset-card shadow-sm p-1 d-flex flex-column align-items-center justify-content-center"
               >
                 {/* Icons */}
                 <div
@@ -234,7 +237,7 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
                   </div>
                 )}
                 <div className="d-flex flex-column gap-2">
-                  <button className="btn btn-outline-primary btn-sm rounded-pill w-80" onClick={() => handlePreview(preset)}>Preview & Download</button>
+                 {/*  <button className="btn btn-outline-primary btn-sm rounded-pill w-80" onClick={() => handlePreview(preset)}>Preview & Download</button> */}
                   {/* <button className="btn btn-primary btn-sm rounded-pill" onClick={() => handlePrepareDownload(preset.id)}>Download PDF</button> */}
                 </div>
               </div>
