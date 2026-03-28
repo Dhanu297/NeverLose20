@@ -98,6 +98,7 @@ const qrBottom = qrY + qrSize;
 // --- Proportional layout ---
 // src/lib/pdf.js
 const PDFDocument = require('pdfkit');
+const QRCode = require('qrcode');
 
 const MM_TO_PT = 72 / 25.4;
 const mmToPt = (mm) => Number(mm) * MM_TO_PT;
@@ -138,60 +139,43 @@ exports.getPresetSize = (preset, custom) => {
 exports.streamLabelPdf = async (res, opts) => {
   const size = exports.getPresetSize(opts.preset, opts.custom);
 
+  // Create document with exact size of the label (no margins)
   const doc = new PDFDocument({
     size: [size.width, size.height],
-    margin: 0,
+    margins: { top: 0, left: 0, bottom: 0, right: 0 }
+  }); 
+// Generate QR Code as a high-quality Buffer
+  const qrBuffer = await QRCode.toBuffer(opts.scanUrl, {
+    errorCorrectionLevel: 'H',
+    margin: 1,
+    type: 'png',
+    width: 600 // High resolution for print
   });
 
-  res.setHeader('Content-Type', 'application/pdf');
-  res.setHeader('Content-Disposition', 'attachment; filename="label.pdf"');
+  // 1. Draw Circle Clip (if AirTag)
+  if (size.circle) {
+    doc.circle(size.width / 2, size.height / 2, size.width / 2).clip();
+  }
 
-  doc.pipe(res);
+  // 2. Calculate QR size (leave 15% padding)
+  const qrSize = Math.min(size.width, size.height ) * 0.75;
+  const xPos = (size.width - qrSize) / 2;
+  const yPos = (size.height  - qrSize) / 2;
 
-  // --- Proportional layout ---
-  const qrHeight = size.height * 0.60;
-  const text1Height = size.height * 0.20; // SCAN IF FOUND
-  const text2Height = size.height * 0.20; // scan URL
+  // 3. Add QR to PDF
+  doc.image(qrBuffer, xPos, yPos - (size.height  * 0.05), { width: qrSize });
 
-  const qrSize = Math.min(size.width * 0.8, qrHeight); // keep square
-  const qrX = qrSize/2;
-  const qrY = size.height * 0.10; // 10% top padding
-
-  // Draw QR (circle or square)
-  /* if (size.circle) {
-    const qrCenterX = qrX + qrSize / 2;
-    const qrCenterY = qrY + qrSize / 2;
-
-    doc.save();
-    doc.circle(qrCenterX, qrCenterY, qrSize / 2);
-   
-    doc.image(opts.qrDataUrl, qrX, qrY, { width: qrSize, height: qrSize });
-    doc.restore();
-  } else { */
-    doc.image(opts.qrDataUrl, qrX, qrY, { width: qrSize, height: qrSize });
-  //}
-
-  // --- Text positions ---
-  const text1Y = qrY + qrSize + 5; // SCAN IF FOUND
-  const text1X = qrX + qrSize + 5; // SCAN IF FOUND
-  const text2Y = text1Y + text1Height - 10; // scan URL
-
-  // Blue "SCAN IF FOUND"
+  // 4. Add Label Text (Nickname)
+ /*  const fontSize = Math.max(size.height  * 0.08, 6); // Responsive font size
   doc
-    .fillColor('#007BFF')
-    .fontSize(4)
-    .text('SCAN IF FOUND', 5,text1X, text1Y, {
-      width: size.width - 10,
-     
+    .fillColor('#333333')
+    .fontSize(fontSize)
+    .text("SCAN IF FOUND", 0, yPos + qrSize + 2, {
+      width: size.width ,
       align: 'center',
-    })
-    .fillColor('black');
-
-  // Scan URL
-  doc.fontSize(4).text(opts.scanUrl, 5, text2Y, {
-    width: size.width - 10,
-    align: 'center',
-  });
+      lineBreak: false
+    }); */
 
   doc.end();
+ return doc;
 };

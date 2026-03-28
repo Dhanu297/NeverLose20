@@ -10,15 +10,15 @@ exports.getLabel = async (req, res) => {
     const { itemId } = req.params;
 
     // Default preset is "wallet" unless specified
-    const preset = req.query.preset || "wallet";
+    const preset = req.query["preset[id]"] || "wallet";
 
     // Optional custom dimensions
-    const widthMm = req.query.widthMm ? Number(req.query.widthMm) : undefined;
-    const heightMm = req.query.heightMm ? Number(req.query.heightMm) : undefined;
-    const diameterMm = req.query.diameterMm ? Number(req.query.diameterMm) : undefined;
+    const widthMm = req.query["preset[widthMm]"] ? Number(req.query["preset[widthMm]"] ) : undefined;
+    const heightMm = req.query["preset[heightMm]"]  ? Number(req.query["preset[heightMm]"]) : undefined;
+    const diameterMm =req.query["preset[diameterMm]"]  ? Number(req.query["preset[diameterMm]"] ) : undefined;
 
     // Streams PDF directly to response
-    await LabelService.generateLabelPdfForItem({
+    const doc = await LabelService.generateLabelPdfForItem({
       ownerId,
       itemId,
       preset,
@@ -27,6 +27,10 @@ exports.getLabel = async (req, res) => {
       diameterMm,
       res,
     });
+     res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', 'attachment; filename="label.pdf"');
+
+  doc.pipe(res);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

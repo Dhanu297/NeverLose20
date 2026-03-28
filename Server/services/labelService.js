@@ -35,11 +35,12 @@ exports.LabelService = {
     const qrDataUrl = await generateQrDataUrl(scanUrl);
 
     // Stream PDF directly to the HTTP response.
-    await streamLabelPdf(res, {
+    const doc = await streamLabelPdf(res, {
       preset,
       custom: { widthMm, heightMm, diameterMm },
       qrDataUrl,
       scanUrl,
     });
+    return doc;
   },
 };
