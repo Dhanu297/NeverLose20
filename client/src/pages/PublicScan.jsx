@@ -4,17 +4,52 @@ import { useParams, useNavigate } from "react-router-dom";
 import Founder from "../layouts/Founder/Founder";
 import CustomButton from "../components/CustomButton/CustomButton";
 import FinderWelcome from "../assets/Finder-Step0.webp";
+import { useFoundFlow } from "../hooks/public/useFoundFlow";
+import NotFound from "../components/Found/NotFound";
 
 export default function PublicScan() {
   const { token } = useParams();
-  const [item, setItem] = useState(null);
+  // const [item, setItem] = useState(null);
   const navigate = useNavigate();
+  const { item, loading, error } = useFoundFlow(token);
 
-  useEffect(() => {
-    publicApi.getItem(token).then((res) => setItem(res.data));
-  }, [token]);
+  // useEffect(() => {
+  //   publicApi.getItem(token).then((res) => setItem(res.data));
+  // }, [token]);
 
-  if (!item) return <p>Loading…</p>;
+  if (loading) {
+    return (
+      <div className="min-vh-100 d-flex align-items-center justify-content-center">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !item) {
+    return (
+      <NotFound
+        title="Oops! We couldn't find this tag"
+        message={
+          <>
+            It seems like this QR code isn't registered in our system or has
+            been deactivated. Please try scanning it again or check if the tag
+            is damaged.
+            <strong
+              className="d-block mt-2"
+              style={{ color: "var(--nl-dark-navy)" }}
+            >
+              {" "}
+              Thank you for trying to help!
+            </strong>
+          </>
+        }
+        icon="bi-qr-code-scan"
+        buttonText="Explore Neverlose"
+      />
+    );
+  }
 
   return (
     <Founder

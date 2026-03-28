@@ -3,7 +3,6 @@ import { publicApi } from "../../api/publicApi";
 import { useNavigate } from "react-router-dom";
 
 export function useFoundFlow(token) {
-  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,24 +21,14 @@ export function useFoundFlow(token) {
   useEffect(() => {
     //todo: token naver change
     async function load() {
+      setLoading(true);
       try {
         const res = await publicApi.getItem(token);
         setItem(res.data);
+        setError(null);
       } catch (err) {
-        // setError("Invalid or expired tag.");
-        navigate("/error", {
-          state: {
-            title: "Oops! We couldn't find this tag",
-            message: (
-              <>
-                It seems like this QR code isn't registered in our system or has
-                been deactivated. Please try scanning it again or check if the
-                tag is damaged.
-                <strong> Thank you for trying to help!</strong>
-              </>
-            ),
-          },
-        });
+        console.error("Error loading item:", err);
+        setError(err.response?.data?.message || "Item not found");
       } finally {
         setLoading(false);
       }

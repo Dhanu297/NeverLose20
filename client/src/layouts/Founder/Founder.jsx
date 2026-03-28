@@ -19,24 +19,25 @@ export default function Founder({ right, leftImage, currentStep }) {
             margin: "0 auto",
           }}
         >
-          <Row className="g-4">
+          <Row className="g-0">
             {" "}
             {/* Left side */}
             <Col
               md={5}
               className="d-none d-md-block p-0 border-0 position-relative"
+              style={{ minHeight: "600px" }}
             >
               <div
-                className="h-100 bg-white border-0 position-relative d-flex align-items-center justify-content-center"
-                style={{ minHeight: "600px", border: "none" }}
+                className="position-relative h-100 w-100 overflow-hidden"
+                style={{ minHeight: "inherit" }}
               >
                 <img
                   key={currentStep}
                   src={leftImage}
                   alt="Neverlose Context"
-                  className="w-100 h-100 object-fit-cover animate__animated animate__fadeIn"
+                  className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover animate__animated animate__fadeIn"
                   style={{
-                    objectPosition: "right",
+                    objectPosition: "right center",
                   }}
                 />
 

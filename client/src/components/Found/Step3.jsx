@@ -40,7 +40,7 @@ export default function Step3Success() {
           much better. They will contact you soon to coordinate the recovery.
         </p>
       </div>
-      <div className="d-flex justify-content-center mt-5 pt-2">
+      <div className="d-flex justify-content-center my-2 pb-5">
         <CustomButton
           onClick={() => navigate("/home")}
           variant="primary"
@@ -54,6 +54,49 @@ export default function Step3Success() {
         >
           Discover Neverlose
         </CustomButton>
+      </div>
+
+      {/* Neverlose finder summary */}
+      <div className="border-top py-4 mt-4 text-center border-bottom">
+        <p className="text-muted fs-6 mb-3">
+          Neverlose is a community platform designed to recover lost belongings
+          safely and anonymously.
+        </p>
+        <div
+          className="row g-0    "
+          style={{ borderColor: "#f0f0f0 !important" }}
+        >
+          {[
+            {
+              icon: "bi-shield-check",
+              label: "Verify",
+              sub: "Confirm item",
+            },
+            {
+              icon: "bi-chat-left-dots",
+              label: "Notify",
+              sub: "Message owner",
+            },
+            {
+              icon: "bi-envelope-paper-heart",
+              label: "Connect",
+              sub: "Return safely",
+            },
+          ].map((item, index) => (
+            <div className="col-4 text-center" key={index}>
+              <div className="mb-2 fs-4 text-primary opacity-75">
+                <i className={`bi ${item.icon}`}></i>
+              </div>
+              <p className="small fw-bold mb-0 text-dark">{item.label}</p>
+              <span
+                className="text-muted d-none d-md-block"
+                style={{ fontSize: "11px" }}
+              >
+                {item.sub}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

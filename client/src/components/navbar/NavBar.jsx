@@ -7,22 +7,25 @@ import "./NavBar.css";
 const Navbar = ({ isSticky = true }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
   const currentPath = pathname.toLowerCase();
 
   const isLanding = currentPath === "/home" || currentPath === "/";
   const isFinderPage =
     currentPath.includes("/f/") || currentPath.includes("/found/");
 
-  const wrapperClass = isLanding ? "w-100" : "px-4";
-  const navTypeClass = isLanding ? "navbar-full-width" : "navbar-contained";
-
-  const navbarClasses = `navbar navbar-expand-md bg-white shadow-sm mt-3 rounded-4 border ${
-    isSticky ? "sticky-top" : ""
-  } ${navTypeClass}`;
+  const navbarClasses = [
+    "navbar",
+    "navbar-expand-md",
+    "bg-white",
+    "shadow-sm",
+    "border",
+    "rounded-4",
+    isSticky ? "sticky-nav" : "",
+    isLanding ? "navbar-landing" : "navbar-contained",
+  ].join(" ");
 
   return (
-    <div className={wrapperClass}>
+    <div className={`nav-wrapper pt-3 ${isLanding ? "px-3" : "px-4"}`}>
       <nav className={navbarClasses}>
         <div className="container-fluid px-4 py-1">
           <Link to="/home" className="navbar-brand">
