@@ -172,7 +172,7 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
                   </button>
                 </span>
               </OverlayTrigger>
-              <p className="extra-small text-muted mt-2">Mark as fake. This will remove the item from active reports.</p>
+              <p className="extra-small text-muted mt-2">Mark as spam if the item is not yours.</p>
             </div>
           </div>
         </Col>

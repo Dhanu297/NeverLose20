@@ -12,6 +12,7 @@ const usersRouter = require("./routes/users");
 const reportRouter = require("./routes/reports");
 const labelRouter = require("./routes/labels");
 const uploadRouter = require("./routes/upload");
+const logRouter= require("./routes/log");
 
 const app = express();
 
@@ -41,6 +42,10 @@ app.use("/api/labels", labelRouter);
 
 // Upload photo
 app.use("/api/upload", uploadRouter);
+
+//log history for Item
+app.use("/api/logs", logRouter);
+
 
 // Simple health check
 app.get("/health", (req, res) => {

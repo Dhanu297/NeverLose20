@@ -58,21 +58,33 @@ async function submitFoundReport(req, res) {
     // Fetch owner email
     const owner = await PublicService.getItemOwner(ownerid);
 
-    const emailBody = `Your item "${item.nickname}" was reported found.
+    const emailBody = `
+Hi there,
 
-Finder Email: ${payload.finder.email}
-Finder Phone: ${payload.finder.phone || "N/A"}
-Finder Name: ${payload.finder.name || "N/A"}
-Message: ${payload.message}
-Location: ${payload.foundLocationText || "N/A"}
-Verification Answer: ${payload.verificationAnswer || "N/A"}
-Photo: ${payload.photoUrl || "N/A"}
+Good news — someone has reported finding an item that matches your tag.
 
-  `;
+Item: ${item.nickname}
+Finder’s Name: ${payload.finder?.name || "Not provided"}
+Finder’s Phone: ${payload.finder?.phone || "Not provided"}
+Finder’s Email: ${payload.finder?.email}
+Finder’s Message:
+${payload.message}
+
+What happens next?
+You can now review this report in your dashboard and decide how you want to respond. 
+If verification was enabled, the finder has already submitted their answer.
+
+We recommend replying to the finder directly to coordinate pickup or return.
+
+Stay safe,
+The NeverLose Team
+`.trim();
+
 
     await sendFoundReportEmail({
       to: owner.email,
-      subject: "Your item was found",
+       subject : `Someone found your item: ${item.nickname}`,
+
       body: emailBody,
     });
 

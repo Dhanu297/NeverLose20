@@ -99,16 +99,16 @@ const ItemList = ({
               </td>
 
               <td className="p-3 text-muted small">
-                {item.lastActivity || "No activity yet"}
+                {item.lastActivityAt || "No activity yet"}
               </td>
 
               <td className="p-3 text-center">
                 <button
                   className="btn btn-link p-0 border-0" fs-4 fw-bold
                   onClick={() => onReportsList(item.id)}
-                  disabled={item.ReportCount==0}
+                  disabled={item.reportCount==0}
                 >
-                  {item.ReportCount}
+                  {item.reportCount}
                 </button>
               </td>
             </tr>

@@ -2,7 +2,7 @@
 // Firestore operations for reports stored in a top-level "reports" collection.
 
 const { db } = require("../config/firebaseConfig");
-
+const { LogService } = require("../services/logService"); // Centralized event logging service
 const REPORTS = "foundReports";
 const ITEMS = "items";
 
@@ -79,14 +79,20 @@ exports.ReportService = {
       const batch = db.batch();
 
       allReportsSnap.forEach((doc) => {
-        batch.update(doc.ref, {
-          reportStatus: "CLOSED",
+        batch.update(doc.ref, {          
           internalStatus: "CLOSE",
           updatedAt,
         });
       });
-
+      
       await batch.commit();
+       // -------------------------------------------------------------------------
+    // LOG EVENT HISTORY (non-blocking)
+    // -------------------------------------------------------------------------
+    LogService.log(item.id, item.ownerId, "REPORT_STATUS_CHANGED", {
+      reportId: report.id,
+     Status: reportStatus
+    });
 
     }
   }
