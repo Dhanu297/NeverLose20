@@ -11,19 +11,24 @@ const EditItemComponent = ({ item }) => {
 
   // Pass item directly into your hook
   const { formData, handleChange, handlePhotoChange } = useEditFormData(item);
-  const [enableVerification, setEnableVerification] = React.useState(
-    !!item?.securityQuestion,
-  );
+  const [enableVerification, setEnableVerification] = React.useState(false)
+  React.useEffect(() => {
+  setEnableVerification(formData.enableVarification);
+}, [formData.enableVarification]);
+
 
   const handleSubmit = async () => {
     try {
-      await updateItem({
-        nickname: formData.nickname,
-        description: formData.description,
-        securityQuestion: enableVerification ? formData.securityQuestion : "",
-        status: formData.status,
-        photoUrl: formData.photoUrl,
-      });
+     await updateItem({
+  nickname: formData.nickname,
+  description: formData.description,
+  status: formData.status,
+  photoUrl: formData.photoUrl,
+  verification: {
+    enabled: enableVerification,
+    question: enableVerification ? formData.securityQuestion : "",
+  },
+});
 
       navigate(`/item-details/${item.id}`);
     } catch (error) {
@@ -217,7 +222,7 @@ const EditItemComponent = ({ item }) => {
                           item.
                         </small>
                         <p className="text-end small me-2">
-                          {enableVerification.question?.length || 0}/200
+                         {formData.securityQuestion?.length || 0}/200
                         </p>
                       </div>
                     </div>
