@@ -30,7 +30,18 @@ app.use(helmet());
 logger.info("App starting...");
 
 // Allow frontend (React) to call this API
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://never-lose20.vercel.app",   // your frontend
+      "http://localhost:3000"              // local dev
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
 
 // Parse JSON request bodies
 app.use(express.json());

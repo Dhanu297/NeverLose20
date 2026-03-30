@@ -17,6 +17,7 @@ import { ReactComponent as CustomIcon } from "../../assets/CustomQR.svg";
 
 // Components
 import ConfirmDialog from "../confirmDialog/ConfirmDialog";
+import CustomButton from "../CustomButton/CustomButton";
 import "./LabelScreen.css";
 // 1. Define Presets outside the component or at the top
 const defaultPresets = [
@@ -305,7 +306,8 @@ const LabelPreviewContent = ({ activePreset, item }) => {
                 <LabelPreviewContent activePreset={activePreset} item={item} />
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="primary" onClick={() => { setIsPreviewOpen(false); handlePrepareDownload(activePreset); }}>Looks Good, Download</Button>
+                 <CustomButton
+                  variant="primary" onClick={() => { setIsPreviewOpen(false); handlePrepareDownload(activePreset); }}>Looks Good, Download</CustomButton>
               </Modal.Footer>
             </Modal>
 
