@@ -29,6 +29,8 @@ app.use(
 app.use(helmet());
 logger.info("App starting...");
 
+// Allow frontend (React) to call this API
+app.use(cors());
 // Parse JSON request bodies
 app.use(express.json());
 
