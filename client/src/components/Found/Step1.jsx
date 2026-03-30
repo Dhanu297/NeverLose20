@@ -10,9 +10,10 @@ export default function Step1ItemPreview({
   seturl,
   setAnswer,
 }) {
+  // Check if item has a verification question
   const hasQuestion =
     item?.verificationQuestion && item.verificationQuestion.trim() !== "";
-
+  // Validate answer only when question exists
   const isAnswerValid = hasQuestion ? answer.trim().length > 0 : true;
   return (
     <div className="container py-5 px-4" style={{ maxWidth: "700px" }}>
@@ -27,9 +28,11 @@ export default function Step1ItemPreview({
       </div>
 
       <div className="px-md-4">
+        {/* Show question and answer section only if question exists */}
         {hasQuestion && (
           <>
             <div className="question-section nl-animated-fade">
+              {/* Owner's question  */}
               <label
                 className="d-block fw-bold small text-uppercase mb-4"
                 style={{ color: "var(--nl-tech-blue)", letterSpacing: "1px" }}
@@ -41,7 +44,7 @@ export default function Step1ItemPreview({
                 {item.verificationQuestion}
               </h5>
             </div>
-
+            {/* Answer input  */}
             <div className="answer-section mb-4">
               <label className="form-label fw-bold small text-muted  mb-2">
                 <span className="text-danger me-1">*</span>Your Answer:
@@ -55,6 +58,7 @@ export default function Step1ItemPreview({
                 onChange={(e) => setAnswer(e.target.value)}
                 maxLength={200}
               />
+              {/* Validation message and character count  */}
               {!isAnswerValid && (
                 <div className="nl-animated-fade d-flex justify-content-between align-items-center mt-1 px-2">
                   <small
@@ -84,12 +88,14 @@ export default function Step1ItemPreview({
 
         {/* CTA */}
         <div className="pt-3 text-end">
+          {/* Handle inactive item case */}
           {item.status === "CLOSED" ? (
             <div className="alert alert-danger rounded-pill text-center fw-bold">
               This tag is inactive.
             </div>
           ) : (
             <div className="d-flex justify-content-between my-5">
+              {/* Next button (disabled if answer invalid)  */}
               <CustomButton variant="outline">Back</CustomButton>
               <CustomButton
                 variant="primary"

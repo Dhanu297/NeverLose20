@@ -19,23 +19,23 @@ function Step2Verification({
   const isMessageTooShort =
     isMessageDirty && reportData.message.trim().length < 10;
   const isMessageTooLong = reportData.message.length > 500;
-
+  // overall validation rules
   const isEmailValid =
     reportData.finder.email && isValidEmail(reportData.finder.email);
   const isMessageValid =
     reportData.message.trim().length >= 10 && reportData.message.length <= 500;
 
   const isFormValid = isEmailValid && isMessageValid;
-
+  // Update top-level fields
   const update = (field, value) =>
     setReportData((prev) => ({ ...prev, [field]: value }));
-
+  // Update nester finder fields
   const updateFinder = (field, value) =>
     setReportData((prev) => ({
       ...prev,
       finder: { ...prev.finder, [field]: value },
     }));
-
+  // Validate form before submission
   const validate = () => {
     let newErrors = {};
 
@@ -54,7 +54,7 @@ function Step2Verification({
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
+  // Handle form submission
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
     if (validate()) {

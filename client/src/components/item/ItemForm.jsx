@@ -7,20 +7,21 @@ import { useNavigate } from "react-router-dom";
 function ItemForm({ form, setForm, next }) {
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  // Handle next step with validation
   const handleNext = () => {
     if (!form.nickname.trim()) {
       setError("Item Nickname is required");
       return;
     }
     setError("");
-    next();
+    next();// move to next step in wizard
   };
-  const totalSteps = 3;
+  const totalSteps = 3;//Step progress tracking 
   const currentStep = 1;
 
   return (
     <div className="item-form-content">
+      {/* Header with title, back navigation */}
       <div className="d-flex flex-column align-items-start mb-3">
         <h3 className="text-white fw-bold mb-2">Create Your Item</h3>
 
@@ -32,7 +33,7 @@ function ItemForm({ form, setForm, next }) {
           <span className="ms-1">Back</span>
         </button>
       </div>
-
+       {/* Main form container  */}
       <div className="bg-white rounded-4 shadow-sm w-100 px-5 py-4">
         <div style={{ maxWidth: "900px" }} className="mx-auto">
           <p
@@ -66,8 +67,9 @@ function ItemForm({ form, setForm, next }) {
                 </div>
               </div>
 
-              {/* right side */}
+              {/* right side Form inputs */}
               <div className="col-12 col-md-6">
+                {/* Nickname (required field) */}
                 <div className="mb-4">
                   <label className="form-label fw-semibold mb-2">
                     <span className="text-danger me-1">*</span>
@@ -81,13 +83,14 @@ function ItemForm({ form, setForm, next }) {
                     required
                     onChange={(e) => {
                       setForm({ ...form, nickname: e.target.value });
+                      // Clear error when user starts typing
                       if (e.target.value.trim().length > 0 && error) {
                         setError(null);
                       }
                     }}
                     placeholder="e.g., Grey Adventure Backpack"
                   />
-
+                  {/* Validation error message */}
                   {error && !form.nickname && (
                     <div className="nl-animated-fade-in">
                       <small className="text-danger mt-2 d-block ms-2 fw-medium">
@@ -132,6 +135,7 @@ function ItemForm({ form, setForm, next }) {
                 style={{ width: "33%", transition: "width 0.4s ease" }}
               ></div>
             </div>
+            {/* Step indicator */}
             <p className="mt-1 text-center small text-muted fw-medium">
               Step {currentStep} of {totalSteps}
             </p>

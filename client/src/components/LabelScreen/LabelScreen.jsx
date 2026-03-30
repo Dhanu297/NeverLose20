@@ -204,15 +204,15 @@ const LabelPreviewContent = ({ activePreset, item }) => {
         {
           <div className="d-flex justify-content-between align-items-center mb-5">
             <div>
-              <h5 className="fw-bold mb-2">
+              <h3 className="fw-bold mb-2">
                 Download Your QR Code
-              </h5>
-             
-              <p>
-                Public Scan URL:
-                <code className="d-block text-dark p-2 rounded mt-1">
+                
+              </h3> 
+              <p>Click a card below to preview & download</p>            
+              <p className="text-muted">
+                Public Scan URL : &nbsp;
                   {propItem.publicUrl}
-                </code>
+                
               </p>
             </div>
             

@@ -5,7 +5,7 @@ import ItemCard from "../itemCard/ItemCard";
 import { useNavigate } from "react-router-dom";
 
 function ReviewStep({ form, back, create, showButtons = true }) {
-  const navigate = useNavigate();
+  const navigate = useNavigate();//Navigation hook (used for back navigation)
   const totalSteps = 3;
   const currentStep = 3;
 
@@ -13,7 +13,7 @@ function ReviewStep({ form, back, create, showButtons = true }) {
     <div className="item-form-content">
       <div className="d-flex flex-column align-items-start mb-3">
         <h3 className="text-white fw-bold mb-2">Review Your Item</h3>
-
+        {/* Back button (uses parent handler or browser navigation) */}
         <button
           className="btn btn-link text-white text-decoration-none p-0 opacity-hover"
           onClick={currentStep === 2 ? () => navigate(-1) : back}
@@ -23,12 +23,12 @@ function ReviewStep({ form, back, create, showButtons = true }) {
           <span className="ms-1">Back</span>
         </button>
       </div>
-
+      {/* Main review container  */}
       <div className="bg-white rounded-4 shadow-sm w-100 px-5 py-4 ">
         <div style={{ maxWidth: "900px" }} className="mx-auto">
           <p
             className="text-center text-muted mt-4 mb-5 mx-auto"
-            style={{ maxWidth: "600px" }}
+            style={{ maxWidth: "600px" }}//Instruction message
           >
             Check if everything looks correct before securing your item.
           </p>
@@ -39,9 +39,6 @@ function ReviewStep({ form, back, create, showButtons = true }) {
             {/* Buttons Bar */}
             {showButtons && (
               <div className="order-3 text-end pb-2">
-                {/* <CustomButton variant="outline" onClick={back}>
-                  Back
-                </CustomButton> */}
                 <CustomButton variant="primary" onClick={create}>
                   Create Item
                 </CustomButton>
@@ -58,6 +55,7 @@ function ReviewStep({ form, back, create, showButtons = true }) {
                 style={{ width: "100%", transition: "width 0.4s ease" }}
               ></div>
             </div>
+            {/* Step indicator  */}
             <p className="mt-2 text-center small text-muted fw-medium">
               Step {currentStep} of {totalSteps}
             </p>

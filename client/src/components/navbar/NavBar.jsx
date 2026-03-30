@@ -5,13 +5,13 @@ import CustomButton from "../CustomButton/CustomButton";
 import "./NavBar.css";
 
 const Navbar = ({ isSticky = true }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate();//Navigation hooks for routing
   const { pathname } = useLocation();
-  const currentPath = pathname.toLowerCase();
+  const currentPath = pathname.toLowerCase();//Normalize current path for easy checks
 
-  const isLanding = currentPath === "/home" || currentPath === "/";
+  const isLanding = currentPath === "/home" || currentPath === "/";//Check if user is on landing page
   const isFinderPage =
-    currentPath.includes("/f/") || currentPath.includes("/found/");
+    currentPath.includes("/f/") || currentPath.includes("/found/");//Check if user is on public finder pages (QR scan flow)
 
   const navbarClasses = [
     "navbar",
@@ -25,9 +25,11 @@ const Navbar = ({ isSticky = true }) => {
   ].join(" ");
 
   return (
+    // Wrapper adds spacing and layout adjustments
     <div className={`nav-wrapper pt-3 ${isLanding ? "px-3" : "px-4"}`}>
       <nav className={navbarClasses}>
         <div className="container-fluid px-4 py-1">
+          {/* Logo (redirects to home) */}
           <Link to="/home" className="navbar-brand">
             <img src={logo} alt="Neverlose" style={{ height: "37px" }} />
           </Link>
@@ -50,7 +52,7 @@ const Navbar = ({ isSticky = true }) => {
             </div>
           </div>
 
-          {/* CTA */}
+          {/* buttons (dynamic based on page type)*/}
           <div className="d-flex align-items-center gap-2">
             {isFinderPage ? (
               <CustomButton

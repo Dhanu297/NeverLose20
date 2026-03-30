@@ -1,13 +1,14 @@
+/* Smooth transition for navbar animations (hover, scroll effects) */
 .navbar {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
+/* Constrains navbar width for inner pages (centered layout) */
 .navbar-contained {
   max-width: 1300px !important;
   margin: 0 auto !important;
   width: 100% !important;
 }
-
+/* Full-width navbar  */
 .navbar-full-width {
   max-width: none !important;
 
@@ -15,7 +16,7 @@
   margin-left: 1.5rem !important;
   margin-right: 1.5rem !important;
 }
-
+/* Custom navigation link  */
 .nav-link-custom {
   background: none;
   border: none;
@@ -26,11 +27,11 @@
   transition: color 0.25s ease;
   position: relative;
 }
-
+/* Hover color change for navigation links */
 .nav-link-custom:hover {
   color: var(--nl-deep-blue);
 }
-
+/* Underline animation */
 .nav-link-custom::after {
   content: "";
   position: absolute;
@@ -41,11 +42,11 @@
   background-color: var(--nl-deep-blue);
   transition: width 0.3s ease;
 }
-
+/* Expands underline on hover */
 .nav-link-custom:hover::after {
   width: 100%;
 }
-
+/* Wrapper ensures navbar stays centered and above other elements  */
 .nav-wrapper {
   position: relative;
   z-index: 1020;
@@ -59,17 +60,17 @@
   background-color: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(10px); /* Efecto Glassmorphism sutil */
 }
-
+/* Sticky navbar positioning (sticks to top while scrolling)  */
 .sticky-nav {
   position: sticky;
   top: 1rem;
 }
-
+/* Standard contained layout width */
 .navbar-contained {
   max-width: 1300px;
   width: 100%;
 }
-
+/* Landing page layout (full width) */
 .navbar-landing {
   width: 100%;
 }

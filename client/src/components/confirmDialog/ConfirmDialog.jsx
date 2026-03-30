@@ -1,6 +1,6 @@
 import React from "react";
 import CustomButton from "../CustomButton/CustomButton";
-
+//Different dialog types (controls icon, color, and button style)
 const DIALOG_VARIANTS = {
   success: {
     icon: "bi-check-circle",
@@ -32,11 +32,12 @@ export default function ConfirmDialog({
   title,
   variant = "warning",
 }) {
-  if (!open) return null;
-
+  if (!open) return null;//If dialog is not open, render nothing (prevents unnecessary UI)
+  //Pick the correct variant config (fallback to warning if invalid)
   const config = DIALOG_VARIANTS[variant] || DIALOG_VARIANTS.warning;
 
   return (
+    //Full screen overlay with blur background
     <div
       className="fixed-top w-100 h-100 d-flex align-items-center justify-content-center px-3"
       style={{
@@ -48,6 +49,7 @@ export default function ConfirmDialog({
         left: 0,
       }}
     >
+     {/* // Dialog box container */}
       <div
         className="bg-white px-4 py-5  shadow-lg border-0 text-center animate__animated animate__fadeInUp"
         style={{
@@ -57,7 +59,7 @@ export default function ConfirmDialog({
           boxShadow: "0 15px 35px rgba(0,0,0,0.15)",
         }}
       >
-        {/* Icon */}
+      {/* Icon section (dynamic based on variant)  */}
         <div className="mb-3">
           <div className="d-flex justify-content-center mb-4 animate__animated animate__backInDown ">
             <div
@@ -77,19 +79,20 @@ export default function ConfirmDialog({
             </div>
           </div>
         </div>
-
+      {/* Title  */}
         <h4
           className="fw-bold mb-2"
           style={{ color: "#092079", fontSize: "1.25rem" }}
         >
           {title}
         </h4>
-
+      {/* Message content  */}
         <p className="text-muted mb-4 small px-1" style={{ lineHeight: "1.4" }}>
           {message}
         </p>
-
+      {/* Action buttons */}
         <div className="vstack gap-2 px-2">
+          {/* Confirm action */}
           <CustomButton
             onClick={onConfirm}
             className="btn btn-primary rounded-pill py-2 fw-bold w-100 border-0 shadow-sm"
@@ -97,7 +100,7 @@ export default function ConfirmDialog({
           >
             Confirm
           </CustomButton>
-
+        {/* Cancel action */}
           <CustomButton
             onClick={onCancel}
             className="btn btn-link text-muted text-decoration-none fw-bold w-100 py-1 small"

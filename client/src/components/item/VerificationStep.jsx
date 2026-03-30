@@ -5,7 +5,8 @@ import "./ItemForm.css";
 import { useNavigate } from "react-router-dom";
 
 function VerificationStep({ form, setForm, next, back }) {
-  const navigate = useNavigate();
+  const navigate = useNavigate();//used for navigation
+  // Toggle verification on/off
   const toggle = () =>
     setForm({
       ...form,
@@ -14,13 +15,16 @@ function VerificationStep({ form, setForm, next, back }) {
         enabled: !form.verification.enabled,
       },
     });
+    // Step tracking
   const totalSteps = 3;
   const currentStep = 2;
+  // Disable button if verification is enabled but question is empty
   const isButtonDisabled =
     form.verification.enabled &&
     (!form.verification.question || form.verification.question.trim() === "");
 
   return (
+    // //Header with title and back navigation
     <div className="item-form-content">
       <div className="d-flex flex-column align-items-start mb-3">
         <h3 className="text-white fw-bold mb-2">Set a Security Layer</h3>
@@ -34,7 +38,7 @@ function VerificationStep({ form, setForm, next, back }) {
           <span className="ms-1">Back</span>
         </button>
       </div>
-
+      {/* Main container  */}
       <div className="d-flex align-items-center justify-content-center px-5 bg-white rounded-4 shadow-sm w-100">
         <div style={{ maxWidth: "900px" }} className="w-100">
           <p
@@ -86,6 +90,7 @@ function VerificationStep({ form, setForm, next, back }) {
                     Enable Verification Question
                   </label>
                 </div>
+                {/* Show textarea only if verification is enabled  */}
                 {form.verification.enabled && (
                   <div className="mb-3">
                     <label className="form-label fw-semibold">
@@ -138,9 +143,6 @@ function VerificationStep({ form, setForm, next, back }) {
 
             {/* Buttons Bar */}
             <div className="order-3 text-end pb-2">
-              {/* <CustomButton variant="outline" onClick={back}>
-                  Back
-                </CustomButton> */}
               <CustomButton
                 variant="primary"
                 onClick={next}
@@ -160,7 +162,7 @@ function VerificationStep({ form, setForm, next, back }) {
                 style={{ width: "66%", transition: "width 0.4s ease" }}
               ></div>
             </div>
-
+          {/*  */}
             <p className="mt-2 text-center small text-muted fw-medium">
               Step {currentStep} of {totalSteps}
             </p>
