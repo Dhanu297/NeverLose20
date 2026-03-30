@@ -136,7 +136,7 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
                 <span className="d-block">
                   <button 
                     {...getButtonProps("CONTACTED")} 
-                    onClick={() => onUpdateStatus(report.id, "CONTACTED")}
+                    onClick={() => onUpdateStatus(report.id, report.itemId, "CONTACTED")}
                   >
                     Contacted
                   </button>
@@ -151,7 +151,7 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
                 <span className="d-block">
                   <button 
                     {...getButtonProps("RESOLVED")} 
-                    onClick={() => onUpdateStatus(report.id, "RESOLVED")}
+                    onClick={() => onUpdateStatus(report.id, report.itemId, "RESOLVED")}
                   >
                     Item Recovered
                   </button>
@@ -166,7 +166,7 @@ const ReportDetail = ({ report, onUpdateStatus }) => {
                 <span className="d-block">
                   <button 
                     {...getButtonProps("SPAM")} 
-                    onClick={() => onUpdateStatus(report.id, "SPAM")}
+                    onClick={() => onUpdateStatus(report.id,report.itemId, "SPAM")}
                   >
                     Spam
                   </button>

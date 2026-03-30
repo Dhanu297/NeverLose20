@@ -146,7 +146,7 @@ exports.PublicService = {
     // -------------------------------------------------------------------------
     // LOG EVENT HISTORY (non-blocking)
     // -------------------------------------------------------------------------
-    LogService.log(item.id, item.ownerId, "FOUND_REPORT_CREATED", {
+    LogService.log(item.id, item.ownerId, "FOUND REPORT CREATED", {
       reportId: report.id,
       finderEmail,
       message: payload.message,

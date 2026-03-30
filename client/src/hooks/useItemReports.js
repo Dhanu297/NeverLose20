@@ -37,9 +37,9 @@ const navigate = useNavigate();
     fetchReports();
   }, [itemId, user, authLoading]);
 
-  const updateStatus = async (reportId, newStatus) => {
+  const updateStatus = async (reportId, itemId, newStatus) => {
     try {
-      await reportsApi.updateStatus(reportId,{reportStatus:newStatus});
+      await reportsApi.updateStatus(reportId,{itemId:itemId,reportStatus:newStatus});
      if(newStatus!="RESOLVED")
      {
       navigate(0);

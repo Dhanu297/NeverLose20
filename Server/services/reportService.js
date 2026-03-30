@@ -42,7 +42,9 @@ exports.ReportService = {
     return { id: reportSnap.id, ...report };
   },
 
-  async updateReportStatus(reportId, reportStatus) {
+  
+//Update Report Status
+  async updateReportStatus(reportId,itemsId, reportStatus,ownerId) {
   const updatedAt = new Date().toISOString();
 
   // Build base update payload
@@ -58,6 +60,13 @@ exports.ReportService = {
 
   // 1. Update the report (single write)
   await db.collection(REPORTS).doc(reportId).update(updatePayload);
+  // -------------------------------------------------------------------------
+    // LOG EVENT HISTORY (non-blocking)
+    // -------------------------------------------------------------------------
+    LogService.log(itemsId, ownerId, "REPORT STATUS CHANGED", {
+      reportId: reportId,
+     Status: reportStatus
+    });
 
   // 2. If resolved, update the related item
   if (reportStatus === "RESOLVED") {
@@ -70,6 +79,7 @@ exports.ReportService = {
         status: "SAFE",
         updatedAt,
       });
+       LogService.log(itemId, ownerId, "ITEM RECOVERED", "Item marked safe.");
       // 2b. Mark ALL reports for this item as CLOSED
       const allReportsSnap = await db
         .collection(REPORTS)
@@ -86,13 +96,7 @@ exports.ReportService = {
       });
       
       await batch.commit();
-       // -------------------------------------------------------------------------
-    // LOG EVENT HISTORY (non-blocking)
-    // -------------------------------------------------------------------------
-    LogService.log(item.id, item.ownerId, "REPORT_STATUS_CHANGED", {
-      reportId: report.id,
-     Status: reportStatus
-    });
+    
 
     }
   }

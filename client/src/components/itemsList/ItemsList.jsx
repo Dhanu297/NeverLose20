@@ -99,7 +99,10 @@ const ItemList = ({
               </td>
 
               <td className="p-3 text-muted small">
-                {item.lastActivityAt || "No activity yet"}
+                {item.latestEvent.type  || "No activity yet"}
+                <br/>
+                 {new Date(item.latestEvent.timestamp).toLocaleString()}
+
               </td>
 
               <td className="p-3 text-center">
