@@ -5,7 +5,7 @@ import imageCompression from "browser-image-compression"; //
 function UploadPhoto({ photoUrl, onUploaded }) {
   const [preview, setPreview] = useState(photoUrl || null);
   const [uploading, setUploading] = useState(false);
-
+  // Update preview when parent sends new photo URL
   useEffect(() => {
     if (photoUrl) setPreview(photoUrl);
   }, [photoUrl]);
@@ -13,7 +13,7 @@ function UploadPhoto({ photoUrl, onUploaded }) {
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
+    // Show instant preview before upload
     setPreview(URL.createObjectURL(file));
 
     try {
@@ -33,7 +33,7 @@ function UploadPhoto({ photoUrl, onUploaded }) {
         `Original: ${file.size / 1024 / 1024}MB | Compresed: ${compressedFile.size / 1024 / 1024}MB`,
       );
 
-      // Upload the comppresed file to the API
+      // Upload the compressed file to the API
       const url = await uploadApi.uploadPhoto(compressedFile);
       onUploaded(url);
     } catch (err) {
@@ -75,7 +75,7 @@ function UploadPhoto({ photoUrl, onUploaded }) {
               </div>
             </div>
           )}
-
+         {/* Loading overlay during upload/compression  */}
           {uploading && (
             <div className="position-absolute d-flex flex-column align-items-center">
               <div

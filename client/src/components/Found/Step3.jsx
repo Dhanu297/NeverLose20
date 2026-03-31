@@ -2,7 +2,7 @@ import CustomButton from "../CustomButton/CustomButton";
 import { useNavigate } from "react-router-dom";
 
 export default function Step3Success() {
-  const navigate = useNavigate();
+  const navigate = useNavigate();//Navigation hook (used to redirect user)
 
   return (
     <div className="container py-4 px-4" style={{ maxWidth: "700px" }}>
@@ -24,7 +24,7 @@ export default function Step3Success() {
           ></i>
         </div>
       </div>
-
+      {/* Success message  */}
       <div className="text-center mb-5">
         <h1
           className="text-brand-gradient fw-bold mb-2 text-dark"
@@ -40,7 +40,9 @@ export default function Step3Success() {
           much better. They will contact you soon to coordinate the recovery.
         </p>
       </div>
+      {/* CTA button (redirect to home/dashboard) */}
       <div className="d-flex justify-content-center my-2 pb-5">
+        
         <CustomButton
           onClick={() => navigate("/home")}
           variant="primary"

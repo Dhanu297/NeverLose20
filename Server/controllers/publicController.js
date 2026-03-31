@@ -67,6 +67,9 @@ Item: ${item.nickname}
 Finder’s Name: ${payload.finder?.name || "Not provided"}
 Finder’s Phone: ${payload.finder?.phone || "Not provided"}
 Finder’s Email: ${payload.finder?.email}
+Location: ${payload.foundLocationText || "N/A"}
+Verification Answer: ${payload.verificationAnswer || "N/A"}
+Photo: ${payload.photoUrl || "N/A"}
 Finder’s Message:
 ${payload.message}
 

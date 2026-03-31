@@ -17,6 +17,7 @@ import { ReactComponent as CustomIcon } from "../../assets/CustomQR.svg";
 
 // Components
 import ConfirmDialog from "../confirmDialog/ConfirmDialog";
+import CustomButton from "../CustomButton/CustomButton";
 import "./LabelScreen.css";
 // 1. Define Presets outside the component or at the top
 const defaultPresets = [
@@ -203,15 +204,15 @@ const LabelPreviewContent = ({ activePreset, item }) => {
         {
           <div className="d-flex justify-content-between align-items-center mb-5">
             <div>
-              <h5 className="fw-bold mb-2">
+              <h3 className="fw-bold mb-2">
                 Download Your QR Code
-              </h5>
-             
-              <p>
-                Public Scan URL:
-                <code className="d-block text-dark p-2 rounded mt-1">
+                
+              </h3> 
+              <p>Click a card below to preview & download</p>            
+              <p className="text-muted">
+                Public Scan URL : &nbsp;
                   {propItem.publicUrl}
-                </code>
+                
               </p>
             </div>
             
@@ -305,7 +306,8 @@ const LabelPreviewContent = ({ activePreset, item }) => {
                 <LabelPreviewContent activePreset={activePreset} item={item} />
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="primary" onClick={() => { setIsPreviewOpen(false); handlePrepareDownload(activePreset); }}>Looks Good, Download</Button>
+                 <CustomButton
+                  variant="primary" onClick={() => { setIsPreviewOpen(false); handlePrepareDownload(activePreset); }}>Looks Good, Download</CustomButton>
               </Modal.Footer>
             </Modal>
 

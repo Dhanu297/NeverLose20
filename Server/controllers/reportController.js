@@ -42,12 +42,10 @@ exports.getReportDetail = async (req, res) => {
 exports.changeStatus = async (req, res) => {
   try {
     const {  reportId } = req.params;
-    const { reportStatus  } = req.body;
-    const ownerId = req.user.uid;
+    const { itemId, reportStatus  } = req.body;
+    const ownerId = req.user.uid;  
 
-  
-
-    await ReportService.updateReportStatus( reportId, reportStatus );
+    await ReportService.updateReportStatus( reportId,itemId, reportStatus,ownerId );
 
     return res.json({ ok: true });
   } catch (err) {

@@ -9,19 +9,22 @@ export function useEditFormData(initialItem) {
     status: "",
     photoUrl: "",
     photoFile: null,
+    enableVarification:false
   });
 
   // Load initial item into form
   useEffect(() => {
     if (initialItem) {
-      setFormData({
-        nickname: initialItem.nickname || "",
-        description: initialItem.description || "",
-        securityQuestion: initialItem.securityQuestion || "",
-        status: initialItem.status || "",
-        photoUrl: initialItem.photoUrl || "",
-        photoFile: null,
-      });
+     setFormData({
+  nickname: initialItem.nickname || "",
+  description: initialItem.description || "",
+  securityQuestion: initialItem.verification?.question || "",
+  status: initialItem.status || "",
+  photoUrl: initialItem.photoUrl || "",
+  photoFile: null,
+  enableVarification: initialItem.verification?.enabled || false,
+});
+
     }
   }, [initialItem]);
 

@@ -52,16 +52,16 @@ const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
               </p>
 
               {/* VIEW LOG HISTORY LINK */}
-              <button
+              {showActions && (<button
                 className="btn btn-link p-0 mb-3"
                 style={{ color: "var(--nl-tech-blue)" }}
                 onClick={() => setShowLogModal(true)}
               >
                 View Log History
-              </button>
+              </button>)}
 
               {verification?.question && (
-                <div className="p-3 bg-light rounded-3">
+                <div className="rounded-3">
                   <label
                     className="d-block fw-bold small text-uppercase mb-1"
                     style={{ color: "var(--nl-tech-blue)", letterSpacing: "1px" }}

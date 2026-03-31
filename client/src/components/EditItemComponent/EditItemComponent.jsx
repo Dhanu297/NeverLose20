@@ -7,30 +7,38 @@ import UploadPhoto from "../uploadPhoto/UploadPhoto";
 
 const EditItemComponent = ({ item }) => {
   const navigate = useNavigate();
+  // Custom hook to update item data (API call)
   const { updateItem, loading: saving } = useUpdateItem(item.id);
 
   // Pass item directly into your hook
   const { formData, handleChange, handlePhotoChange } = useEditFormData(item);
-  const [enableVerification, setEnableVerification] = React.useState(
-    !!item?.securityQuestion,
-  );
+  const [enableVerification, setEnableVerification] = React.useState(false)
+  // Sync toggle with existing item data on load
+  React.useEffect(() => {
+  setEnableVerification(formData.enableVarification);
+}, [formData.enableVarification]);
 
+// Handle form submission
   const handleSubmit = async () => {
     try {
-      await updateItem({
-        nickname: formData.nickname,
-        description: formData.description,
-        securityQuestion: enableVerification ? formData.securityQuestion : "",
-        status: formData.status,
-        photoUrl: formData.photoUrl,
-      });
-
+     await updateItem({
+  nickname: formData.nickname,
+  description: formData.description,
+  status: formData.status,
+  photoUrl: formData.photoUrl,
+  // Conditional verification logic
+  verification: {
+    enabled: enableVerification,
+    question: enableVerification ? formData.securityQuestion : "",
+  },
+});
+    // Redirect to item details page after update
       navigate(`/item-details/${item.id}`);
     } catch (error) {
       console.log("Error in update");
     }
   };
-
+  // Validation: nickname required, security question required only if enabled
   const isFormInvalid =
     !formData.nickname?.trim() ||
     (enableVerification && !formData.securityQuestion?.trim());
@@ -49,7 +57,7 @@ const EditItemComponent = ({ item }) => {
         </button>
       </div>
 
-      {/* WHITE CARD */}
+      {/* WHITE CARD CONTAINER*/}
       <div className="bg-white rounded-4 shadow-sm w-100 px-5 py-4">
         <div style={{ maxWidth: "900px" }} className="mx-auto">
           <div className="py-4">
@@ -217,7 +225,7 @@ const EditItemComponent = ({ item }) => {
                           item.
                         </small>
                         <p className="text-end small me-2">
-                          {enableVerification.question?.length || 0}/200
+                         {formData.securityQuestion?.length || 0}/200
                         </p>
                       </div>
                     </div>

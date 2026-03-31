@@ -9,10 +9,11 @@ export default function NotFound({
   buttonText = "Explore Neverlose",
   buttonPath = "/home",
 }) {
-  const navigate = useNavigate();
+  const navigate = useNavigate();//Navigation hook for redirecting user
 
   return (
     <div className="min-vh-100 d-flex flex-column">
+      {/* Top navigation bar (non-sticky for clean layout)  */}
       <NavBar isSticky={false} />
 
       <div className="py-4 mx-4">
@@ -35,7 +36,7 @@ export default function NotFound({
               padding: "2px",
             }}
           >
-            {/* White container */}
+            {/* Inner White container */}
             <div
               className="bg-white m-3 m-md-4"
               style={{
@@ -83,7 +84,7 @@ export default function NotFound({
                   <p className="lead mb-4">{message}</p>
                 </div>
 
-                {/* CTA */}
+                {/* CTA button (redirects user)*/}
                 <CustomButton
                   onClick={() => navigate(buttonPath)}
                   variant="primary"
@@ -104,8 +105,9 @@ export default function NotFound({
                     Neverlose is a community platform designed to recover lost
                     belongings safely and anonymously.
                   </p>
+                  {/* Feature highlights (mapped dynamically) */}
                   <div
-                    className="row g-0    "
+                    className="row g-0"
                     style={{ borderColor: "#f0f0f0 !important" }}
                   >
                     {[
