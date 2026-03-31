@@ -3,25 +3,22 @@ import { useState } from "react";
 import ItemLogModal from "../ItemLogModal/ItemLogModal";
 
 const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
-
-
   const { id, nickname, description, photoUrl, verification } = data;
 
   // Modal state
   const [showLogModal, setShowLogModal] = useState(false);
-    if (!data) return null;
+  if (!data) return null;
 
   return (
     <>
       {/* MAIN CARD */}
       <div
-        className="container mx-auto bg-white p-4 p-md-4"
-        style={{ maxWidth: "850px" }}
+        className="container mx-auto bg-white p-4 p-md-4 position-relative"
+        style={{ maxWidth: "950px" }}
       >
         <div className="row align-items-center gx-lg-5">
-
           {/* LEFT SIDE IMAGE */}
-          <div className="col-12 col-md-6 d-flex justify-content-center">
+          <div className="col-12 col-md-4 d-flex justify-content-center">
             <div
               className="rounded-4 border overflow-hidden bg-light d-flex align-items-center justify-content-center mx-auto"
               style={{ width: "100%", aspectRatio: "1 / 1" }}
@@ -40,10 +37,13 @@ const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
             </div>
           </div>
 
-          {/* RIGHT SIDE TEXT + ICONS */}
-          <div className="col-md-6 d-flex justify-content-between align-items-center">
-            <div className="flex-grow-1 mt-3">
-              <h2 className="fw-bold mb-2" style={{ color: "var(--nl-deep-blue)" }}>
+          {/* middle SIDE TEXT */}
+          <div className="col-md-7 d-flex justify-content-between align-items-start mt-4 mt-md-0">
+            <div className="flex-grow-1">
+              <h2
+                className="fw-bold mb-2"
+                style={{ color: "var(--nl-deep-blue)" }}
+              >
                 {nickname || "Unnamed Item"}
               </h2>
 
@@ -52,31 +52,43 @@ const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
               </p>
 
               {/* VIEW LOG HISTORY LINK */}
-              {showActions && (<button
-                className="btn btn-link p-0 mb-3"
-                style={{ color: "var(--nl-tech-blue)" }}
-                onClick={() => setShowLogModal(true)}
-              >
-                View Log History
-              </button>)}
+              {showActions && (
+                <button
+                  className="btn btn-link p-0 mb-3"
+                  style={{ color: "var(--nl-tech-blue)" }}
+                  onClick={() => setShowLogModal(true)}
+                >
+                  View Log History
+                </button>
+              )}
 
               {verification?.question && (
-                <div className="rounded-3">
+                <div className="mt-2 pt-2 border-top border-light">
                   <label
                     className="d-block fw-bold small text-uppercase mb-1"
-                    style={{ color: "var(--nl-tech-blue)", letterSpacing: "1px" }}
+                    style={{
+                      color: "var(--nl-tech-blue)",
+                      letterSpacing: "1px",
+                    }}
                   >
                     Security Question
                   </label>
-                  <span>{verification.question}</span>
+                  <span className="text-dark">{verification.question}</span>
                 </div>
               )}
             </div>
+          </div>
 
-            {/* EDIT / DELETE ICONS */}
+          {/* right SIDE TEXT */}
+          <div className="col-12 col-md-1 d-flex justify-content-center justify-content-md-end mt-3 mt-md-0">
             {showActions && (
-              <div className="ms-3">
-                <EditDeleteComponent onEdit={onEdit} onDelete={onDelete} />
+              <div
+                className="position-absolute"
+                style={{ top: "15px", right: "15px", zIndex: 10 }}
+              >
+                <div>
+                  <EditDeleteComponent onEdit={onEdit} onDelete={onDelete} />
+                </div>
               </div>
             )}
           </div>
@@ -85,10 +97,7 @@ const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
 
       {/* LOG MODAL */}
       {showLogModal && (
-        <ItemLogModal
-          itemId={id}
-          onClose={() => setShowLogModal(false)}
-        />
+        <ItemLogModal itemId={id} onClose={() => setShowLogModal(false)} />
       )}
     </>
   );
