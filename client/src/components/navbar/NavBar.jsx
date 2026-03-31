@@ -24,8 +24,15 @@ const Navbar = ({ isSticky = true }) => {
     isLanding ? "navbar-landing" : "navbar-contained",
   ].join(" ");
 
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className={`nav-wrapper pt-3 ${isLanding ? "px-3" : "px-4"}`}>
+    <div className={`nav-wrapper pt-3 ${isLanding ? "px-4" : "px-4"}`}>
       <nav className={navbarClasses}>
         <div className="container-fluid px-4 py-1">
           <Link to="/home" className="navbar-brand">
@@ -36,16 +43,22 @@ const Navbar = ({ isSticky = true }) => {
           <div className="collapse navbar-collapse justify-content-center">
             <div className="navbar-nav gap-5">
               <button
-                onClick={() => navigate("/how-it-works")}
+                onClick={() => scrollToSection("how-it-works")}
                 className="nav-link-custom"
               >
                 How it Works
               </button>
               <button
-                onClick={() => navigate("/features")}
+                onClick={() => scrollToSection("features")}
                 className="nav-link-custom"
               >
                 Features
+              </button>
+              <button
+                onClick={() => scrollToSection("found-an-item")}
+                className="nav-link-custom"
+              >
+                Found an Item?
               </button>
             </div>
           </div>
@@ -62,15 +75,15 @@ const Navbar = ({ isSticky = true }) => {
               </CustomButton>
             ) : (
               <>
-                <CustomButton
+                <button
                   variant="outline"
-                  className="btn-sm px-3"
+                  className="nav-link-custom"
                   onClick={() => navigate("/login")}
                 >
                   Log In
-                </CustomButton>
+                </button>
                 <CustomButton
-                  variant="primary"
+                  variant="outline"
                   className="btn-sm px-3"
                   onClick={() => navigate("/signup")}
                 >

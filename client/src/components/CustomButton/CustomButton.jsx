@@ -4,6 +4,7 @@ import "./CustomButton.css";
 
 const CustomButton = ({
   children,
+  text,
   type = "button",
   variant = "primary",
   isLoading = false,
@@ -37,7 +38,7 @@ const CustomButton = ({
           <span>Sending...</span>
         </div>
       ) : (
-        children
+        text || children
       )}
     </Button>
   );

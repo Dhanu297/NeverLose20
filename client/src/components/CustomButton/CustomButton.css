@@ -54,7 +54,7 @@
 }
 
 .btn-outline-blue:hover {
-  background-color: rgba(44, 130, 255, 0.1) !important;
+  background-color: rgba(0, 209, 255, 0.08) !important;
   border: 2px solid rgba(0, 123, 255, 0.9) !important;
   transform: scale(1.02);
   color: rgba(4, 96, 194, 0.9) !important;

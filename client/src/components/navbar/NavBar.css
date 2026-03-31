@@ -19,31 +19,20 @@
 .nav-link-custom {
   background: none;
   border: none;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 500;
-  color: #6c757d;
+  color: var(--nl-deep-blue);
+  padding: 8px 16px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: color 0.25s ease;
+  transition: all 0.3s ease;
   position: relative;
 }
 
 .nav-link-custom:hover {
-  color: var(--nl-deep-blue);
-}
-
-.nav-link-custom::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -4px;
-  left: 0;
-  background-color: var(--nl-deep-blue);
-  transition: width 0.3s ease;
-}
-
-.nav-link-custom:hover::after {
-  width: 100%;
+  background-color: rgba(0, 209, 255, 0.08);
+  color: var(--nl-tech-blue);
+  transform: translateY(-1px);
 }
 
 .nav-wrapper {
@@ -57,7 +46,6 @@
 .navbar {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   background-color: rgba(255, 255, 255, 0.95) !important;
-  backdrop-filter: blur(10px); /* Efecto Glassmorphism sutil */
 }
 
 .sticky-nav {
@@ -73,3 +61,8 @@
 .navbar-landing {
   width: 100%;
 }
+
+/* html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+} */
