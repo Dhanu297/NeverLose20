@@ -11,7 +11,7 @@ exports.streamLabelPdf = async (res, opts) => {
   switch (preset) {
     case 'wallet': wMm = 85.6; hMm = 53.98; break; 
     case 'airtag': wMm = 32; hMm = 32; isCircle = true; break;
-    case 'small-tag': wMm = 25; hMm = 15; break;
+    case 'small-tag': wMm = 47; hMm = 30; break;
     default: wMm = parseFloat(widthMm) || 50; hMm = parseFloat(heightMm) || 50;
   }
 
@@ -71,10 +71,10 @@ exports.streamLabelPdf = async (res, opts) => {
        .lineWidth(0.8).stroke('#333');
 
     const qrSize = h * 0.5;
-    doc.image(qrBuffer, (w - qrSize) / 2, innerPadding + 2, { width: qrSize });
+    doc.image(qrBuffer, (w - qrSize) / 2, innerPadding +6, { width: qrSize });
 
-    doc.fillColor('#000').font('Helvetica-Bold').fontSize(4)
-       .text('SCAN IF FOUND', 0, h - innerPadding +2, { width: w, align: 'center' });
+    doc.fillColor('#000').font('Helvetica-Bold').fontSize(6)
+       .text('SCAN IF FOUND', 0, h - innerPadding -6, { width: w, align: 'center' });
   }
 
   // --- STYLE D: POSTER / CUSTOM (The Main Image Style) ---

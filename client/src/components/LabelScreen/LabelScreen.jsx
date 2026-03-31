@@ -21,9 +21,9 @@ import CustomButton from "../CustomButton/CustomButton";
 import "./LabelScreen.css";
 // 1. Define Presets outside the component or at the top
 const defaultPresets = [
-  { id: "wallet", name: "Wallet", description: "Standard ID size (8.5 x 5.4 cm)", shape: "rect", widthMm: 85.6, heightMm: 54.0 },
-  { id: "airtag", name: "AirTag", description: "Circular sticker (3.2 cm diameter)", shape: "circle", diameterMm: 32.0 },
-  { id: "small-tag", name: "Small Tag", description: "Ideal for keychains (3 x 2 cm)", shape: "rect", widthMm: 30.0, heightMm: 20.0 },
+  { id: "wallet", name: "Wallet", description: "Standard ID size", shape: "rect", widthMm: 85.6, heightMm: 54.0 },
+  { id: "airtag", name: "AirTag", description: "Circular sticker", shape: "circle", diameterMm: 32.0 },
+  { id: "small-tag", name: "Small Tag", description: "Ideal for keychains", shape: "rect", widthMm: 30.0, heightMm: 20.0 },
   { id: "custom", name: "Custom", description: "Set your own dimensions" },
 ];
 export default function LabelScreen({ item: propItem, embedded = true }) {
@@ -55,31 +55,103 @@ const LabelPreviewContent = ({ activePreset, item }) => {
   const qrValue = item.publicUrl || `${window.location.origin}/f/${item.token}`;
 
   // 1. STYLE: WALLET (Horizontal)
-  if (activePreset?.id === "wallet") {
-    return (
-      <div className="preview-card wallet-style d-flex align-items-center p-3 border border-dark rounded-3 bg-white" 
-           style={{ width: "340px", height: "215px", position: "relative" }}>
-        {/* QR on Left */}
-        <div className="qr-section me-3">
-          <QRCodeSVG value={qrValue} size={120} level="H" />
-        </div>
-        {/* Text on Right */}
-        <div className="text-section text-start">
-           <h3 className="fw-bold">Neverlose</h3>
-          <p className="text-muted mb-0" style={{ fontSize: "12px", lineHeight: "1.2" }}>SCAN IF FOUND</p>
-         
-        </div>
+  // --- STYLE: WALLET (Exact PDF Logic) ---
+if (activePreset?.id === "wallet") {
+  // 1mm = 3.7795px (96 DPI conversion)
+  const MM_TO_PX = 96 / 25.4;
+  
+  // Physical dimensions converted to pixels
+  const w = 85.6 * MM_TO_PX;
+  const h = 53.98 * MM_TO_PX;
+
+  // Internal Logic from backend
+  const padding = h * 0.1;
+  const innerH = h - padding * 2;
+  const innerW = w - padding * 2;
+  const qrSize = innerH * 0.8;
+  
+  // Convert 15pt and 25pt from PDF to PX for alignment
+  const ptToPx = 96 / 72; 
+  const qrOffsetLeft = padding + (15 * ptToPx);
+  const textOffsetLeft = padding + qrSize + (25 * ptToPx);
+
+  return (
+    <div       
+      style={{ 
+        width: `${w}px`, 
+        height: `${h}px`, 
+        position: "relative",
+        overflow: "hidden",
+        borderRadius: '12px' // Visual roundness for the "card"
+      }}
+    >
+      {/* 1. Rounded Border (doc.roundedRect(..., 8)) */}
+      <div style={{
+        position: 'absolute',
+        top: `${padding}px`,
+        left: `${padding}px`,
+        width: `${innerW}px`,
+        height: `${innerH}px`,
+        border: '1.5px solid #333',
+        borderRadius: '8px',
+        pointerEvents: 'none'
+      }} />
+
+      {/* 2. QR Code (doc.image(qrBuffer, padding + 15, (h - qrSize) / 2)) */}
+      <div style={{
+        position: 'absolute',
+        left: `${qrOffsetLeft}px`,
+        top: `${(h - qrSize) / 2}px`
+      }}>
+        <QRCodeSVG 
+          value={qrValue} 
+          size={qrSize} 
+          level="H" 
+          marginSize={0} // Important: PDF generation has 0 margin
+        />
       </div>
-    );
-  }
+
+      {/* 3. Neverlose Text (doc.text('Neverlose', ..., h * 0.35)) */}
+      <div style={{
+        position: 'absolute',
+        left: `${textOffsetLeft}px`,
+        top: `${h * 0.35}px`,
+        textAlign: 'left'
+      }}>
+        <h3 style={{ 
+          margin: 0, 
+          fontSize: '16pt', // Matching backend .fontSize(16)
+          fontWeight: 'bold', 
+          fontFamily: 'Helvetica, Arial, sans-serif',
+          color: '#000',
+          lineHeight: 1
+        }}>
+          Neverlose
+        </h3>
+        
+        {/* 4. SCAN IF FOUND (doc.text('...', ..., h * 0.55)) */}
+        <p style={{ 
+          margin: 0, 
+          marginTop: '8px', // Visual spacing
+          fontSize: '9pt', // Matching backend .fontSize(9)
+          fontFamily: 'Helvetica, Arial, sans-serif',
+          color: '#666',
+          lineHeight: 1
+        }}>
+          SCAN IF FOUND
+        </p>
+      </div>
+    </div>
+  );
+}
 
   // 2. STYLE: AIRTAG (Circular)
   if (activePreset?.id === "airtag") {
     return (
       <div className="preview-card airtag-style d-flex flex-column align-items-center justify-content-center border border-dark rounded-circle bg-white shadow-sm"
-           style={{ width: "200px", height: "200px" }}>
+           style={{ width: "130px", height: "130px" }}>
         <QRCodeSVG value={qrValue} size={100} level="H" />
-        <h6 className="fw-bold mt-2 mb-0" style={{ fontSize: "12px" }}>SCAN IF FOUND</h6>
+        <h6 className="fw-bold mt-2 mb-0" style={{ fontSize: "9px" }}>SCAN IF FOUND</h6>
       </div>
     );
   }
