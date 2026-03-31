@@ -1,6 +1,6 @@
 import React from "react";
 import "./Landing.css";
-import foundImage from "../../assets/Landing/nl-finder-scanning.webp"; // Imagen de la chica
+import foundImage from "../../assets/Landing/nl-finder-scanning.webp";
 
 const FoundItem = () => {
   const points = [
@@ -86,13 +86,18 @@ const FoundItem = () => {
           </div>
 
           {/* Right side */}
-          <div className="col-12 col-lg-6 position-relative image-column-wrapper">
+          <div className="col-12 col-lg-6 position-relative image-column-wrapper d-flex justify-content-center align-items-center">
             <div className="main-image-container">
               <img
                 src={foundImage}
                 alt="Scanning a Neverlose tag"
                 className="img-fluid main-found-img shadow-lg"
-                style={{ borderRadius: "30px" }}
+                style={{
+                  borderRadius: "30px",
+                  maxHeight: "700px",
+                  width: "100%",
+                  objectFit: "cover",
+                }}
               />
             </div>
 

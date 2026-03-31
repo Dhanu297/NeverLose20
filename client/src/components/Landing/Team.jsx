@@ -42,9 +42,9 @@ const Team = () => {
         <div className="text-center mb-5 max-width-700 mx-auto">
           <h2
             className="display-6 fw-bold mb-3"
-            style={{ color: "var(--nl-deep-blue)" }}
+            style={{ color: "var(--nl-tech-blue)" }}
           >
-            Meet our <span style={{ color: "var(--nl-tech-blue)" }}>Team</span>
+            Meet <span style={{ color: "var(--nl-deep-blue)" }}>Our Team</span>
           </h2>
           <p className="lead text-muted px-lg-5">
             Our mission is to build technology that protects what you love while

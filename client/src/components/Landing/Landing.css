@@ -206,7 +206,7 @@
 
 /* Mission CTA */
 .mission-cta-container {
-  height: 600px; /* Ajusta según el diseño de Figma */
+  height: 600px;
   position: relative;
   background-color: var(--nl-deep-blue);
 
@@ -228,10 +228,8 @@
 
 .mission-content {
   z-index: 2;
-  /* Animación suave al entrar en la sección si lo deseas */
 }
 
-/* Responsividad: En móvil el texto suele ir al centro y el overlay sobre toda la imagen */
 @media (max-width: 768px) {
   .mission-cta-container {
     background:
@@ -349,7 +347,7 @@
 
 .social-link:hover {
   opacity: 1;
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   color: var(--nl-tech-blue);
 }
 

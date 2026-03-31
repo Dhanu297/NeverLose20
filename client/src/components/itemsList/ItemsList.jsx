@@ -99,19 +99,36 @@ const ItemList = ({
               </td>
 
               <td className="p-3 text-muted small">
-                {item.latestEvent.type  || "No activity yet"}
-                <br/>
-                 {new Date(item.latestEvent.timestamp).toLocaleString()}
-
+                {item.latestEvent.type || "No activity yet"}
+                <br />
+                {new Date(item.latestEvent.timestamp).toLocaleString()}
               </td>
 
               <td className="p-3 text-center">
                 <button
-                  className="btn btn-link p-0 border-0" fs-4 fw-bold
+                  className="btn p-0 border-0 position-relative nl-report-btn"
                   onClick={() => onReportsList(item.id)}
-                  disabled={item.reportCount==0}
+                  disabled={item.reportCount === 0}
+                  style={{ transition: "transform 0.2s ease" }}
                 >
-                  {item.reportCount}
+                  <i
+                    className={`bi bi bi-file-earmark-text fs-4 ${item.reportCount > 0 ? "text-primary" : "text-muted opacity-50"}`}
+                  ></i>
+
+                  {item.reportCount > 0 && (
+                    <span
+                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill border border-light nl-badge-report"
+                      style={{
+                        backgroundColor: " var(--nl-info)",
+                        color: "var(--nl-deep-blue)",
+                        fontSize: "0.80rem",
+                        padding: "0.4em 0.6em",
+                      }}
+                    >
+                      {item.reportCount}
+                      <span className="visually-hidden">unread reports</span>
+                    </span>
+                  )}
                 </button>
               </td>
             </tr>
