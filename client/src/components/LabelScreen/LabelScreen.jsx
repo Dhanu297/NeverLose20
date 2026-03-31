@@ -21,18 +21,38 @@ import CustomButton from "../CustomButton/CustomButton";
 import "./LabelScreen.css";
 // 1. Define Presets outside the component or at the top
 const defaultPresets = [
-  { id: "wallet", name: "Wallet", description: "Standard ID size", shape: "rect", widthMm: 85.6, heightMm: 54.0 },
-  { id: "airtag", name: "AirTag", description: "Circular sticker", shape: "circle", diameterMm: 32.0 },
-  { id: "small-tag", name: "Small Tag", description: "Ideal for keychains", shape: "rect", widthMm: 30.0, heightMm: 20.0 },
+  {
+    id: "wallet",
+    name: "Wallet",
+    description: "Standard ID size",
+    shape: "rect",
+    widthMm: 85.6,
+    heightMm: 54.0,
+  },
+  {
+    id: "airtag",
+    name: "AirTag",
+    description: "Circular sticker",
+    shape: "circle",
+    diameterMm: 32.0,
+  },
+  {
+    id: "small-tag",
+    name: "Small Tag",
+    description: "Ideal for keychains",
+    shape: "rect",
+    widthMm: 30.0,
+    heightMm: 20.0,
+  },
   { id: "custom", name: "Custom", description: "Set your own dimensions" },
 ];
 export default function LabelScreen({ item: propItem, embedded = true }) {
   const location = useLocation();
 
-  //  IMPORTANT FIX  
+  //  IMPORTANT FIX
   const initialItem = propItem || location.state;
-  
-// --- 2. State Hooks (Must be at the top) ---
+
+  // --- 2. State Hooks (Must be at the top) ---
   // --- 2. State Hooks (Must be at the top) ---
   const [item] = useState(() => ({
     ...initialItem,
@@ -51,139 +71,161 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
   const [activePreset, setActivePreset] = useState(null);
 
   // --- 3. Logic Functions ---
-const LabelPreviewContent = ({ activePreset, item }) => {
-  const qrValue = item.publicUrl || `${window.location.origin}/f/${item.token}`;
+  const LabelPreviewContent = ({ activePreset, item }) => {
+    const qrValue =
+      item.publicUrl || `${window.location.origin}/f/${item.token}`;
 
-  // 1. STYLE: WALLET (Horizontal)
-  // --- STYLE: WALLET (Exact PDF Logic) ---
-if (activePreset?.id === "wallet") {
-  // 1mm = 3.7795px (96 DPI conversion)
-  const MM_TO_PX = 96 / 25.4;
-  
-  // Physical dimensions converted to pixels
-  const w = 85.6 * MM_TO_PX;
-  const h = 53.98 * MM_TO_PX;
+    // 1. STYLE: WALLET (Horizontal)
+    // --- STYLE: WALLET (Exact PDF Logic) ---
+    if (activePreset?.id === "wallet") {
+      // 1mm = 3.7795px (96 DPI conversion)
+      const MM_TO_PX = 96 / 25.4;
 
-  // Internal Logic from backend
-  const padding = h * 0.1;
-  const innerH = h - padding * 2;
-  const innerW = w - padding * 2;
-  const qrSize = innerH * 0.8;
-  
-  // Convert 15pt and 25pt from PDF to PX for alignment
-  const ptToPx = 96 / 72; 
-  const qrOffsetLeft = padding + (15 * ptToPx);
-  const textOffsetLeft = padding + qrSize + (25 * ptToPx);
+      // Physical dimensions converted to pixels
+      const w = 85.6 * MM_TO_PX;
+      const h = 53.98 * MM_TO_PX;
 
-  return (
-    <div       
-      style={{ 
-        width: `${w}px`, 
-        height: `${h}px`, 
-        position: "relative",
-        overflow: "hidden",
-        borderRadius: '12px' // Visual roundness for the "card"
-      }}
-    >
-      {/* 1. Rounded Border (doc.roundedRect(..., 8)) */}
-      <div style={{
-        position: 'absolute',
-        top: `${padding}px`,
-        left: `${padding}px`,
-        width: `${innerW}px`,
-        height: `${innerH}px`,
-        border: '1.5px solid #333',
-        borderRadius: '8px',
-        pointerEvents: 'none'
-      }} />
+      // Internal Logic from backend
+      const padding = h * 0.1;
+      const innerH = h - padding * 2;
+      const innerW = w - padding * 2;
+      const qrSize = innerH * 0.8;
 
-      {/* 2. QR Code (doc.image(qrBuffer, padding + 15, (h - qrSize) / 2)) */}
-      <div style={{
-        position: 'absolute',
-        left: `${qrOffsetLeft}px`,
-        top: `${(h - qrSize) / 2}px`
-      }}>
-        <QRCodeSVG 
-          value={qrValue} 
-          size={qrSize} 
-          level="H" 
-          marginSize={0} // Important: PDF generation has 0 margin
-        />
-      </div>
+      // Convert 15pt and 25pt from PDF to PX for alignment
+      const ptToPx = 96 / 72;
+      const qrOffsetLeft = padding + 15 * ptToPx;
+      const textOffsetLeft = padding + qrSize + 25 * ptToPx;
 
-      {/* 3. Neverlose Text (doc.text('Neverlose', ..., h * 0.35)) */}
-      <div style={{
-        position: 'absolute',
-        left: `${textOffsetLeft}px`,
-        top: `${h * 0.35}px`,
-        textAlign: 'left'
-      }}>
-        <h3 style={{ 
-          margin: 0, 
-          fontSize: '16pt', // Matching backend .fontSize(16)
-          fontWeight: 'bold', 
-          fontFamily: 'Helvetica, Arial, sans-serif',
-          color: '#000',
-          lineHeight: 1
-        }}>
-          Neverlose
-        </h3>
-        
-        {/* 4. SCAN IF FOUND (doc.text('...', ..., h * 0.55)) */}
-        <p style={{ 
-          margin: 0, 
-          marginTop: '8px', // Visual spacing
-          fontSize: '9pt', // Matching backend .fontSize(9)
-          fontFamily: 'Helvetica, Arial, sans-serif',
-          color: '#666',
-          lineHeight: 1
-        }}>
+      return (
+        <div
+          style={{
+            width: `${w}px`,
+            height: `${h}px`,
+            position: "relative",
+            overflow: "hidden",
+            borderRadius: "12px", // Visual roundness for the "card"
+          }}
+        >
+          {/* 1. Rounded Border (doc.roundedRect(..., 8)) */}
+          <div
+            style={{
+              position: "absolute",
+              top: `${padding}px`,
+              left: `${padding}px`,
+              width: `${innerW}px`,
+              height: `${innerH}px`,
+              border: "1.5px solid #333",
+              borderRadius: "8px",
+              pointerEvents: "none",
+            }}
+          />
+
+          {/* 2. QR Code (doc.image(qrBuffer, padding + 15, (h - qrSize) / 2)) */}
+          <div
+            style={{
+              position: "absolute",
+              left: `${qrOffsetLeft}px`,
+              top: `${(h - qrSize) / 2}px`,
+            }}
+          >
+            <QRCodeSVG
+              value={qrValue}
+              size={qrSize}
+              level="H"
+              marginSize={0} // Important: PDF generation has 0 margin
+            />
+          </div>
+
+          {/* 3. Neverlose Text (doc.text('Neverlose', ..., h * 0.35)) */}
+          <div
+            style={{
+              position: "absolute",
+              left: `${textOffsetLeft}px`,
+              top: `${h * 0.35}px`,
+              textAlign: "left",
+            }}
+          >
+            <h3
+              style={{
+                margin: 0,
+                fontSize: "16pt", // Matching backend .fontSize(16)
+                fontWeight: "bold",
+                fontFamily: "Helvetica, Arial, sans-serif",
+                color: "#000",
+                lineHeight: 1,
+              }}
+            >
+              Neverlose
+            </h3>
+
+            {/* 4. SCAN IF FOUND (doc.text('...', ..., h * 0.55)) */}
+            <p
+              style={{
+                margin: 0,
+                marginTop: "8px", // Visual spacing
+                fontSize: "9pt", // Matching backend .fontSize(9)
+                fontFamily: "Helvetica, Arial, sans-serif",
+                color: "#666",
+                lineHeight: 1,
+              }}
+            >
+              SCAN IF FOUND
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    // 2. STYLE: AIRTAG (Circular)
+    if (activePreset?.id === "airtag") {
+      return (
+        <div
+          className="preview-card airtag-style d-flex flex-column align-items-center justify-content-center border border-dark rounded-circle bg-white shadow-sm"
+          style={{ width: "130px", height: "130px" }}
+        >
+          <QRCodeSVG value={qrValue} size={100} level="H" />
+          <h6 className="fw-bold mt-2 mb-0" style={{ fontSize: "9px" }}>
+            SCAN IF FOUND
+          </h6>
+        </div>
+      );
+    }
+
+    // 3. STYLE: SMALL TAG (Minimalist)
+    if (activePreset?.id === "small-tag") {
+      return (
+        <div
+          className="preview-card small-tag-style d-flex flex-column align-items-center justify-content-center border border-dark rounded-2 bg-white"
+          style={{ width: "180px", height: "110px" }}
+        >
+          <QRCodeSVG value={qrValue} size={60} level="H" />
+          <p className="fw-bold mt-2 mb-0" style={{ fontSize: "10px" }}>
+            SCAN IF FOUND
+          </p>
+        </div>
+      );
+    }
+
+    // 4. STYLE: POSTER / CUSTOM (Vertical Stack)
+    return (
+      <div
+        className="preview-card poster-style d-flex flex-column align-items-center justify-content-center border border-dark p-4 bg-white"
+        style={{ width: "250px", height: "350px" }}
+      >
+        <QRCodeSVG value={qrValue} size={160} level="H" />
+        <p className="text-muted mt-4 mb-1" style={{ fontSize: "14px" }}>
           SCAN IF FOUND
         </p>
       </div>
-    </div>
-  );
-}
-
-  // 2. STYLE: AIRTAG (Circular)
-  if (activePreset?.id === "airtag") {
-    return (
-      <div className="preview-card airtag-style d-flex flex-column align-items-center justify-content-center border border-dark rounded-circle bg-white shadow-sm"
-           style={{ width: "130px", height: "130px" }}>
-        <QRCodeSVG value={qrValue} size={100} level="H" />
-        <h6 className="fw-bold mt-2 mb-0" style={{ fontSize: "9px" }}>SCAN IF FOUND</h6>
-      </div>
     );
-  }
-
-  // 3. STYLE: SMALL TAG (Minimalist)
-  if (activePreset?.id === "small-tag") {
-    return (
-      <div className="preview-card small-tag-style d-flex flex-column align-items-center justify-content-center border border-dark rounded-2 bg-white"
-           style={{ width: "180px", height: "110px" }}>
-        <QRCodeSVG value={qrValue} size={60} level="H" />
-        <p className="fw-bold mt-2 mb-0" style={{ fontSize: "10px" }}>SCAN IF FOUND</p>
-      </div>
-    );
-  }
-
-  // 4. STYLE: POSTER / CUSTOM (Vertical Stack)
-  return (
-    <div className="preview-card poster-style d-flex flex-column align-items-center justify-content-center border border-dark p-4 bg-white"
-         style={{ width: "250px", height: "350px" }}>
-      <QRCodeSVG value={qrValue} size={160} level="H" />
-      <p className="text-muted mt-4 mb-1" style={{ fontSize: "14px" }}>SCAN IF FOUND</p>
-     
-    </div>
-  );
-};
+  };
   const getPreviewDimensions = (presetId) => {
     // 1. Handle Custom Case
     if (presetId === "custom") {
-      return { 
-        w: (Number(customWidth) * 10) || 50, 
-        h: (Number(customHeight) * 10) || 50,
-        shape: "rect" 
+      return {
+        w: Number(customWidth) * 10 || 50,
+        h: Number(customHeight) * 10 || 50,
+        shape: "rect",
       };
     }
 
@@ -195,10 +237,10 @@ if (activePreset?.id === "wallet") {
       return { w: 50, h: 50, shape: "rect" };
     }
 
-    return { 
-      w: p.widthMm || p.diameterMm || 50, 
-      h: p.heightMm || p.diameterMm || 50, 
-      shape: p.shape || "rect" 
+    return {
+      w: p.widthMm || p.diameterMm || 50,
+      h: p.heightMm || p.diameterMm || 50,
+      shape: p.shape || "rect",
     };
   };
 
@@ -221,8 +263,8 @@ if (activePreset?.id === "wallet") {
           return;
         }
 
-        payload.widthMm = w*10;
-        payload.heightMm = h*10;
+        payload.widthMm = w * 10;
+        payload.heightMm = h * 10;
       }
 
       const res = await labelApi.downloadPdf(propItem.id, payload);
@@ -249,8 +291,8 @@ if (activePreset?.id === "wallet") {
     }
     setSelectedPresetId(preset);
     setIsConfirmOpen(true); */
-      downloadPreset(activePreset); 
-      setIsConfirmOpen(false); 
+    downloadPreset(activePreset);
+    setIsConfirmOpen(false);
   };
   const handlePreview = (preset) => {
     if (preset.id === "custom" && (!customWidth || !customHeight)) {
@@ -272,41 +314,66 @@ if (activePreset?.id === "wallet") {
   return (
     <div className={embedded ? "embedded-label-box" : "container py-5"}>
       <div className="nl-QRcontainer rounded-4 p-4 p-md-5  border-0">
-      {/* Header Logic */}
+        {/* Header Logic */}
         {
           <div className="d-flex justify-content-between align-items-center mb-5">
             <div>
-              <h3 className="fw-bold mb-2">
+              <h3
+                className="fw-bold mb-1"
+                style={{ color: "var(--nl-deep-blue)", fontSize: "1.8rem" }}
+              >
                 Download Your QR Code
-                
-              </h3> 
-              <p>Click a card below to preview & download</p>            
-              <p className="text-muted">
-                Public Scan URL : &nbsp;
-                  {propItem.publicUrl}
-                
+              </h3>
+              <p className="text-secondary mb-3">
+                Select a size below to preview and download your secure tag.
               </p>
+
+              <div className="d-inline-flex align-items-center bg-light border rounded-4 px-3 py-1">
+                <span
+                  className="text-uppercase fw-bold me-2"
+                  style={{
+                    fontSize: "0.65rem",
+                    color: "var(--nl-tech-blue)",
+                    letterSpacing: "1px",
+                  }}
+                >
+                  Public Scan URL:
+                </span>
+                <code
+                  className="small text-dark"
+                  style={{ fontSize: "0.8rem" }}
+                >
+                  {propItem.publicUrl}
+                </code>
+              </div>
             </div>
-            
-            <div className="d-none d-md-flex align-items-center gap-3">
-              <img src={qrIcon} width="40" />
-              <i className="bi bi-arrow-right"></i>
-              <img src={printIcon} width="40" />
-              <i className="bi bi-arrow-right"></i>
-              <img src={tagIcon} width="50" />
+
+            <div className="d-none d-md-flex align-items-center gap-2 gap-xl-4">
+              <img src={qrIcon} style={{ width: "clamp(40px, 5vw, 70px)" }} />
+              <i className="bi bi-arrow-right opacity-50"></i>
+
+              <img
+                src={printIcon}
+                style={{ width: "clamp(40px, 5vw, 70px)" }}
+              />
+              <i className="bi bi-arrow-right opacity-50"></i>
+
+              <img src={tagIcon} style={{ width: "clamp(55px, 7vw, 90px)" }} />
             </div>
           </div>
-        }       
+        }
 
         {/*  GRID */}
         <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
           {item.labelPresets?.map((preset) => (
             <div key={preset.id} className="col">
               {/* Card */}
-              <div      onClick={() => {
-                   handlePreview(preset);
+              <div
+                onClick={() => {
+                  handlePreview(preset);
                 }}
-                role="button"  className="h-100 nl-preset-card shadow-sm p-1 d-flex flex-column align-items-center justify-content-center"
+                role="button"
+                className="h-100 nl-preset-card shadow-sm p-1 d-flex flex-column align-items-center justify-content-center"
               >
                 {/* Icons */}
                 <div
@@ -359,11 +426,10 @@ if (activePreset?.id === "wallet") {
                         onChange={(e) => setCustomHeight(e.target.value)}
                       />
                     </div>
-                   
                   </div>
                 )}
                 <div className="d-flex flex-column gap-2">
-                 {/*  <button className="btn btn-outline-primary btn-sm rounded-pill w-80" onClick={() => handlePreview(preset)}>Preview & Download</button> */}
+                  {/*  <button className="btn btn-outline-primary btn-sm rounded-pill w-80" onClick={() => handlePreview(preset)}>Preview & Download</button> */}
                   {/* <button className="btn btn-primary btn-sm rounded-pill" onClick={() => handlePrepareDownload(preset.id)}>Download PDF</button> */}
                 </div>
               </div>
@@ -372,22 +438,38 @@ if (activePreset?.id === "wallet") {
         </div>
       </div>
       {/* Preview Modal */}
-            <Modal show={isPreviewOpen} onHide={() => setIsPreviewOpen(false)} centered>
-              <Modal.Header closeButton><Modal.Title>QR Preview</Modal.Title></Modal.Header>
-              <Modal.Body className="d-flex flex-column align-items-center bg-light py-4">
-                <LabelPreviewContent activePreset={activePreset} item={item} />
-              </Modal.Body>
-              <Modal.Footer>
-                 <CustomButton
-                  variant="primary" onClick={() => { setIsPreviewOpen(false); handlePrepareDownload(activePreset); }}>Looks Good, Download</CustomButton>
-              </Modal.Footer>
-            </Modal>
+      <Modal
+        show={isPreviewOpen}
+        onHide={() => setIsPreviewOpen(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>QR Preview</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="d-flex flex-column align-items-center bg-light py-4">
+          <LabelPreviewContent activePreset={activePreset} item={item} />
+        </Modal.Body>
+        <Modal.Footer>
+          <CustomButton
+            variant="primary"
+            onClick={() => {
+              setIsPreviewOpen(false);
+              handlePrepareDownload(activePreset);
+            }}
+          >
+            Looks Good, Download
+          </CustomButton>
+        </Modal.Footer>
+      </Modal>
 
       <ConfirmDialog
         open={isConfirmOpen}
         title="Ready to Print?"
         message={`Download PDF for "${item.nickname}"?`}
-        onConfirm={() => { downloadPreset(activePreset); setIsConfirmOpen(false); }}
+        onConfirm={() => {
+          downloadPreset(activePreset);
+          setIsConfirmOpen(false);
+        }}
         onCancel={() => setIsConfirmOpen(false)}
       />
     </div>
