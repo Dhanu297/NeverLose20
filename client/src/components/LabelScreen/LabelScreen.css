@@ -1,13 +1,12 @@
 .nl-QRcontainer {
   background-color: rgba(138, 225, 234, 0.3);
-  color: var(--nl-deep-blue);
+  color: rgba(9, 32, 121, 0.9);
 }
 
 .nl-preset-card {
-  transition: transform 0.2s, border-color 0.2s;
-  cursor: pointer; 
-  background-color: transparent !important;
-  border: 2px solid rgba(9, 32, 121, 0.9) !important;
+  cursor: pointer;
+  /* background-color: transparent !important; */
+
   border-radius: 20px !important;
   /* transition: all 0.3s ease; */
   cursor: pointer;
@@ -17,57 +16,45 @@
   justify-content: center;
   text-align: center;
   padding: 30px 20px;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  /* border: 2px solid var(--nl-tech-blue) !important; */
+  border: 2px solid var(--nl-tech-blue) !important;
+  /* background-color: rgba(189, 226, 231, 0.6); */
+  background-color: rgba(239, 244, 245, 0.8);
+}
+
+.nl-preset-card .preset-name {
+  color: var(--nl-tech-blue);
+  opacity: 0.85;
+  font-weight: 700;
+}
+
+.nl-preset-card .preset-desc {
+  color: var(--nl-deep-blue);
+}
+
+.qr-svg-icon path {
+  fill: var(--nl-deep-blue);
 }
 
 .nl-preset-card:hover {
-  transform: translateY(-3px);
-  background-color: rgba(9, 32, 121, 0.9) !important;
-  box-shadow: 0 10px 30px rgba(12, 109, 255, 0.3) !important;
+  transform: translateY(-4px) scale(1.02);
+  border-color: rgba(12, 82, 187, 0.8) !important;
+  background-color: rgba(12, 109, 255, 0.8) !important;
+  box-shadow: 0 20px 40px rgba(12, 109, 239, 0.15);
+}
+
+.nl-preset-card:hover .preset-name,
+.nl-preset-card:hover .preset-desc,
+.nl-preset-card:hover .qr-svg-icon path {
+  color: white !important;
+  fill: white !important;
+  opacity: 1;
 }
 
 .nl-preset-card:active {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(12, 109, 255, 0.2) !important;
-}
-
-.nl-preset-card .preset-name {
-  color: rgba(9, 32, 121, 0.9);
-  font-weight: 700;
-  margin-top: 15px;
-  margin-bottom: 5px;
-  transition: color 0.3s ease;
-}
-.nl-preset-card .preset-desc {
-  color: rgba(9, 32, 121, 0.9);
-  font-size: 0.95rem;
-  transition: color 0.3s ease;
-}
-
-.qr-svg-icon path {
-  fill: rgba(9, 32, 121, 0.9);
-  transition: fill 0.3s ease;
-}
-
-/* card on hover */
-.nl-preset-card:hover {
-  transform: translateY(-5px);
-  background-color: rgba(9, 32, 121, 0.9) !important;
-  box-shadow: 0 10px 30px rgba(9, 32, 121, 0.3) !important;
-  border-color: #007bff;
-}
-
-.nl-preset-card:hover .qr-svg-icon path {
-  fill: white;
-}
-
-.nl-preset-card:hover .preset-name,
-.nl-preset-card:hover .preset-desc {
-  color: white;
-}
-/* Branding Font */
-.preset-name, .preview-card h3, .preview-card h4 {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  letter-spacing: -0.5px;
 }
 
 /* Specific Preview Adjustments */
@@ -76,5 +63,5 @@
 }
 
 .wallet-style {
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }

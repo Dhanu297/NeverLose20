@@ -328,23 +328,29 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
                 Select a size below to preview and download your secure tag.
               </p>
 
-              <div className="d-inline-flex align-items-center bg-light border rounded-4 px-3 py-1">
+              <div
+                className="d-inline-flex align-items-center px-3 py-1 rounded-pill"
+                style={{
+                  backgroundColor: "rgba(189, 226, 231, 0.2)",
+                  border: "1px solid rgba(0, 209, 255, 0.1)",
+                }}
+              >
                 <span
                   className="text-uppercase fw-bold me-2"
                   style={{
-                    fontSize: "0.65rem",
+                    fontSize: "0.6rem",
                     color: "var(--nl-tech-blue)",
                     letterSpacing: "1px",
                   }}
                 >
-                  Public Scan URL:
+                  Public Scan URL
                 </span>
-                <code
-                  className="small text-dark"
-                  style={{ fontSize: "0.8rem" }}
+                <span
+                  className="text-muted fw-medium"
+                  style={{ fontSize: "0.75rem", fontFamily: "monospace" }}
                 >
                   {propItem.publicUrl}
-                </code>
+                </span>
               </div>
             </div>
 
@@ -377,7 +383,7 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
               >
                 {/* Icons */}
                 <div
-                  className="mb-3 d-flex align-items-center justify-content-center"
+                  className="my-3 d-flex align-items-center justify-content-center"
                   style={{ height: "30px" }}
                 >
                   {preset.id === "wallet" && (
@@ -392,7 +398,7 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
                 </div>
 
                 {/* Info Tag */}
-                <div className="mb-3">
+                <div className="my-3">
                   <h5
                     className="preset-name"
                     style={{ fontFamily: "var(--font-titles)" }}
