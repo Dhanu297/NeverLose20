@@ -6,15 +6,14 @@ import Step3Success from "../components/Found/Step3";
 import Founder from "../layouts/Founder/Founder";
 import ProgressBar from "../components/progressBar/ProgressBar";
 import { publicApi } from "../api/publicApi";
-
 import Step1Img from "../assets/Finder-Step1.webp";
 import Step2Img from "../assets/Finder-Step2.webp";
 import Step3Img from "../assets/Finder-Step3.webp";
 import NotFound from "../components/Found/NotFound";
 
 export default function FoundReport() {
-  const { token } = useParams();
-  const flow = useFoundFlow(token);
+  const { token } = useParams();//Get token from URL 
+  const flow = useFoundFlow(token);//Custom hook handling flow logic 
 
   if (flow.loading) return <p>Loading...</p>;
   if (flow.error) return <NotFound message={flow.error} />;

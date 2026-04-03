@@ -4,7 +4,6 @@ import { AuthContext } from "../context/AuthContext";
 import { useItemDetails } from "../hooks/useItemDetails";
 import { useDeleteItem } from "../hooks/useDeleteItem";
 import { useConfirmDialog } from "../hooks/useConfirmDialog";
-
 import MainLayout from "../layouts/MainLayout/MainLayout";
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 import ConfirmDialog from "../components/confirmDialog/ConfirmDialog";
@@ -12,7 +11,7 @@ import ItemDetails from "../components/ItemDetails/ItemDetails";
 
 export default function ItemDetailsPage() {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const navigate = useNavigate();//Hook for navigation
   const { user, loading: authLoading } = useContext(AuthContext);
 
   const { item, loading, error } = useItemDetails(id);
@@ -40,7 +39,7 @@ export default function ItemDetailsPage() {
 
           <button
             className="btn btn-link text-white text-decoration-none p-0 opacity-hover"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/dashboard")}
           >
             <i className="bi bi-chevron-left"></i>
             <span className="ms-1">Back</span>

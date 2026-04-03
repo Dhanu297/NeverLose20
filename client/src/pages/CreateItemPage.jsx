@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"; 
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";// Used to get logged-in user info
 import ItemForm from "../components/item/ItemForm";
 import VerificationStep from "../components/item/VerificationStep";
 import ReviewStep from "../components/item/ReviewStep";
@@ -9,9 +9,10 @@ import MainLayout from "../layouts/MainLayout/MainLayout";
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 
 export default function CreateItemPage() {
-  const { user, loading: authLoading } = useContext(AuthContext);
+  const { user, loading: authLoading } = useContext(AuthContext);// Get logged-in user,loading state from AuthContext
 
   const [step, setStep] = useState(1);
+  // Store form data across all steps
   const [form, setForm] = useState({
     nickname: "",
     description: "",
@@ -19,7 +20,7 @@ export default function CreateItemPage() {
     verification: { enabled: false, question: "" },
   });
 
-  const navigate = useNavigate();
+  const navigate = useNavigate();//Hook for navigation
 
   async function handleCreate() {
     try {
@@ -42,10 +43,11 @@ export default function CreateItemPage() {
   return (
     <MainLayout username={user?.displayName || "User"}>
       <div className="max-w-xl mx-auto">
+        {/* Item form */}
         {step === 1 && (
           <ItemForm form={form} setForm={setForm} next={() => setStep(2)} />
         )}
-
+        {/* Verification step */}
         {step === 2 && (
           <VerificationStep
             form={form}
@@ -54,7 +56,7 @@ export default function CreateItemPage() {
             back={() => setStep(1)}
           />
         )}
-
+       {/* Review step */}
         {step === 3 && (
           <ReviewStep
             form={form}

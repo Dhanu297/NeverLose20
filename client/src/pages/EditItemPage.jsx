@@ -7,7 +7,7 @@ import EditItemComponent from "../components/EditItemComponent/EditItemComponent
 import LoadingSpinner from "../components/loadingSpinner/LoadingSpinner";
 
 const EditItemPage = () => {
-  const { id } = useParams();
+  const { id } = useParams();//Get item ID from URL 
   const [itemData, setItemData] = useState(null);
   const navigate = useNavigate();
   const { user, loading: authLoading } = useContext(AuthContext);
