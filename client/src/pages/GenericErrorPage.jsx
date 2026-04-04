@@ -6,7 +6,7 @@ import { AuthContext } from "../context/AuthContext";
 
 export default function GenericErrorPage() {
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = useNavigate();//Hook for navigation
   const { user } = useContext(AuthContext);
 
   const {

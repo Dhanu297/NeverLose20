@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AuthLayout from "../layouts/AuthLayout/AuthLayout";
 
 function LoginPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate();//Hook for navigation
   return (
     <AuthLayout
       title="Welcome!"
