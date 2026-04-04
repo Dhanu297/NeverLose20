@@ -17,7 +17,23 @@ export default function FoundReport() {
   const flow = useFoundFlow(token);
 
   if (flow.loading) return <p>Loading...</p>;
-  if (flow.error) return <NotFound message={flow.error} />;
+  if (flow.error) return  <NotFound
+          title="Oops! Something wrong"
+          message={
+            <>
+              It seems either you maxed out your attempts or something else is wrong.
+              <strong
+                className="d-block mt-2"
+                style={{ color: "var(--nl-dark-navy)" }}
+              >
+                {" "}
+                Thank you for trying to help!
+              </strong>
+            </>
+          }
+          icon="bi-qr-code-scan"
+          buttonText="Explore Neverlose"
+        />
 
   const getStepImage = () => {
     const images = {
@@ -48,7 +64,7 @@ export default function FoundReport() {
       type: "RATE_LIMITED",
       message: "Too many submissions. Please try again later."
     });
-    return; // stop flow
+    flow.next();
   }
 
   // Generic fallback
@@ -56,7 +72,7 @@ export default function FoundReport() {
     type: "UNKNOWN",
     message: "Something went wrong. Please try again."
   });
-
+flow.next();
     } finally {
       if (flow.setIsSubmitting) flow.setIsSubmitting(false);
     }
