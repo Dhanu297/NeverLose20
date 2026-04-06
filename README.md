@@ -201,6 +201,7 @@ http://localhost:3000
 
 ## API Endpoints:
 The Server folder includes an API.html file that provides details of all API endpoints.
+Access it here:https://neverlose-8oya.onrender.com/api-docs
 -----------------------------------------------------------------------------------------
 
 ## Future Enhancements:
