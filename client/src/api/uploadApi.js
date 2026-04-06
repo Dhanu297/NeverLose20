@@ -17,7 +17,7 @@ const uploadApi = {
       },
     });
 
-    return res.data.photoUrl; // backend returns { photoUrl }
+    return res.data; // backend returns { photoUrl }
   },
 };
 

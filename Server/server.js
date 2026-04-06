@@ -1,6 +1,6 @@
 // Main Express entrypoint.
 // Wires security middleware and routes.
-
+const path = require('path');
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -59,6 +59,12 @@ app.use("/api/logs", logRouter);
 app.get("/health", (req, res) => {
   req.log.info("Health check hit"); // ✅ request-scoped logger
   res.json({ ok: true });
+});
+
+//Get all API endpoints 
+app.use(express.static(__dirname));
+app.get('/api-docs', (req, res) => {
+    res.sendFile(path.join(__dirname, 'api.html'));
 });
 
 // Simple route

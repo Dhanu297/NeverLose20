@@ -34,8 +34,8 @@ function UploadPhoto({ photoUrl, onUploaded }) {
       );
 
       // Upload the compressed file to the API
-      const url = await uploadApi.uploadPhoto(compressedFile);
-      onUploaded(url);
+      const data = await uploadApi.uploadPhoto(compressedFile);
+      onUploaded(data);
     } catch (err) {
       console.error(err);
       alert("Failed to compress or upload photo. Please try a smaller image.");
