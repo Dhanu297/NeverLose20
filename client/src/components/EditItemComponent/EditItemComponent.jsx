@@ -12,27 +12,27 @@ const EditItemComponent = ({ item }) => {
 
   // Pass item directly into your hook
   const { formData, handleChange, handlePhotoChange } = useEditFormData(item);
-  const [enableVerification, setEnableVerification] = React.useState(false)
+  const [enableVerification, setEnableVerification] = React.useState(false);
   // Sync toggle with existing item data on load
   React.useEffect(() => {
-  setEnableVerification(formData.enableVarification);
-}, [formData.enableVarification]);
+    setEnableVerification(formData.enableVarification);
+  }, [formData.enableVarification]);
 
-// Handle form submission
+  // Handle form submission
   const handleSubmit = async () => {
     try {
-     await updateItem({
-  nickname: formData.nickname,
-  description: formData.description,
-  status: formData.status,
-  photoUrl: formData.photoUrl,
-  // Conditional verification logic
-  verification: {
-    enabled: enableVerification,
-    question: enableVerification ? formData.securityQuestion : "",
-  },
-});
-    // Redirect to item details page after update
+      await updateItem({
+        nickname: formData.nickname,
+        description: formData.description,
+        status: formData.status,
+        photoUrl: formData.photoUrl,
+        // Conditional verification logic
+        verification: {
+          enabled: enableVerification,
+          question: enableVerification ? formData.securityQuestion : "",
+        },
+      });
+      // Redirect to item details page after update
       navigate(`/item-details/${item.id}`);
     } catch (error) {
       console.log("Error in update");
@@ -45,11 +45,11 @@ const EditItemComponent = ({ item }) => {
 
   return (
     <div className="item-form-content">
-      <div className="d-flex flex-column align-items-start mb-3">
+      <div className="d-flex flex-column align-items-start mb-0 mb-md-3 p-2 p-md-0">
         <h3 className="text-white fw-bold mb-2">Edit Your Item</h3>
 
         <button
-          className="btn btn-link text-white text-decoration-none p-0 opacity-hover"
+          className="btn btn-link text-white text-decoration-none p-0 pb-1 pb-md-0 opacity-hover"
           onClick={() => navigate(-1)}
         >
           <i className="bi bi-chevron-left"></i>
@@ -225,7 +225,7 @@ const EditItemComponent = ({ item }) => {
                           item.
                         </small>
                         <p className="text-end small me-2">
-                         {formData.securityQuestion?.length || 0}/200
+                          {formData.securityQuestion?.length || 0}/200
                         </p>
                       </div>
                     </div>

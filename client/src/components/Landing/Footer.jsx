@@ -4,8 +4,8 @@ import "./Landing.css";
 
 const Footer = () => {
   return (
-    <footer className="footer-custom">
-      <div className="container">
+    <footer className="footer-custom border-0">
+      <div className="container ">
         <div className="row gy-5 align-items-center">
           {/* left side */}
           <div className="col-12 col-md-6 text-center text-md-start">

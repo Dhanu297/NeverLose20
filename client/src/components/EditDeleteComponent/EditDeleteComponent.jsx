@@ -7,25 +7,25 @@ const EditDeleteComponent = ({ onEdit, onDelete }) => {
     <div className="EditDelete-container">
       {/* Edit button (triggers edit action for item)  */}
       <OverlayTrigger
-        placement="top"
+        placement="right"
         overlay={<Tooltip>Edit the item</Tooltip>}
       >
-      <button className="btn btn-edit btn-link p-0 border-0" onClick={onEdit}>
-        <i className="bi bi-pencil-fill"></i>
-      </button>
+        <button className="btn btn-edit btn-link p-0 border-0" onClick={onEdit}>
+          <i className="bi bi-pencil-fill"></i>
+        </button>
       </OverlayTrigger>
 
       {/* Delete button (triggers delete action for item)  */}
       <OverlayTrigger
-        placement="bottom"
+        placement="right"
         overlay={<Tooltip>Delete the item</Tooltip>}
       >
-      <button
-        className="btn btn-delete btn-link p-0 border-0"
-        onClick={onDelete}
-      >
-        <i className="bi bi-trash-fill"></i>
-      </button>
+        <button
+          className="btn btn-delete btn-link p-0 border-0"
+          onClick={onDelete}
+        >
+          <i className="bi bi-trash-fill"></i>
+        </button>
       </OverlayTrigger>
     </div>
   );

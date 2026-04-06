@@ -61,7 +61,7 @@ function UploadPhoto({ photoUrl, onUploaded }) {
             <img
               src={preview}
               alt="preview"
-              className="w-100 h-100 object-fit-cover shadow-sm" // Añadimos h-100 y object-fit-cover
+              className="w-100 h-100 object-fit-cover shadow-sm"
               style={{
                 borderRadius: "inherit",
                 display: "block",
@@ -75,7 +75,7 @@ function UploadPhoto({ photoUrl, onUploaded }) {
               </div>
             </div>
           )}
-         {/* Loading overlay during upload/compression  */}
+          {/* Loading overlay during upload/compression  */}
           {uploading && (
             <div className="position-absolute d-flex flex-column align-items-center">
               <div

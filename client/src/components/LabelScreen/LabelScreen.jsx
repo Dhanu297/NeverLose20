@@ -18,8 +18,9 @@ import { ReactComponent as CustomIcon } from "../../assets/CustomQR.svg";
 // Components
 import ConfirmDialog from "../confirmDialog/ConfirmDialog";
 import CustomButton from "../CustomButton/CustomButton";
+import CopyUrlLabel from "../CopyUrlLabel/CopyUrlLabel";
 import "./LabelScreen.css";
-// 1. Define Presets outside the component or at the top
+
 const defaultPresets = [
   {
     id: "wallet",
@@ -49,11 +50,8 @@ const defaultPresets = [
 export default function LabelScreen({ item: propItem, embedded = true }) {
   const location = useLocation();
 
-  //  IMPORTANT FIX
   const initialItem = propItem || location.state;
 
-  // --- 2. State Hooks (Must be at the top) ---
-  // --- 2. State Hooks (Must be at the top) ---
   const [item] = useState(() => ({
     ...initialItem,
     labelPresets: initialItem?.labelPresets || defaultPresets,
@@ -69,6 +67,7 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [selectedPresetId, setSelectedPresetId] = useState(null);
   const [activePreset, setActivePreset] = useState(null);
+  const [showDimensionError, setShowDimensionError] = useState(false);
 
   // --- 3. Logic Functions ---
   const LabelPreviewContent = ({ activePreset, item }) => {
@@ -251,7 +250,8 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
       // Custom requires width + height
       if (preset === "custom") {
         if (!customWidth || !customHeight) {
-          alert("Please enter both width and height.");
+          setShowDimensionError(true);
+          setTimeout(() => setShowDimensionError(false), 3000);
           return;
         }
 
@@ -296,7 +296,9 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
   };
   const handlePreview = (preset) => {
     if (preset.id === "custom" && (!customWidth || !customHeight)) {
-      alert("Please enter dimensions first.");
+      setShowDimensionError(true);
+      setTimeout(() => setShowDimensionError(false), 3000);
+
       return;
     }
     setActivePreset(preset);
@@ -312,46 +314,24 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
   console.log("ITEM:", item);
   console.log("PRESETS:", item?.labelPresets);
   return (
-    <div className={embedded ? "embedded-label-box" : "container py-5"}>
-      <div className="nl-QRcontainer rounded-4 p-4 p-md-5  border-0">
+    <div className={embedded ? "embedded-label-box" : "container py-4 py-md-5"}>
+      <div className="nl-QRcontainer rounded-5 p-3 p-md-4 align-items-md-center border-0 ">
         {/* Header Logic */}
         {
-          <div className="d-flex justify-content-between align-items-center mb-5">
-            <div>
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-0 mb-md-3 p-2 p-md-0">
+            <div className="mb-3 mb-md-0">
               <h3
-                className="fw-bold mb-1"
-                style={{ color: "var(--nl-deep-blue)", fontSize: "1.8rem" }}
+                className="fw-bold mb-2"
+                style={{
+                  color: "var(--nl-deep-blue)",
+                  fontSize: "calc(1.3rem + 1vw)",
+                }}
               >
                 Download Your QR Code
               </h3>
-              <p className="text-secondary mb-3">
+              <p className="text-secondary mb-0" style={{ maxWidth: "500px" }}>
                 Select a size below to preview and download your secure tag.
               </p>
-
-              <div
-                className="d-inline-flex align-items-center px-3 py-1 rounded-pill"
-                style={{
-                  backgroundColor: "rgba(189, 226, 231, 0.2)",
-                  border: "1px solid rgba(0, 209, 255, 0.1)",
-                }}
-              >
-                <span
-                  className="text-uppercase fw-bold me-2"
-                  style={{
-                    fontSize: "0.6rem",
-                    color: "var(--nl-tech-blue)",
-                    letterSpacing: "1px",
-                  }}
-                >
-                  Public Scan URL
-                </span>
-                <span
-                  className="text-muted fw-medium"
-                  style={{ fontSize: "0.75rem", fontFamily: "monospace" }}
-                >
-                  {propItem.publicUrl}
-                </span>
-              </div>
             </div>
 
             <div className="d-none d-md-flex align-items-center gap-2 gap-xl-4">
@@ -379,11 +359,11 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
                   handlePreview(preset);
                 }}
                 role="button"
-                className="h-100 nl-preset-card shadow-sm p-1 d-flex flex-column align-items-center justify-content-center"
+                className="h-100 nl-preset-card shadow-sm  d-flex flex-column align-items-center justify-content-center"
               >
                 {/* Icons */}
                 <div
-                  className="my-3 d-flex align-items-center justify-content-center"
+                  className="my-3 d-flex align-items-center justify-content-center pt-1"
                   style={{ height: "30px" }}
                 >
                   {preset.id === "wallet" && (
@@ -410,74 +390,194 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
                   </p>
                 </div>
 
-                {/* Download Buttons */}
+                {/* Measurement input */}
                 {preset.id === "custom" && (
                   <div
-                    className="w-100 mb-2"
+                    className="w-100 mt-3"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <div className="d-flex gap-2 mb-3 mx-3">
-                      <input
-                        type="number"
-                        placeholder="Width(cm)"
-                        className="form-control form-control-sm rounded-3 border-0 text-center bg-white shadow-sm py-2"
-                        value={customWidth}
-                        onChange={(e) => setCustomWidth(e.target.value)}
-                      />
-                      <input
-                        type="number"
-                        placeholder="Height(cm)"
-                        className="form-control form-control-sm rounded-3 border-0 text-center bg-white shadow-sm py-2"
-                        value={customHeight}
-                        onChange={(e) => setCustomHeight(e.target.value)}
-                      />
+                    <div className="d-flex flex-column gap-2">
+                      {[
+                        {
+                          id: "customWidth",
+                          label: "Width (cm)",
+                          val: customWidth,
+                          set: setCustomWidth,
+                          iconClass: "bi-arrows-expand-vertical",
+                          rotate: true,
+                        },
+                        {
+                          id: "customHeight",
+                          label: "Height (cm)",
+                          val: customHeight,
+                          set: setCustomHeight,
+                          iconClass: "bi-arrows-expand-vertical",
+                          rotate: false,
+                        },
+                      ].map((input) => (
+                        <div
+                          key={input.id}
+                          className="input-group rounded-4 overflow-hidden border shadow-sm align-items-center px-2 "
+                          style={{ backgroundColor: "white" }}
+                        >
+                          {/* Icon */}
+                          <span className="input-group-text border-0 bg-transparent ">
+                            <i
+                              className={`bi ${input.iconClass}`}
+                              style={{
+                                transform: input.rotate
+                                  ? "none"
+                                  : "rotate(90deg)",
+                                color: "var(--nl-tech-blue)",
+                                backgroundColor: "transparent",
+                                boxShadow: "none",
+                                fontSize: "0.85rem",
+                              }}
+                            ></i>
+                          </span>
+
+                          {/* Floating Input */}
+                          <div className="form-floating flex-grow-1 bg-transparent ">
+                            <input
+                              type="number"
+                              min="1"
+                              max="50"
+                              className="form-control border-0 bg-transparent shadow-none-focus"
+                              id={input.id}
+                              placeholder={input.label}
+                              style={{
+                                height: "45px",
+                                paddingTop: "1.2rem",
+                                paddingBottom: "0.3rem",
+                                fontSize: "0.9rem",
+                                backgroundColor: "transparent",
+                                boxShadow: "none",
+                              }}
+                              value={input.val}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                const maxLength = 2;
+
+                                if (val.length <= maxLength) {
+                                  input.set(val);
+                                }
+                              }}
+                              onKeyDown={(e) =>
+                                ["e", "E", "+", "-"].includes(e.key) &&
+                                e.preventDefault()
+                              }
+                            />
+                            <label
+                              htmlFor={input.id}
+                              className="text-muted small"
+                              style={{
+                                padding: "0.6rem 0.55rem",
+                                fontSize: "0.75rem",
+                                backgroundColor: "transparent",
+                              }}
+                            >
+                              {input.label}
+                            </label>
+                          </div>
+                        </div>
+                      ))}
+
+                      {/* Error no dimensions */}
+                      <div
+                        className="text-center overflow-hidden"
+                        style={{
+                          maxHeight: showDimensionError ? "30px" : "0",
+                          transition: "all 0.3s ease-in-out",
+                          opacity: showDimensionError ? 1 : 0,
+                        }}
+                      >
+                        <span
+                          style={{
+                            color: "white",
+                            fontSize: "0.7rem",
+                            fontWeight: "600",
+                          }}
+                        >
+                          <i className="bi bi-exclamation-circle me-1"></i>
+                          Please enter dimensions first
+                        </span>
+                      </div>
                     </div>
                   </div>
                 )}
-                <div className="d-flex flex-column gap-2">
-                  {/*  <button className="btn btn-outline-primary btn-sm rounded-pill w-80" onClick={() => handlePreview(preset)}>Preview & Download</button> */}
-                  {/* <button className="btn btn-primary btn-sm rounded-pill" onClick={() => handlePrepareDownload(preset.id)}>Download PDF</button> */}
-                </div>
               </div>
             </div>
           ))}
         </div>
+
+        {/* URL label */}
+        <div className="d-flex justify-content-center w-100 py-2">
+          <CopyUrlLabel publicUrl={item.publicUrl} />
+        </div>
       </div>
+
       {/* Preview Modal */}
       <Modal
         show={isPreviewOpen}
         onHide={() => setIsPreviewOpen(false)}
         centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>QR Preview</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="d-flex flex-column align-items-center bg-light py-4">
-          <LabelPreviewContent activePreset={activePreset} item={item} />
-        </Modal.Body>
-        <Modal.Footer>
-          <CustomButton
-            variant="primary"
-            onClick={() => {
-              setIsPreviewOpen(false);
-              handlePrepareDownload(activePreset);
-            }}
-          >
-            Looks Good, Download
-          </CustomButton>
-        </Modal.Footer>
-      </Modal>
-
-      <ConfirmDialog
-        open={isConfirmOpen}
-        title="Ready to Print?"
-        message={`Download PDF for "${item.nickname}"?`}
-        onConfirm={() => {
-          downloadPreset(activePreset);
-          setIsConfirmOpen(false);
+        contentClassName="nl-premium-modal-content"
+        className="nl-premium-modal"
+        backdropClassName="nl-premium-modal-backdrop"
+        dialogClassName="animate__animated animate__zoomIn"
+        style={{
+          backdropFilter: "blur(9px)",
+          backgroundColor: "rgba(9, 32, 121, 0.6)",
         }}
-        onCancel={() => setIsConfirmOpen(false)}
-      />
+        contentStyle={{ borderRadius: "32px", overflow: "hidden" }}
+      >
+        <div
+          style={{
+            backgroundColor: "var(--nl-white)",
+            borderRadius: "32px",
+            overflow: "hidden",
+          }}
+        >
+          {/* Header */}
+          <div className="pt-4 px-4 d-flex justify-content-between align-items-center">
+            <h5
+              className="fw-bold m-0 nl-title-navy"
+              style={{ fontFamily: "var(--font-titles)" }}
+            >
+              QR Code Preview
+            </h5>
+            <button
+              onClick={() => setIsPreviewOpen(false)}
+              className="btn-close shadow-none"
+            ></button>
+          </div>
+
+          <Modal.Body className="d-flex flex-column align-items-center py-4 px-4">
+            <div className="p-3 mb-4">
+              <LabelPreviewContent activePreset={activePreset} item={item} />
+            </div>
+
+            <p className="text-muted text-center small mb-0 px-3">
+              Please ensure the QR code is clearly visible and legible before
+              proceeding to print.
+            </p>
+          </Modal.Body>
+
+          <div className="px-4 pb-4 mt-2">
+            <CustomButton
+              variant="primary"
+              className="w-100 py-3 fw-bold shadow-sm"
+              style={{ borderRadius: "16px" }}
+              onClick={() => {
+                setIsPreviewOpen(false);
+                handlePrepareDownload(activePreset);
+              }}
+            >
+              Confirm & Download
+            </CustomButton>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

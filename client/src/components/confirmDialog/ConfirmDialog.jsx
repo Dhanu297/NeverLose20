@@ -32,7 +32,7 @@ export default function ConfirmDialog({
   title,
   variant = "warning",
 }) {
-  if (!open) return null;//If dialog is not open, render nothing (prevents unnecessary UI)
+  if (!open) return null; //If dialog is not open, render nothing (prevents unnecessary UI)
   //Pick the correct variant config (fallback to warning if invalid)
   const config = DIALOG_VARIANTS[variant] || DIALOG_VARIANTS.warning;
 
@@ -49,9 +49,9 @@ export default function ConfirmDialog({
         left: 0,
       }}
     >
-     {/* // Dialog box container */}
+      {/* // Dialog box container */}
       <div
-        className="bg-white px-4 py-5  shadow-lg border-0 text-center animate__animated animate__fadeInUp"
+        className="bg-white px-4 py-5 shadow-lg border-0 text-center animate__animated animate__fadeInUp"
         style={{
           maxWidth: "340px",
           width: "100%",
@@ -59,7 +59,7 @@ export default function ConfirmDialog({
           boxShadow: "0 15px 35px rgba(0,0,0,0.15)",
         }}
       >
-      {/* Icon section (dynamic based on variant)  */}
+        {/* Icon section (dynamic based on variant)  */}
         <div className="mb-3">
           <div className="d-flex justify-content-center mb-4 animate__animated animate__backInDown ">
             <div
@@ -79,18 +79,18 @@ export default function ConfirmDialog({
             </div>
           </div>
         </div>
-      {/* Title  */}
+        {/* Title  */}
         <h4
           className="fw-bold mb-2"
           style={{ color: "#092079", fontSize: "1.25rem" }}
         >
           {title}
         </h4>
-      {/* Message content  */}
+        {/* Message content  */}
         <p className="text-muted mb-4 small px-1" style={{ lineHeight: "1.4" }}>
           {message}
         </p>
-      {/* Action buttons */}
+        {/* Action buttons */}
         <div className="vstack gap-2 px-2">
           {/* Confirm action */}
           <CustomButton
@@ -100,7 +100,7 @@ export default function ConfirmDialog({
           >
             Confirm
           </CustomButton>
-        {/* Cancel action */}
+          {/* Cancel action */}
           <CustomButton
             onClick={onCancel}
             className="btn btn-link text-muted text-decoration-none fw-bold w-100 py-1 small"

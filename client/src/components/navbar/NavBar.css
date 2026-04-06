@@ -63,7 +63,14 @@
   width: 100%;
 }
 
-/* html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 100px;
-} */
+.navbar-logo {
+  height: 37px;
+  width: auto;
+  transition: height 0.3s ease;
+}
+
+@media (max-width: 767.98px) {
+  .navbar-logo {
+    height: 30px;
+  }
+}

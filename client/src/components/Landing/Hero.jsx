@@ -7,7 +7,10 @@ const Hero = () => {
   const navigate = useNavigate();
   return (
     <section id="hero" className="hero-container">
-      <div className="hero-content p-5 mx-5" style={{ maxWidth: "700px" }}>
+      <div
+        className="hero-content p-0 p-md-5 mx-5"
+        style={{ maxWidth: "700px" }}
+      >
         <h1 className="hero-title display-4" style={{ color: "white" }}>
           Protect what you love. <br />
           <span className="fw-bold" style={{ color: "var(--nl-danger)" }}>

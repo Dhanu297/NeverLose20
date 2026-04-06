@@ -17,8 +17,24 @@ const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
         style={{ maxWidth: "950px" }}
       >
         <div className="row align-items-center gx-lg-5">
-          {/* LEFT SIDE IMAGE */}
-          <div className="col-12 col-md-4 d-flex justify-content-center">
+          {/* LEFT SIDE */}
+          <div className="col-12 col-md-6 d-flex justify-content-center position-relative mt-3 mt-md-0">
+            {/* EDIT/DELETE COMPONENT */}
+            {showActions && (
+              <div
+                className="position-absolute"
+                style={{
+                  top: "5%",
+                  left: "1%",
+                  zIndex: 10,
+                }}
+              >
+                <div>
+                  <EditDeleteComponent onEdit={onEdit} onDelete={onDelete} />
+                </div>
+              </div>
+            )}
+
             <div
               className="rounded-4 border overflow-hidden bg-light d-flex align-items-center justify-content-center mx-auto"
               style={{ width: "100%", aspectRatio: "1 / 1" }}
@@ -37,8 +53,8 @@ const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
             </div>
           </div>
 
-          {/* middle SIDE TEXT */}
-          <div className="col-md-7 d-flex justify-content-between align-items-start mt-4 mt-md-0">
+          {/* RIGHT SIDE TEXT */}
+          <div className="col-md-6 d-flex justify-content-between align-items-start mt-4 mt-md-0">
             <div className="flex-grow-1">
               <h2
                 className="fw-bold mb-2"
@@ -47,14 +63,14 @@ const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
                 {nickname || "Unnamed Item"}
               </h2>
 
-              <p className="text-muted mb-2">
+              <p className="text-muted mb-3">
                 {description || "No description provided."}
               </p>
 
               {/* VIEW LOG HISTORY LINK */}
               {showActions && (
                 <button
-                  className="btn btn-link p-0 mb-3"
+                  className="btn btn-link p-0 mb-2 small fw-semibold text-decoration-none"
                   style={{ color: "var(--nl-tech-blue)" }}
                   onClick={() => setShowLogModal(true)}
                 >
@@ -63,7 +79,7 @@ const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
               )}
 
               {verification?.question && (
-                <div className="mt-2 pt-2 border-top border-light">
+                <div className="mt-2 pt-3 border-top ">
                   <label
                     className="d-block fw-bold small text-uppercase mb-1"
                     style={{
@@ -77,20 +93,6 @@ const ItemCard = ({ data, onEdit, onDelete, showActions = false }) => {
                 </div>
               )}
             </div>
-          </div>
-
-          {/* right SIDE TEXT */}
-          <div className="col-12 col-md-1 d-flex justify-content-center justify-content-md-end mt-3 mt-md-0">
-            {showActions && (
-              <div
-                className="position-absolute"
-                style={{ top: "15px", right: "15px", zIndex: 10 }}
-              >
-                <div>
-                  <EditDeleteComponent onEdit={onEdit} onDelete={onDelete} />
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>

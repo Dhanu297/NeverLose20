@@ -35,7 +35,7 @@ const HowItWorks = () => {
   return (
     <div id="how-it-works" style={{ backgroundColor: "var(--nl-soft-gray)" }}>
       <section
-        className="container py-5 position-relative"
+        className="container py-4 py-md-5 px-4 px-md-0 position-relative"
         style={{ zIndex: 2 }}
       >
         <div className="text-center my-5">
