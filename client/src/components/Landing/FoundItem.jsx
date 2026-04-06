@@ -21,13 +21,13 @@ const FoundItem = () => {
   return (
     <section
       id="found-an-item"
-      className="found-section py-5"
+      className="found-section py-4 py-md-5 px-4 px-md-0"
       style={{ backgroundColor: "rgba(189, 226, 231, 0.45)" }}
     >
       <div className="container py-2 my-3">
-        <div className="row align-items-center g-5">
+        <div className="row d-flex flex-column flex-lg-row align-items-center">
           {/* Left side */}
-          <div className="col-12 col-lg-6">
+          <div className="col-12 col-lg-6 order-1 order-lg-2  text-lg-start pt-5 pt-md-0">
             <h2
               className="display-5 fw-bold mb-4"
               style={{
@@ -86,7 +86,7 @@ const FoundItem = () => {
           </div>
 
           {/* Right side */}
-          <div className="col-12 col-lg-6 position-relative image-column-wrapper d-flex justify-content-center align-items-center">
+          <div className="col-12 col-lg-6 order-1 order-lg-1 position-relative image-column-wrapper d-flex justify-content-center align-items-center p-5 p-md-0">
             <div className="main-image-container">
               <img
                 src={foundImage}

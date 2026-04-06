@@ -5,17 +5,18 @@ import ItemCard from "../itemCard/ItemCard";
 import { useNavigate } from "react-router-dom";
 
 function ReviewStep({ form, back, create, showButtons = true }) {
-  const navigate = useNavigate();//Navigation hook (used for back navigation)
+  const navigate = useNavigate(); //Navigation hook (used for back navigation)
   const totalSteps = 3;
   const currentStep = 3;
 
   return (
     <div className="item-form-content">
-      <div className="d-flex flex-column align-items-start mb-3">
+      {/* Header with title, back navigation */}
+      <div className="d-flex flex-column align-items-start mb-0 mb-md-3 p-2 p-md-0">
         <h3 className="text-white fw-bold mb-2">Review Your Item</h3>
         {/* Back button (uses parent handler or browser navigation) */}
         <button
-          className="btn btn-link text-white text-decoration-none p-0 opacity-hover"
+          className="btn btn-link text-white text-decoration-none p-0 pb-1 pb-md-0 opacity-hover"
           onClick={currentStep === 2 ? () => navigate(-1) : back}
           style={{ transition: "opacity 0.2s" }}
         >
@@ -28,7 +29,7 @@ function ReviewStep({ form, back, create, showButtons = true }) {
         <div style={{ maxWidth: "900px" }} className="mx-auto">
           <p
             className="text-center text-muted mt-4 mb-5 mx-auto"
-            style={{ maxWidth: "600px" }}//Instruction message
+            style={{ maxWidth: "600px" }} //Instruction message
           >
             Check if everything looks correct before securing your item.
           </p>

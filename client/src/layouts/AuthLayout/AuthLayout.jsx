@@ -1,11 +1,13 @@
 import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import "./AuthLayout.css";
 import logo from "../../assets/Neverlose-Main.svg";
 
 const AuthLayout = ({ children, title, subtitle }) => {
+  const navigate = useNavigate();
   return (
-    <Container className="d-flex align-items-center justify-content-center min-vh-100">
+    <Container className="d-flex align-items-center justify-content-center min-vh-100 p-4 py-md-0">
       <Card
         className="auth-card border-0 shadow-lg overflow-hidden"
         style={{ maxWidth: "900px" }}
@@ -20,7 +22,12 @@ const AuthLayout = ({ children, title, subtitle }) => {
                 src={logo}
                 alt="Neverlose Logo"
                 className="mb-3"
-                style={{ width: "250px" }}
+                onClick={() => navigate("/Home")}
+                style={{
+                  width: "250px",
+                  cursor: "pointer",
+                  transition: "transform 0.2s ease",
+                }}
               />
               <p className="text-muted text-center">
                 Bridging the Gap Between Lost and Found

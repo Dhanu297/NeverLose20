@@ -57,48 +57,47 @@ function Dashboard() {
   return (
     <MainLayout username={user?.displayName || "User"}>
       <div className="px-0">
-
         {itemsLoading ? (
           <LoadingSpinner />
-
         ) : !items || items.length === 0 ? (
           <WelcomeState onCreateClick={handleCreate} />
-
         ) : (
           <>
-            {/* Header */}
-            <div className="d-flex justify-content-between align-items-center mb-4 px-2">
-              <h2 className="text-white fw-bold mb-0">My Secure Tags</h2>
+            {/* Header with title, back navigation */}
+            <div className="d-flex flex-row justify-content-between align-items-center py-2 pb-3 pb-md-4 px-2">
+              <h2
+                className="text-white fw-bold my-2"
+                style={{ fontSize: "calc(1.2rem + 0.5vw)" }}
+              >
+                My Secure Tags
+              </h2>
 
               <CustomButton
                 onClick={handleCreate}
-                className="btn-red btn-sm px-4"
+                className="btn-red d-flex align-items-center gap-2 shadow-sm border-0 p-2 px-md-4 py-md-2"
               >
-                Add New Item
+                <i className="bi bi-plus-lg fw-bold"></i>
+                <span className="d-none d-sm-inline fw-semibold">Add Item</span>
               </CustomButton>
             </div>
 
             {/* Items List */}
             <ItemsList
               items={items}
-
               // Paging
               page={page}
               totalPages={totalPages}
               setPage={setPage}
-
               // Filters
               search={search}
               setSearch={setSearch}
               statusFilter={statusFilter}
               setStatusFilter={setStatusFilter}
-
               // Sorting
               sortField={sortField}
               setSortField={setSortField}
               sortDirection={sortDirection}
               setSortDirection={setSortDirection}
-
               // Navigation
               onItemDetails={handleItemDetails}
               onReportsList={handleReportsList}

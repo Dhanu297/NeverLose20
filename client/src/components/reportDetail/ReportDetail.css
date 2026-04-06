@@ -1,18 +1,26 @@
 /* Layout Helpers */
-.min-w-150 { min-width: 150px; }
-.ls-wide { letter-spacing: 0.05rem; }
-.extra-small { font-size: 0.75rem; line-height: 1.3; }
-.italic { font-style: italic; }
+.min-w-150 {
+  min-width: 150px;
+}
+.ls-wide {
+  letter-spacing: 0.05rem;
+}
+.extra-small {
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+.italic {
+  font-style: italic;
+}
 
 .status-divider {
   height: 3px;
-  background-color: #b2f2bb; /* Light green from reference */
   width: 100%;
   margin-bottom: 30px;
 }
 
 .evidence-icon-box {
-  background-color: #1a368d;
+  background-color: var(--nl-deep-blue);
   color: white;
   padding: 4px 12px;
   border-radius: 6px;
@@ -21,8 +29,8 @@
 
 /* Button Base Style */
 .manage-btn {
-  background-color: #1a368d !important;
-  border-radius: 10px;
+  background-color: var(--nl-deep-blue) !important;
+  border-radius: 16px;
   padding: 12px;
   border: 2px solid transparent !important;
   font-size: 1.1rem;
@@ -44,7 +52,7 @@
 }
 
 /* Disabled/Locked State */
-.manage-btn:disabled, 
+.manage-btn:disabled,
 .manage-btn.disabled-fade {
   opacity: 0.25;
   filter: grayscale(1);
@@ -55,4 +63,25 @@
 /* Action wrapper ensures the span doesn't disrupt button width */
 .action-wrapper span.d-block {
   width: 100%;
+}
+
+.disabled-fade {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 16px;
+  border-radius: 32px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  margin-right: 12px;
+  margin-bottom: 8px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.1);
 }

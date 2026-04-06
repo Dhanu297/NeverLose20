@@ -11,31 +11,29 @@ const EditItemComponent = ({ item }) => {
   // API update hook
   const { updateItem, loading: saving } = useUpdateItem(item.id);
 
-  // Form state hook
-  const { formData, handleChange } = useEditFormData(item);
-
-  // Verification toggle
-  const [enableVerification, setEnableVerification] = React.useState(false);
-
-  // Sync toggle with existing item data
+  // Pass item directly into your hook
+  const { formData, handleChange, handlePhotoChange } = useEditFormData(item);
+  const [enableVerification, setEnableVerification] = React.useState(false)
+  // Sync toggle with existing item data on load
   React.useEffect(() => {
     setEnableVerification(formData.enableVarification);
   }, [formData.enableVarification]);
 
-  // Submit handler
+// Handle form submission
   const handleSubmit = async () => {
     try {
-      await updateItem({
-        nickname: formData.nickname,
-        description: formData.description,
-        status: formData.status,
-        photoUrl: formData.photoUrl,
-        verification: {
-          enabled: enableVerification,
-          question: enableVerification ? formData.securityQuestion : "",
-        },
-      });
-
+     await updateItem({
+  nickname: formData.nickname,
+  description: formData.description,
+  status: formData.status,
+  photoUrl: formData.photoUrl,
+  // Conditional verification logic
+  verification: {
+    enabled: enableVerification,
+    question: enableVerification ? formData.securityQuestion : "",
+  },
+});
+    // Redirect to item details page after update
       navigate(`/item-details/${item.id}`);
     } catch (error) {
       console.log("Error updating item:", error);
@@ -49,12 +47,11 @@ const EditItemComponent = ({ item }) => {
 
   return (
     <div className="item-form-content">
-      {/* Header */}
       <div className="d-flex flex-column align-items-start mb-3">
         <h3 className="text-white fw-bold mb-2">Edit Your Item</h3>
 
         <button
-          className="btn btn-link text-white text-decoration-none p-0 opacity-hover"
+          className="btn btn-link text-white text-decoration-none p-0 pb-1 pb-md-0 opacity-hover"
           onClick={() => navigate(-1)}
         >
           <i className="bi bi-chevron-left"></i>

@@ -32,12 +32,12 @@ const Navbar = ({ isSticky = true }) => {
   };
 
   return (
-    <div className={`nav-wrapper pt-3 ${isLanding ? "px-4" : "px-4"}`}>
+    <div className={`nav-wrapper pt-3 ${isLanding ? "px-3" : "px-4"}`}>
       <nav className={navbarClasses}>
         <div className="container-fluid px-4 py-1">
           {/* Logo (redirects to home) */}
           <Link to="/home" className="navbar-brand">
-            <img src={logo} alt="Neverlose" style={{ height: "37px" }} />
+            <img src={logo} alt="Neverlose" className="navbar-logo" />
           </Link>
 
           {/* Navigation links */}

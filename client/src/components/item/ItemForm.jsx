@@ -14,28 +14,29 @@ function ItemForm({ form, setForm, next }) {
       return;
     }
     setError("");
-    next();// move to next step in wizard
+    next(); // move to next step in wizard
   };
-  const totalSteps = 3;//Step progress tracking 
+  const totalSteps = 3; //Step progress tracking
   const currentStep = 1;
 
   return (
     <div className="item-form-content">
       {/* Header with title, back navigation */}
-      <div className="d-flex flex-column align-items-start mb-3">
+      <div className="d-flex flex-column align-items-start mb-0 mb-md-3 p-2 p-md-0">
         <h3 className="text-white fw-bold mb-2">Create Your Item</h3>
 
         <button
-          className="btn btn-link text-white text-decoration-none p-0 opacity-hover"
+          className="btn btn-link text-white text-decoration-none p-0 pb-1 pb-md-0 opacity-hover"
           onClick={() => navigate("/")}
         >
           <i className="bi bi-chevron-left"></i>
           <span className="ms-1">Back</span>
         </button>
       </div>
-       {/* Main form container  */}
-      <div className="bg-white rounded-4 shadow-sm w-100 px-5 py-4">
-        <div style={{ maxWidth: "900px" }} className="mx-auto">
+
+      {/* Main form container  */}
+      <div className="bg-white rounded-4 shadow-sm w-100 px-3 px-md-5 py-4 flex-grow-1">
+        <div style={{ maxWidth: "900px" }} className="w-100">
           <p
             className="text-center text-muted mt-4 mb-5 mx-auto"
             style={{ maxWidth: "600px" }}

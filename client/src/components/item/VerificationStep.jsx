@@ -5,7 +5,7 @@ import "./ItemForm.css";
 import { useNavigate } from "react-router-dom";
 
 function VerificationStep({ form, setForm, next, back }) {
-  const navigate = useNavigate();//used for navigation
+  const navigate = useNavigate(); //used for navigation
   // Toggle verification on/off
   const toggle = () =>
     setForm({
@@ -15,7 +15,7 @@ function VerificationStep({ form, setForm, next, back }) {
         enabled: !form.verification.enabled,
       },
     });
-    // Step tracking
+  // Step tracking
   const totalSteps = 3;
   const currentStep = 2;
   // Disable button if verification is enabled but question is empty
@@ -24,13 +24,13 @@ function VerificationStep({ form, setForm, next, back }) {
     (!form.verification.question || form.verification.question.trim() === "");
 
   return (
-    // //Header with title and back navigation
     <div className="item-form-content">
-      <div className="d-flex flex-column align-items-start mb-3">
+      {/* Header with title, back navigation */}
+      <div className="d-flex flex-column align-items-start mb-0 mb-md-3 p-2 p-md-0">
         <h3 className="text-white fw-bold mb-2">Set a Security Layer</h3>
 
         <button
-          className="btn btn-link text-white text-decoration-none p-0 opacity-hover"
+          className="btn btn-link text-white text-decoration-none p-0 pb-1 pb-md-0 opacity-hover"
           onClick={currentStep === 1 ? () => navigate(-1) : back}
           style={{ transition: "opacity 0.2s" }}
         >
@@ -75,10 +75,10 @@ function VerificationStep({ form, setForm, next, back }) {
 
               {/* right side */}
               <div className="col-md-6 order-2 order-md-2">
-                <div className="form-check form-switch mb-4">
+                <div className="form-check form-switch mb-4 pt-3 pt-md-0">
                   <input
                     type="checkbox"
-                    className="form-check-input shadow-none"
+                    className="form-check-input shadow-none "
                     checked={form.verification.enabled}
                     onChange={toggle}
                     id="enableVerification"
@@ -162,7 +162,7 @@ function VerificationStep({ form, setForm, next, back }) {
                 style={{ width: "66%", transition: "width 0.4s ease" }}
               ></div>
             </div>
-          {/*  */}
+            {/*  */}
             <p className="mt-2 text-center small text-muted fw-medium">
               Step {currentStep} of {totalSteps}
             </p>

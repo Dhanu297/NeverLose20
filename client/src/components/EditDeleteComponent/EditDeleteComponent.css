@@ -1,12 +1,12 @@
 /* Container for edit & delete icons (floating action style)  */
 .EditDelete-container {
-  background-color: #f8f9fa;
+  background-color: rgb(243, 243, 243);
   border-radius: 30px;
   padding: 12px 10px;
   display: flex;
   flex-direction: column;
   gap: 18px;
-  border: 1px solid #e9ecef;
+  border: 1px solid rgba(11, 89, 234, 0.6);
   width: fit-content;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
@@ -32,17 +32,17 @@
 }
 /* Edit icon default & hover color */
 .btn-edit {
-  color: #6c757d;
+  color: rgba(66, 71, 78, 0.6);
 }
 
 .btn-edit:hover {
-  color: #006aff;
+  color: var(--nl-tech-blue);
 }
 /* Delete icon default & hover color  */
 .btn-delete {
-  color: #adb5bd;
+  color: rgba(66, 71, 78, 0.4);
 }
 
 .btn-delete:hover {
-  color: #dc3545;
+  color: var(--nl-danger);
 }

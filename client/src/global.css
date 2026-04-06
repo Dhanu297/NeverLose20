@@ -6,7 +6,7 @@
   /* Brand Colors */
   --nl-dark-navy: #051533;
   --nl-deep-blue: #092079;
-  --nl-tech-blue: #0c6dff; /* main action color CTA */
+  --nl-tech-blue: rgb(12, 109, 255); /* main action color CTA */
   --nl-soft-gray: #e8e9eb;
   --nl-light-bg: #f7f8f8;
   --nl-white: #ffffff;
@@ -60,7 +60,7 @@ p {
   color: #4a5568;
 }
 
-/* 5. BOOTSTRAP OVERRIDES */
+/* Wrong button */
 .btn-primary {
   background-color: #ffb56b !important;
   border-color: var(--nl-tech-blue) !important;
@@ -118,7 +118,7 @@ p {
   border: 1px solid #eceef0 !important;
   border-radius: 16px !important;
   font-family: var(--font-body);
-  padding: 1rem 1.25rem !important;
+  padding: 0.6rem 1.25rem !important;
   color: var(--nl-dark-navy) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -133,9 +133,6 @@ p {
 .form-control:focus {
   background-color: var(--nl-white) !important;
   border-color: var(--nl-tech-blue) !important;
-  /* box-shadow:
-    0 4px 10px rgba(13, 110, 253, 0.05),
-    0 0 0 4px rgba(13, 110, 253, 0.15) !important; */
   box-shadow: 0 10px 20px rgba(12, 109, 255, 0.1) !important;
   transform: translateY(-1px);
   outline: 0;
@@ -160,7 +157,11 @@ input:-webkit-autofill:focus {
   border: 1px solid #eceef0 !important;
   border-radius: 16px !important;
   font-family: var(--font-body);
-  padding: 0.75rem 1.25rem !important;
+  padding: 0.75rem 1rem !important;
+
+  padding-right: 1.8rem !important;
+  background-position: right 0.75rem center !important;
+
   color: var(--nl-dark-navy) !important;
   font-weight: 500;
   cursor: pointer;
@@ -205,7 +206,7 @@ input:-webkit-autofill:focus {
 }
 
 .nl-upload-zone:hover img {
-  transform: scale(1.05);
+  transform: scale(1.005);
 }
 
 /* error message fade in / out */

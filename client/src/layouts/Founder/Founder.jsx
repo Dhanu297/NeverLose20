@@ -1,6 +1,7 @@
 import React from "react";
 import "./Founder.css";
 import { Row, Col } from "react-bootstrap";
+import Footer from "../../components/Landing/Footer";
 import NavBar from "../../components/navbar/NavBar";
 import mainLogoWhite from "../../assets/Neverlose-LogoWhite-Main.svg";
 
@@ -35,7 +36,7 @@ export default function Founder({ right, leftImage, currentStep }) {
                   key={currentStep}
                   src={leftImage}
                   alt="Neverlose Context"
-                  className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover animate__animated animate__fadeIn"
+                  className="position-absolute top-0 start-0 w-100 h-100 border-0 object-fit-cover animate__animated animate__fadeIn"
                   style={{
                     objectPosition: "right center",
                   }}
@@ -59,6 +60,7 @@ export default function Founder({ right, leftImage, currentStep }) {
             <Col md={7} className="p-3 p-lg-3 d-flex align-items-center">
               <div className="w-100">{right}</div>
             </Col>
+            <Footer />
           </Row>
         </div>
       </div>

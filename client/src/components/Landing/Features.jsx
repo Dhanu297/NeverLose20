@@ -10,7 +10,7 @@ import collarTag from "../../assets/Landing/nl-tag-dogcollar.webp";
 const Features = () => {
   return (
     <div id="features" className="bg-white py-5">
-      <section className="container py-5 mb-5">
+      <section className="container py-4 py-md-5 px-4 px-md-0 mb-md-4">
         <div className="text-center mb-5 py-2">
           <h6
             className="text-uppercase fw-bold ls-2 ls-widest"
@@ -100,7 +100,7 @@ const Features = () => {
 
           {/* Card 7 */}
           <div
-            className="feature-card f-wide"
+            className="feature-card f-dynamic-7"
             style={{
               backgroundImage: `url(${dronTag})`,
               border: "3px solid var(--nl-info)",
