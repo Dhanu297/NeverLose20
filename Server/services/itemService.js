@@ -25,7 +25,7 @@ const EVENT_COLLECTION = "eventHistory";
 // Simple In-Memory Cache (per ownerId)
 // -------------------------------------------------------------
 const itemsCache = new Map();
-const CACHE_TTL_MS = 30 * 1000;
+const CACHE_TTL_MS = 10 * 1000;
 
 function getCachedItems(ownerId) {
   const entry = itemsCache.get(ownerId);
