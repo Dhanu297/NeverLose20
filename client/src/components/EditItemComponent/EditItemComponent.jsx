@@ -277,6 +277,7 @@ const EditItemComponent = ({ item }) => {
         </div>
       </div>
     </div>
+    </div>
   );
 };
 
