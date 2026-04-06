@@ -83,7 +83,7 @@ export default function Step1ItemPreview({
             Evidence Photo (Optional)
           </label>
 
-          <UploadPhoto photoUrl={photoUrl} onUploaded={(url) => seturl(url)} />
+          <UploadPhoto photoUrl={photoUrl} onUploaded={(data) => seturl(data.data.photoUrl)} />
         </div>
 
         {/* CTA */}

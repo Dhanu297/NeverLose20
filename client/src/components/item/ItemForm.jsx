@@ -62,7 +62,17 @@ function ItemForm({ form, setForm, next }) {
                 >
                   <UploadPhoto
                     photoUrl={form.photoUrl}
-                    onUploaded={(url) => setForm({ ...form, photoUrl: url })}
+                    onUploaded={(data) => {
+  console.log("Data from Upload:", data);
+  setForm((prevForm) => {
+    console.log("Current Form Description:", prevForm.description);
+    return {
+      ...prevForm,
+      photoUrl: data.data.photoUrl,
+      description: data.data.description || prevForm.description
+    };
+  });
+}}
                   />
                 </div>
               </div>
