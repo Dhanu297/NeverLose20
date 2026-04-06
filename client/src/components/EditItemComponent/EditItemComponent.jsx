@@ -11,29 +11,32 @@ const EditItemComponent = ({ item }) => {
   // API update hook
   const { updateItem, loading: saving } = useUpdateItem(item.id);
 
-  // Pass item directly into your hook
-  const { formData, handleChange, handlePhotoChange } = useEditFormData(item);
-  const [enableVerification, setEnableVerification] = React.useState(false)
-  // Sync toggle with existing item data on load
+  // Form state hook
+  const { formData, handleChange } = useEditFormData(item);
+
+  // Verification toggle
+  const [enableVerification, setEnableVerification] = React.useState(false);
+
+  // Sync toggle with existing item data
   React.useEffect(() => {
     setEnableVerification(formData.enableVarification);
   }, [formData.enableVarification]);
 
-// Handle form submission
+  // Handle form submission
   const handleSubmit = async () => {
     try {
-     await updateItem({
-  nickname: formData.nickname,
-  description: formData.description,
-  status: formData.status,
-  photoUrl: formData.photoUrl,
-  // Conditional verification logic
-  verification: {
-    enabled: enableVerification,
-    question: enableVerification ? formData.securityQuestion : "",
-  },
-});
-    // Redirect to item details page after update
+      await updateItem({
+        nickname: formData.nickname,
+        description: formData.description,
+        status: formData.status,
+        photoUrl: formData.photoUrl,
+        // Conditional verification logic
+        verification: {
+          enabled: enableVerification,
+          question: enableVerification ? formData.securityQuestion : "",
+        },
+      });
+      // Redirect to item details page after update
       navigate(`/item-details/${item.id}`);
     } catch (error) {
       console.log("Error updating item:", error);
@@ -47,7 +50,9 @@ const EditItemComponent = ({ item }) => {
 
   return (
     <div className="item-form-content">
+      {/* Header */}
       <div className="d-flex flex-column align-items-start mb-3">
+      <div className="d-flex flex-column align-items-start mb-0 mb-md-3 p-2 p-md-0">
         <h3 className="text-white fw-bold mb-2">Edit Your Item</h3>
 
         <button
