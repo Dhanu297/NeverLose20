@@ -3,6 +3,7 @@ import "./Landing.css";
 import Dhanashree from "../../assets/Landing/Dhana.webp";
 import Divya from "../../assets/Landing/Divya.webp";
 import Paula from "../../assets/Landing/Paula.webp";
+import NPatternBg from "../../assets/NPatternBG.webp";
 
 const Team = () => {
   const members = [
@@ -35,10 +36,27 @@ const Team = () => {
   return (
     <section
       id="our-team"
-      className="py-5"
+      className="py-5 position-relative overflow-hidden"
       style={{ backgroundColor: "var(--nl-soft-gray)" }}
     >
-      <div className="container py-5">
+      <div
+        className="background-pattern"
+        style={{
+          backgroundImage: `url(${NPatternBg})`,
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: 1,
+          opacity: 0.5,
+          pointerEvents: "none",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+
+      <div className="container py-5 position-relative" style={{ zIndex: 2 }}>
         <div className="text-center mb-5 max-width-700 mx-auto">
           <h2
             className="display-6 fw-bold mb-3"

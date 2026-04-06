@@ -3,6 +3,7 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./AuthLayout.css";
 import logo from "../../assets/Neverlose-Main.svg";
+import Footer from "../../components/Landing/Footer";
 
 const AuthLayout = ({ children, title, subtitle }) => {
   const navigate = useNavigate();

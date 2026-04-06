@@ -315,7 +315,7 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
   console.log("PRESETS:", item?.labelPresets);
   return (
     <div className={embedded ? "embedded-label-box" : "container py-4 py-md-5"}>
-      <div className="nl-QRcontainer rounded-5 p-3 p-md-4 align-items-md-center border-0 ">
+      <div className="nl-QRcontainer rounded-5 p-5 px-md-5 align-items-md-center border-0 ">
         {/* Header Logic */}
         {
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-0 mb-md-3 p-2 p-md-0">
@@ -359,11 +359,11 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
                   handlePreview(preset);
                 }}
                 role="button"
-                className="h-100 nl-preset-card shadow-sm  d-flex flex-column align-items-center justify-content-center"
+                className="h-100 nl-preset-card shadow-sm d-flex flex-column align-items-center justify-content-center"
               >
                 {/* Icons */}
                 <div
-                  className="my-3 d-flex align-items-center justify-content-center pt-1"
+                  className="my-3 d-flex align-items-center justify-content-center pb-3"
                   style={{ height: "30px" }}
                 >
                   {preset.id === "wallet" && (
@@ -378,7 +378,7 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
                 </div>
 
                 {/* Info Tag */}
-                <div className="my-3">
+                <div>
                   <h5
                     className="preset-name"
                     style={{ fontFamily: "var(--font-titles)" }}
@@ -494,7 +494,7 @@ export default function LabelScreen({ item: propItem, embedded = true }) {
                         <span
                           style={{
                             color: "white",
-                            fontSize: "0.7rem",
+                            fontSize: "0.9rem",
                             fontWeight: "600",
                           }}
                         >

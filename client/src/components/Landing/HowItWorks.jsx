@@ -3,6 +3,7 @@ import "./Landing.css";
 import step1Img from "../../assets/Landing/hiw-step1.webp";
 import step2Img from "../../assets/Landing/hiw-step2.webp";
 import step3Img from "../../assets/Landing/hiw-step3.webp";
+import NPatternBg from "../../assets/NPatternBG.webp";
 
 const HowItWorks = () => {
   const steps = [
@@ -33,7 +34,19 @@ const HowItWorks = () => {
   ];
 
   return (
-    <div id="how-it-works" style={{ backgroundColor: "var(--nl-soft-gray)" }}>
+    <div
+      id="how-it-works"
+      className="position-relative overflow-hidden"
+      style={{ backgroundColor: "var(--nl-soft-gray)" }}
+    >
+      <div
+        className="background-pattern"
+        style={{
+          backgroundImage: `url(${NPatternBg})`,
+          zIndex: 1,
+        }}
+      />
+
       <section
         className="container py-4 py-md-5 px-4 px-md-0 position-relative"
         style={{ zIndex: 2 }}

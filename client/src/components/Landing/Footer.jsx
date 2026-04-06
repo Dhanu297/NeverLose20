@@ -1,15 +1,25 @@
 import React from "react";
 import logoWhite from "../../assets/Neverlose-logo-white-wide.svg";
 import "./Landing.css";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <footer className="footer-custom border-0">
-      <div className="container ">
+      <div className="container px-0 px-md-5 ">
         <div className="row gy-5 align-items-center">
           {/* left side */}
           <div className="col-12 col-md-6 text-center text-md-start">
-            <img src={logoWhite} alt="Neverlose" className="footer-logo mb-4" />
+            <img
+              src={logoWhite}
+              alt="Neverlose Logo"
+              onClick={() => navigate("/Home")}
+              className="footer-logo mb-4"
+              style={{
+                cursor: "pointer",
+              }}
+            />
 
             <div className="d-flex gap-4 justify-content-center justify-content-md-start">
               <a href="#" className="social-link">

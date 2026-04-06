@@ -35,8 +35,8 @@ function ItemForm({ form, setForm, next }) {
       </div>
 
       {/* Main form container  */}
-      <div className="bg-white rounded-4 shadow-sm w-100 px-3 px-md-5 py-4 flex-grow-1">
-        <div style={{ maxWidth: "900px" }} className="w-100">
+      <div className="bg-white rounded-4 shadow-sm align-items-center w-100 px-3 px-md-5 py-4 flex-grow-1">
+        <div style={{ maxWidth: "900px" }} className="w-100 mx-auto">
           <p
             className="text-center text-muted mt-4 mb-5 mx-auto"
             style={{ maxWidth: "600px" }}
